@@ -24,7 +24,7 @@ const CampingList = async () => {
       <p>전화 :{campingPlaces[0].tel}</p>
       <p>홈페이지:{campingPlaces[0].homepage}</p>
       <p>툴팁 :{campingPlaces[0].tooltip}</p>
-      <p>내부시설 :{campingPlaces[0].caravInnerFclty}</p>
+      <p>카라반내부시설 :{campingPlaces[0].caravInnerFclty}</p>
       <p>애완동물여부:{campingPlaces[0].animalCmgCl}</p>
       <p>부대시설 :{campingPlaces[0].sbrsEtc}</p>
     </div>

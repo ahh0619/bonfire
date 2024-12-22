@@ -1,5 +1,6 @@
-import CampingList from '@/components/camping/campingList';
-import RadiusCampingList from '@/components/camping/radiusCampingList';
+
+import CampingList from '@/components/camping/CampingList1';
+import RadiusCampingList from '@/components/camping/RadiusCampingList1';
 import Image from 'next/image';
 
 export default function Home() {
