@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 const Footer = () => {
   return (
-    <div className="flex flex-col items-center justify-center py-8 bg-gray-300 text-center">
+    <div className="flex flex-col items-center justify-center py-8 text-center">
       <p className="font-semibold">
         @ Copyright 2024 Hyun&I. All rights reserved{' '}
       </p>
