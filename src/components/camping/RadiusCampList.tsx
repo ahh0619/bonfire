@@ -1,21 +1,26 @@
-import { fetchRadiusCampingList } from '@/app/api/campingApi';
+import { fetchRadiusCampList } from '@/app/api/campingApi';
 import { fetchWeather } from '@/app/api/weatherApi';
 import Image from 'next/image';
 
-const RadiusCampingList = async () => {
-  const data = await fetchRadiusCampingList();
+const RadiusCampList = async () => {
+  const data = await fetchRadiusCampList();
   const campingPlaces = data.response.body.items.item;
   const weatherData = await fetchWeather();
   console.log(weatherData);
   return (
     <div>
       <div key={campingPlaces[0].contentId}>
-        <Image
-          src={campingPlaces[0].firstImageUrl}
-          alt={campingPlaces[0].facltNm}
-          width={120}
-          height={120}
-        />
+        {campingPlaces[0].firstImageUrl ? (
+          <Image
+            src={campingPlaces[0].firstImageUrl}
+            alt={campingPlaces[0].facltNm}
+            width={120}
+            height={120}
+          />
+        ) : (
+          <p>사진 없음</p>
+        )}
+
         <p>입지:{campingPlaces[0].lctCl}</p>
         <p>캠핑장명:{campingPlaces[0].facltNm}</p>
         <p>한줄소개:{campingPlaces[0].lineIntro}</p>
@@ -36,4 +41,4 @@ const RadiusCampingList = async () => {
   );
 };
 
-export default RadiusCampingList;
+export default RadiusCampList;
