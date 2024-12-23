@@ -83,6 +83,10 @@ export const logout = async () => {
 
 export const fetchSession = async (): Promise<any> => {
   const supabase = await createClient();
-  const { data: user } = await supabase.auth.getUser();
+  const { data: user, error } = await supabase.auth.getUser();
+
+  if (error) {
+    return null;
+  }
   return user;
 };
