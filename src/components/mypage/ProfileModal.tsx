@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { updateUserProfile } from '../../app/mypage/actions'; // 서버 액션 호출
+import { updateUserProfile } from '@/app/mypage/actions'; // 서버 액션 호출
 
 type ProfileModalProps = {
   onClose: () => void; // 모달을 닫는 함수
@@ -12,12 +12,12 @@ type ProfileModalProps = {
   currentNickname: string; // 현재 닉네임
 };
 
-export function ProfileModal({
+export const ProfileModal = ({
   onClose,
   userId,
   currentImage,
   currentNickname,
-}: ProfileModalProps) {
+}: ProfileModalProps) => {
   const [image, setImage] = useState(currentImage); // 미리보기 이미지 상태
   const [nickname, setNickname] = useState(currentNickname); // 닉네임 상태
   const [selectedFile, setSelectedFile] = useState<File | null>(null); // 선택한 파일 상태
@@ -129,4 +129,4 @@ export function ProfileModal({
       </div>
     </div>
   );
-}
+};

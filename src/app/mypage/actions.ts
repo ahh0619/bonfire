@@ -2,7 +2,7 @@
 
 import { createClient } from '@/utils/supabase/server';
 
-export async function getUserProfile() {
+export const getUserProfile = async () => {
   const supabase = await createClient();
 
   // 인증된 유저의 정보 가져오기
@@ -29,9 +29,9 @@ export async function getUserProfile() {
   }
 
   return profile;
-}
+};
 
-export async function updateUserProfile(formData: FormData) {
+export const updateUserProfile = async (formData: FormData) => {
   const supabase = await createClient();
 
   const userId = formData.get('userId') as string;
@@ -76,4 +76,4 @@ export async function updateUserProfile(formData: FormData) {
   if (updateError) {
     throw new Error(`프로필 업데이트 실패: ${updateError.message}`);
   }
-}
+};
