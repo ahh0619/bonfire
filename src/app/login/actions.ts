@@ -98,3 +98,21 @@ const createAccount = async (email: string, password: string) => {
 const redirectWithError = (message: string) => {
   redirect(`/error?message=${encodeURIComponent(message)}`);
 };
+
+export const logout = async () => {
+  const supabase = await createClient();
+  await supabase.auth.signOut();
+  redirect('/login');
+};
+
+export const fetchSession = async (): Promise<any> => {
+  const supabase = await createClient();
+  const { data: user, error } = await supabase.auth.getUser();
+
+  if (error) {
+    console.error('Failed to fetch session:', error.message);
+    return null;
+  }
+
+  return user;
+};

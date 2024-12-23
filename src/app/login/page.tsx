@@ -1,8 +1,10 @@
-import { login, signup } from './actions';
+'use client';
 
-export default function LoginPage() {
+import { login } from './actions';
+
+const LoginPage = () => {
   return (
-    <form>
+    <form action={login}>
       <label htmlFor="email">Email:</label>
       <input
         className="border border-gray-300 rounded-md p-2"
@@ -19,12 +21,11 @@ export default function LoginPage() {
         type="password"
         required
       />
-      <button
-        className="bg-blue-500 text-white px-4 py-2 rounded-md"
-        formAction={login}
-      >
+      <button className="bg-blue-500 text-white px-4 py-2 rounded-md">
         Log in
       </button>
     </form>
   );
-}
+};
+
+export default LoginPage;

@@ -39,17 +39,6 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (
-    !user &&
-    !request.nextUrl.pathname.startsWith('/login') &&
-    !request.nextUrl.pathname.startsWith('/signup')
-  ) {
-    // no user, potentially respond by redirecting the user to the login page
-    const url = request.nextUrl.clone();
-    url.pathname = '/login';
-    return NextResponse.redirect(url);
-  }
-
   // IMPORTANT: You *must* return the supabaseResponse object as it is.
   // If you're creating a new response object with NextResponse.next() make sure to:
   // 1. Pass the request in it, like so:
@@ -64,9 +53,14 @@ export async function updateSession(request: NextRequest) {
   // of sync and terminate the user's session prematurely!
 
   // 현재 로그인 상태이면서 경로가 /login 인 경우 홈화면으로 리다이렉트.
-  // if (user && request.nextUrl.pathname.startsWith('/login')) {
-  //   return NextResponse.redirect(request.nextUrl.origin);
-  // }
+  if (user && request.nextUrl.pathname.startsWith('/login')) {
+    return NextResponse.redirect(request.nextUrl.origin);
+  }
+
+  // 로그인을 하지 않았는데 마이페이지에 접근하면 로그인 페이지로 리다이렉트
+  if (!user && request.nextUrl.pathname.startsWith('/mypage')) {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
 
   return supabaseResponse;
 }
