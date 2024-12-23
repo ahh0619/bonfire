@@ -1,7 +1,8 @@
-// TODO: push 전에 제거 바람람
+// TODO: PR 전에 제거 바람
 "use client"
 
 import { Heart, PawPrint } from 'lucide-react';
+import LikeButton from './LikeButton';
 
 type PlaceDetailProps = {
   details: {
@@ -34,10 +35,7 @@ const PlaceDetail = ({ details }: PlaceDetailProps) => {
         </p>
         <div className="flex flex-row justify-between mb-2 mt-4">
 					<p className="text-gray-500">tel: {details.tel}</p>
-					{/* 여기 CSR로 분리 필요요 */}
-          <button>
-            <Heart />
-          </button>
+					<LikeButton />
         </div>
       </div>
       <div className="bg-gray-300 w-[320px] aspect-square sm:w-[360px] sm:h-[360px]"></div>

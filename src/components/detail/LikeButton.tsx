@@ -1,11 +1,22 @@
-import React from 'react'
+'use client';
+
+import { Heart } from 'lucide-react';
+import { useState } from 'react';
 
 const LikeButton = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+  const [liked, setLiked] = useState(false);
 
-export default LikeButton
+  const toggleLike = () => {
+    setLiked((prev) => !prev);
+  };
+
+  return (
+    <button onClick={toggleLike}>
+      <Heart
+        className={`transition-colors ${liked ? 'fill-red-500' : 'fill-none'}`}
+      />
+    </button>
+  );
+};
+
+export default LikeButton;
