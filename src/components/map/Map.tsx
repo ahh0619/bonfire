@@ -5,6 +5,9 @@ import { useEffect, useState } from 'react';
 import { CustomOverlayMap, Map, MapMarker } from 'react-kakao-maps-sdk';
 import tempImg from 'leader_github_logo.png';
 import Image from 'next/image';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { fetchRadiusCampList } from '@/app/api/campingApi';
+import { Camping, CampingResponse } from '@/types/Camping';
 
 type coords = {
   latitude: number;
@@ -24,6 +27,22 @@ type goCampingData = {
 const KAKAO_SDK_URL = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&autoload=false`;
 
 const KakaoMap = () => {
+  const {
+    data: radiusCampData,
+    isPending: isCampListPending,
+    isError: isCampListError,
+    error: campListError,
+  } = useQuery<CampingResponse>({
+    queryKey: ['radiusCampData'],
+    queryFn: fetchRadiusCampList,
+  });
+  const radiusCampList: Pick<
+    Camping,
+    'contentId' | 'firstImageUrl' | 'facltNm' | 'addr1' | 'induty'
+  >[] = radiusCampData?.response.body.items.item || [];
+
+  console.log(radiusCampList);
+
   const [goCampingData, setgoCampingData] = useState<goCampingData[] | null>(
     null,
   );
