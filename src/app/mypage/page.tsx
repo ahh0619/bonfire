@@ -1,5 +1,5 @@
-import { ProfileCard } from '../../components/mypage/ProfileCard';
-import { FavoritePlaces } from '../../components/mypage/FavoritePlaces';
+import { ProfileCard } from '@/components/mypage/ProfileCard';
+import { FavoritePlaces } from '@/components/mypage/FavoritePlaces';
 
 const MyPage = () => {
   return (

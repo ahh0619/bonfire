@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { updateUserProfile } from '../../app/mypage/actions'; // 서버 액션 호출
+import { updateUserProfile } from '@/app/mypage/actions'; // 서버 액션 호출
 
 type ProfileModalProps = {
   onClose: () => void; // 모달을 닫는 함수
