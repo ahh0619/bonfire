@@ -1,6 +1,6 @@
 'use client';
 
-export function ProfileSkeleton() {
+export const ProfileSkeleton = () => {
   return (
     <div className="flex items-center animate-pulse">
       {/* 프로필 이미지 스켈레톤 */}
@@ -13,4 +13,4 @@ export function ProfileSkeleton() {
       </div>
     </div>
   );
-}
+};
