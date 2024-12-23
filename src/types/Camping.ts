@@ -18,3 +18,13 @@ export type Camping = {
   animalCmgCl: string; // 애완동물 여부
   sbrsEtc: string; // 부대시설
 };
+
+export type CampingResponse = {
+  response: {
+    body: {
+      items: {
+        item: Camping[];
+      };
+    };
+  };
+};
