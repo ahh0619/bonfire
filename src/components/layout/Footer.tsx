@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 
 const Footer = () => {
   return (
@@ -10,7 +9,6 @@ const Footer = () => {
         @ Copyright 2024 Hyun&I. All rights reserved{' '}
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 gap-16 pt-8">
-        {/* TODO: 외부 링크는 a가 적합하다고 하는데... */}
         <a
           className="text-center"
           href="https://github.com/ahh0619"
