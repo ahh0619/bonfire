@@ -1,8 +1,8 @@
-"use client";
-import Link from "next/link";
-import { AlertTriangle } from "lucide-react"; // 경고 아이콘 추가
+'use client';
+import Link from 'next/link';
+import { AlertTriangle } from 'lucide-react'; // 경고 아이콘 추가
 
-export default function NotFound() {
+const NotFound = () => {
   return (
     <section className="flex items-center justify-center min-h-screen py-8 pb-20 m-auto max-w-custom container">
       <article className="flex flex-col items-center gap-6 p-4">
@@ -24,4 +24,6 @@ export default function NotFound() {
       </article>
     </section>
   );
-}
+};
+
+export default NotFound;

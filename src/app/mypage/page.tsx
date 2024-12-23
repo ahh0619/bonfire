@@ -1,7 +1,7 @@
 import { ProfileCard } from '../../components/mypage/ProfileCard';
 import { FavoritePlaces } from '../../components/mypage/FavoritePlaces';
 
-export default function MyPage() {
+const MyPage = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center">
       <main className="container mx-auto max-w-5xl px-4 py-20">
@@ -10,4 +10,6 @@ export default function MyPage() {
       </main>
     </div>
   );
-}
+};
+
+export default MyPage;
