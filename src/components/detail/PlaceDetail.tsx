@@ -1,6 +1,3 @@
-// TODO: PR 전에 제거 바람
-"use client"
-
 import { PawPrint } from 'lucide-react';
 import LikeButton from './LikeButton';
 
