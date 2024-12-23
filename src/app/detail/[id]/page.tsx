@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-const detailpage = () => {
-  return (
-    <div>detail</div>
-  )
-}
-export default detailpage
-=======
 import { Suspense } from 'react';
 import PlaceDetail from '@/components/detail/PlaceDetail';
 import CommentForm from '@/components/detail/CommentForm';
@@ -48,4 +40,3 @@ const PlaceDetailPage = async ({
 }
 
 export default PlaceDetailPage;
->>>>>>> 68179305bc5320387239a39b2919cd5c2ef2e731
