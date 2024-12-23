@@ -1,4 +1,4 @@
-export function FavoritePlaces() {
+export const FavoritePlaces = () => {
   return (
     <section className="mt-20 w-full">
       <h3 className="text-xl font-bold border-b-2 border-gray-300 pb-2">
@@ -23,4 +23,4 @@ export function FavoritePlaces() {
       </div>
     </section>
   );
-}
+};
