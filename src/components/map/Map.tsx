@@ -1,8 +1,8 @@
 'use Client';
 
 import Script from 'next/script';
-import { useEffect, useState } from 'react';
-import { Map } from 'react-kakao-maps-sdk';
+import { useEffect, useRef, useState } from 'react';
+import { CustomOverlayMap, Map, MapMarker } from 'react-kakao-maps-sdk';
 
 type coords = {
   latitude: number;
@@ -14,45 +14,56 @@ const KAKAO_SDK_URL = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT
 const KakaoMap = () => {
   const [goCampingData, setgoCampingData] = useState<any>(null);
   const [error, setError] = useState<Error>();
+  const [selectedMarker, setSelectedMarker] = useState<any | null>(null);
   const [geoData, setGeoData] = useState<coords | null>(null);
+  const [map, setMap] = useState<any>(null); // Map 객체 저장
   useEffect(() => {
     const getGeoData = async () => {
       navigator.geolocation.getCurrentPosition((res) => {
         setGeoData(res.coords);
       });
     };
-    const getGoCampingData = async () => {
-      try {
-        const response = await fetch(
-          'http://apis.data.go.kr/B551011/GoCamping/locationBasedList?MobileOS=ETC&MobileApp=Bonfire&serviceKey=VzAcLxUOQFSDLe6azWFedhCb0glAttCpqBgQsDlyThebtKe7ppaA70JguXnbJzXM9f%2B1siLIWUOAyjQlX2kVkQ%3D%3D&mapX=126.7728384&mapY=37.6569856&radius=20000',
-        );
-        const text = await response.text();
-
-        const parseString = require('xml2js').parseString;
-        const xml = text;
-
-        parseString(xml, function (err, result) {
-          if (err) {
-            console.error('XML Parsing Error:', err);
-            return;
-          }
-          const {
-            response: { body },
-          } = result;
-          const data = body[0].items[0].item;
-          setgoCampingData(data);
-        });
-      } catch (error) {
-        if (error instanceof Error) {
-          console.log(error);
-          setError(error);
-        }
-      }
-    };
     getGeoData();
-    getGoCampingData();
+    setgoCampingData([
+      {
+        title: '파주 캠핑장',
+        latlng: { lat: 37.79774498308247, lng: 126.72195005905982 },
+      },
+      {
+        title: '청라캠핑파크',
+        latlng: { lat: 37.53808, lng: 126.61677 },
+      },
+      {
+        title: '강변글램핑',
+        latlng: { lat: 37.6516116, lng: 126.7008778 },
+      },
+      {
+        title: '자유로캠핑장',
+        latlng: { lat: 37.8291163, lng: 126.7207168 },
+      },
+      {
+        title: '디엠지라운지(DMZ LOUNGE)',
+        latlng: { lat: 37.8004048, lng: 126.6835875 },
+      },
+    ]);
   }, []);
-  console.log(goCampingData);
+
+  useEffect(() => {
+    if (map && goCampingData) {
+      const bounds = new kakao.maps.LatLngBounds();
+
+      // 모든 마커 좌표를 경계에 추가
+      goCampingData.forEach((position: any) => {
+        bounds.extend(
+          new kakao.maps.LatLng(position.latlng.lat, position.latlng.lng),
+        );
+      });
+
+      // 맵의 경계를 설정
+      map.setBounds(bounds);
+    }
+  }, [map, goCampingData]);
+
   return (
     <>
       <Script src={KAKAO_SDK_URL} strategy="beforeInteractive" />
@@ -62,9 +73,50 @@ const KakaoMap = () => {
             lat: geoData.latitude,
             lng: geoData.longitude,
           }}
-          style={{ width: '100%', height: '100%' }}
-          level={7}
-        ></Map>
+          className="w-full h-full"
+          level={3}
+          onCreate={setMap}
+        >
+          {goCampingData.map((position, index) => (
+            <MapMarker
+              key={`${position.title}-${position.latlng}`}
+              position={position.latlng} // 마커를 표시할 위치
+              image={{
+                src: '/images/custom_marker.png',
+                size: {
+                  width: 35,
+                  height: 35,
+                }, // 마커이미지의 크기입니다
+              }}
+              title={position.title} // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+              onClick={() => setSelectedMarker(position)}
+            />
+          ))}
+          {goCampingData.map((position) => {
+            if (selectedMarker === position) {
+              return (
+                <CustomOverlayMap
+                  key={`${position.title}-${position.latlng}`}
+                  position={selectedMarker.latlng}
+                >
+                  <div
+                    className="bg-white p-[10px] rounded-lg"
+                  >
+                    <strong>{selectedMarker.title}</strong>
+                    {/* <Image src={}></Image> */}
+                    <p>여기에는 마커에 대한 추가 정보가 들어갑니다.</p>
+                    <div
+                      className="absolute top-1 right-2"
+                      onClick={() => setSelectedMarker(null)}
+                    >
+                      닫기
+                    </div>
+                  </div>
+                </CustomOverlayMap>
+              );
+            }
+          })}
+        </Map>
       ) : (
         <p>로딩 중입니다.</p>
       )}
