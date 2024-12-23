@@ -26,7 +26,8 @@ const CommentForm = ({ placeId }: { placeId: string }) => {
       onSubmit={handleSubmit}
       className="flex flex-col mb-6"
     >
-      <div className="flex flex-row gap-2">
+			<div className="flex flex-row gap-2">
+				<h1>댓글</h1>
         <MessageSquare className="fill-black text-black" />
         <p>(0)</p>
       </div>

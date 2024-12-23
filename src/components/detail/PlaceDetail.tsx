@@ -18,7 +18,8 @@ type PlaceDetailProps = {
 
 const PlaceDetail = ({ details }: PlaceDetailProps) => {
   return (
-    <div className="flex flex-col items-center sm:flex-row gap-8 border justify-around align-center border-black rounded-lg p-6 mb-6">
+    <div className="flex flex-col items-center sm:flex-row gap-8 border justify-around align-center border-black rounded-xl p-6 mb-6">
+      <h1></h1>
       {/* 장소 상세 정보 */}
       <div className="flex flex-col justify-center">
         <h2 className="text-2xl font-semibold mb-4">{details.name}</h2>
