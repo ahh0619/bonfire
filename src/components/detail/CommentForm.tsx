@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { MessageSquare } from 'lucide-react';
-import { Input } from '../ui/input';
+import { CommentInput } from './CommentInput';
 
 const CommentForm = ({ placeId }: { placeId: string }) => {
   const [nickname, setNickname] = useState('');
@@ -11,10 +11,10 @@ const CommentForm = ({ placeId }: { placeId: string }) => {
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
-		e.preventDefault();
-		
-		// 댓글 제출 기능
-		console.log(`닉네임: ${nickname}\n댓글: ${comment}\nplaceId: ${placeId}`);
+    e.preventDefault();
+
+    // 댓글 제출 기능
+    console.log(`닉네임: ${nickname}\n댓글: ${comment}\nplaceId: ${placeId}`);
 
     setNickname('');
     setComment('');
@@ -24,23 +24,28 @@ const CommentForm = ({ placeId }: { placeId: string }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="border border-black rounded-lg p-6 mb-6"
+      className="flex flex-col border border-black rounded-lg p-6 mb-6"
     >
       <div className="flex flex-row gap-2">
-				<MessageSquare className="fill-black text-black" />
-				<p>(0)</p>
+        <MessageSquare className="fill-black text-black" />
+        <p>(0)</p>
       </div>
 
       <hr className="border border-gray-500 my-4" />
       <div className="mb-4">
-        <Input
+        <CommentInput
           placeholder="댓글을 입력하세요"
           value={comment}
           onChange={(e) => setComment(e.target.value)}
           required
         />
       </div>
-      <button type="submit">작성하기</button>
+      <button
+        type="submit"
+        className="bg-[#FFB200] px-4 py-2 rounded-lg text-white font-semibold place-self-end"
+      >
+        작성하기
+      </button>
     </form>
   );
 };

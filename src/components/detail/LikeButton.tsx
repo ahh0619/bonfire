@@ -15,7 +15,7 @@ const LikeButton = ({ initialLikes = 0 }) => {
     setLikes(updatedLikes);
 
     // 낙관적 업데이트 부분 필요
-    // TODO: 추후 추가 예정정
+    // TODO: 추후 추가 예정
   };
 
   return (
