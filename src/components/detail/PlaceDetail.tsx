@@ -15,8 +15,7 @@ type PlaceDetailProps = {
 
 const PlaceDetail = ({ details }: PlaceDetailProps) => {
   return (
-    <div className="flex flex-col items-center sm:flex-row gap-8 border justify-around align-center border-black rounded-xl p-6 mb-6">
-      <h1></h1>
+    <div className="flex flex-col items-center sm:flex-row gap-8 border justify-between align-center border-black rounded-xl px-10 py-8 mb-6">
       {/* 장소 상세 정보 */}
       <div className="flex flex-col justify-center">
         <h2 className="text-2xl font-semibold mb-4">{details.name}</h2>
@@ -36,7 +35,7 @@ const PlaceDetail = ({ details }: PlaceDetailProps) => {
 					<LikeButton />
         </div>
       </div>
-      <div className="bg-gray-300 w-[320px] aspect-square sm:w-[360px] sm:h-[360px]"></div>
+      <div className="bg-gray-300 w-[320px] aspect-square rounded-xl sm:w-[360px] sm:h-[360px]"></div>
     </div>
   );
 };
