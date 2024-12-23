@@ -4,10 +4,10 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { ProfileModal } from './ProfileModal';
-import { getUserProfile } from '../../app/mypage/actions'; // 서버 액션 호출
+import { getUserProfile } from '@/app/mypage/actions'; // 서버 액션 호출
 import { ProfileSkeleton } from '@/components/mypage/ProfileSkeleton'; // 스켈레톤 UI
 
-export function ProfileCard() {
+export const ProfileCard = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const {
@@ -61,4 +61,4 @@ export function ProfileCard() {
       )}
     </div>
   );
-}
+};
