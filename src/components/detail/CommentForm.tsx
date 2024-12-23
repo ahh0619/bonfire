@@ -24,7 +24,7 @@ const CommentForm = ({ placeId }: { placeId: string }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col border border-black rounded-lg p-6 mb-6"
+      className="flex flex-col mb-6"
     >
       <div className="flex flex-row gap-2">
         <MessageSquare className="fill-black text-black" />
