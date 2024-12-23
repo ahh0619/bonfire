@@ -18,7 +18,7 @@ const Header = async () => {
       }}
     >
       <Link href="/">
-        <h1 className={`${anonymousPro.className} text-2xl`}>🔥BornFire</h1>
+        <h1 className={`${anonymousPro.className} text-2xl`}>🔥BonFire</h1>
       </Link>
       <nav>
         <ul className="flex gap-4">
