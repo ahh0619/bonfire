@@ -7,6 +7,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'gocamping.or.kr',
       },
+      {
+        protocol: 'https',
+        hostname: 'yuffuinkwylfnfxjxozu.supabase.co',
+      },
     ],
     formats: ['image/avif', 'image/webp'],
   },

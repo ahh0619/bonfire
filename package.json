@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@shadcn/ui": "^0.0.4",
+    "@supabase/auth-helpers-nextjs": "^0.10.0",
+    "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.47.10",
     "@tanstack/react-query": "^5.62.8",
     "@tanstack/react-query-devtools": "^5.62.8",
@@ -20,6 +22,7 @@
     "react-icons": "^5.4.0",
     "react-kakao-maps-sdk": "^1.1.27",
     "sweetalert2": "^11.15.2",
+    "uuid": "^11.0.3",
     "zustand": "^5.0.2"
   },
   "devDependencies": {
