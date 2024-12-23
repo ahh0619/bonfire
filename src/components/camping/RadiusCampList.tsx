@@ -4,6 +4,7 @@ import { fetchRadiusCampList } from '@/app/api/campingApi';
 import { Camping, CampingResponse } from '@/types/Camping';
 import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
+import WeatherInfo from '../weather/WeatherInfo';
 
 const RadiusCampList = () => {
   const {
@@ -26,7 +27,13 @@ const RadiusCampList = () => {
 
   const radiusCampList: Pick<
     Camping,
-    'contentId' | 'firstImageUrl' | 'facltNm' | 'addr1' | 'induty'
+    | 'contentId'
+    | 'firstImageUrl'
+    | 'facltNm'
+    | 'addr1'
+    | 'induty'
+    | 'mapY'
+    | 'mapX'
   >[] = radiusCampData?.response.body.items.item || [];
 
   return (
@@ -50,6 +57,7 @@ const RadiusCampList = () => {
           <p>소개:{camp.intro}</p> */}
           <p>주소:{camp.addr1}</p>
           <p>업종:{camp.induty}</p>
+          <WeatherInfo lat={camp.mapY} lon={camp.mapX} />
           {/* <p>경도:{camp.mapX}</p>
           <p>위도:{camp.mapY}</p>
           <p>오는길 :{camp.direction}</p>
