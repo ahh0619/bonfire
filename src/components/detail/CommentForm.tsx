@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { MessageSquare } from 'lucide-react';
 
 const CommentForm = ({ placeId }: { placeId: string }) => {
   const [nickname, setNickname] = useState('');
@@ -22,18 +23,10 @@ const CommentForm = ({ placeId }: { placeId: string }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white shadow-md rounded-lg p-6 mb-6"
+      className="border border-black rounded-lg p-6 mb-6"
     >
-      <h3 className="text-xl font-semibold mb-4">작성하기</h3>
-      <div className="mb-4">
-        <input
-          type="text"
-          placeholder="닉네임"
-          value={nickname}
-          onChange={(e) => setNickname(e.target.value)}
-          required
-        />
-      </div>
+			<MessageSquare className='fill-gray-500 text-gray-500' />
+			<hr className='border border-gray-500 my-4'/>
       <div className="mb-4">
         <input
           placeholder="댓글을 입력하세요"
@@ -42,7 +35,7 @@ const CommentForm = ({ placeId }: { placeId: string }) => {
           required
         />
       </div>
-      <button type="submit">댓글 작성</button>
+      <button type="submit">작성하기</button>
     </form>
   );
 };

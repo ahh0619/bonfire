@@ -1,7 +1,7 @@
 // TODO: PR 전에 제거 바람
 "use client"
 
-import { Heart, PawPrint } from 'lucide-react';
+import { PawPrint } from 'lucide-react';
 import LikeButton from './LikeButton';
 
 type PlaceDetailProps = {
