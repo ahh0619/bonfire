@@ -14,7 +14,7 @@ export const fetchCampingList = async (): Promise<CampingResponse> => {
 export const fetchRadiusCampList = async (): Promise<CampingResponse> => {
   const response = await fetch(
     // `${baseUrl}/locationBasedList?serviceKey=${API_KEY}&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json_mapX=128.6142847&mapY=36.0345423&radius=2000`,
-    `${baseUrl}/locationBasedList?serviceKey=${API_KEY}&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&mapX=126.92724947639606&mapY=37.47957091882811&radius=200000&_type=json`,
+    `${baseUrl}/locationBasedList?serviceKey=${API_KEY}&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&mapX=126.92724947639606&mapY=37.47957091882811&radius=20000&_type=json`,
   );
   const data = await response.json();
   return data;
