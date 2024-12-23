@@ -1,14 +1,59 @@
+'use client';
+
 import { fetchRadiusCampList } from '@/app/api/campingApi';
 import { fetchWeather } from '@/app/api/weatherApi';
+import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 
-const RadiusCampList = async () => {
-  const data = await fetchRadiusCampList();
-  const campingPlaces = data.response.body.items.item;
-  const weatherData = await fetchWeather();
-  console.log(weatherData);
+const RadiusCampList = () => {
+  const {
+    data: radiusCampList,
+    isPending: isCampListPending,
+    isError: isCampListError,
+    error: campListError,
+  } = useQuery({
+    queryKey: ['radiusCampList'],
+    queryFn: fetchRadiusCampList,
+  });
+
+  const {
+    data: weatherInfo,
+    isPending: isWeatherPending,
+    isError: isWeatherError,
+    error: weatherError,
+  } = useQuery({
+    queryKey: ['weatherInfo'],
+    queryFn: fetchWeather,
+  });
+
+  if (isCampListPending || isWeatherPending) {
+    return <p>Loading...</p>;
+  }
+
+  if (isCampListError) {
+    return <p>Error:{campListError.message}</p>;
+  }
+
+  if (isWeatherError) {
+    return <p>Error:{weatherError.message}</p>;
+  }
+
+  const campingPlaces = radiusCampList.response.body.items.item;
+
   return (
     <div>
+      <div>
+        {weatherInfo.coord}
+        {weatherInfo.weather[0].id}
+        {weatherInfo.weather[0].main}
+        {weatherInfo.weather[0].description}
+        <Image
+          src={weatherInfo.weather[0].icon}
+          alt={weatherInfo.weather[0].id}
+          width={120}
+          height={120}
+        />
+      </div>
       <div key={campingPlaces[0].contentId}>
         {campingPlaces[0].firstImageUrl ? (
           <Image

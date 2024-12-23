@@ -1,17 +1,37 @@
+'use client';
+
 import { fetchCampingList } from '@/app/api/campingApi';
+import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 
-const CampingList = async () => {
-  const data = await fetchCampingList();
-  const campingPlaces = data.response.body.items.item;
+const CampingList = () => {
+  const { data, isPending, isError, error } = useQuery({
+    queryKey: ['campingList'],
+    queryFn: fetchCampingList,
+  });
+
+  if (isPending) {
+    return <p>Loading...</p>;
+  }
+
+  if (isError) {
+    return <p>Error:{error.message}</p>;
+  }
+
+  const campingPlaces = data?.response.body.items.item || [];
   return (
     <div key={campingPlaces[0].contentId}>
-      <Image
-        src={campingPlaces[0].firstImageUrl}
-        alt={campingPlaces[0].facltNm}
-        width={120}
-        height={120}
-      />
+      {campingPlaces[0].firstImageUrl ? (
+        <Image
+          src={campingPlaces[0].firstImageUrl}
+          alt={campingPlaces[0].facltNm}
+          width={120}
+          height={120}
+        />
+      ) : (
+        <p>사진 없음</p>
+      )}
+
       <p>입지:{campingPlaces[0].lctCl}</p>
       <p>캠핑장명:{campingPlaces[0].facltNm}</p>
       <p>한줄소개:{campingPlaces[0].lineIntro}</p>
