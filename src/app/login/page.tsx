@@ -4,7 +4,7 @@ import { login } from './actions';
 
 const LoginPage = () => {
   return (
-    <form action={login}>
+    <form action={login} className="mt-40">
       <label htmlFor="email">Email:</label>
       <input
         className="border border-gray-300 rounded-md p-2"
