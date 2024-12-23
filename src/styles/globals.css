@@ -17,14 +17,25 @@
 }
 
 @font-face {
-  font-family: "Pretendard";
+  font-family: 'Pretendard';
   font-weight: 100 900; /* Variable weight */
   font-display: swap;
-  src: url("/public/fonts/PretendardVariable.woff2") format("woff2");
+  src: url('/public/fonts/PretendardVariable.woff2') format('woff2');
 }
 
 body {
+<<<<<<< HEAD
   font-family: "Pretendard", sans-serif;
+=======
+  font-family: 'Pretendard', sans-serif;
+  color: rgb(var(--foreground-rgb));
+  /* background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb)); */
+>>>>>>> a89b879e5926125cd8966862cbaaeafda550ec0d
 }
 
 @layer utilities {
