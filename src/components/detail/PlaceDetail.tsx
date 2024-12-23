@@ -33,7 +33,7 @@ const PlaceDetail = ({ details }: PlaceDetailProps) => {
           <PawPrint />
           {` `}애완 동물 출입 여부: {details.petAllowed ? '가능' : '불가능'}
         </p>
-        <div className="flex flex-row justify-between mb-2 mt-4">
+        <div className="flex flex-row justify-between mb-2 mt-4 items-center">
 					<p className="text-gray-500">tel: {details.tel}</p>
 					<LikeButton />
         </div>

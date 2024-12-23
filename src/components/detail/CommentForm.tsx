@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { MessageSquare } from 'lucide-react';
+import { Input } from '../ui/input';
 
 const CommentForm = ({ placeId }: { placeId: string }) => {
   const [nickname, setNickname] = useState('');
@@ -25,10 +26,14 @@ const CommentForm = ({ placeId }: { placeId: string }) => {
       onSubmit={handleSubmit}
       className="border border-black rounded-lg p-6 mb-6"
     >
-			<MessageSquare className='fill-gray-500 text-gray-500' />
-			<hr className='border border-gray-500 my-4'/>
+      <div className="flex flex-row gap-2">
+				<MessageSquare className="fill-black text-black" />
+				<p>(0)</p>
+      </div>
+
+      <hr className="border border-gray-500 my-4" />
       <div className="mb-4">
-        <input
+        <Input
           placeholder="댓글을 입력하세요"
           value={comment}
           onChange={(e) => setComment(e.target.value)}
