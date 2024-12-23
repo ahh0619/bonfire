@@ -1,18 +1,32 @@
 'use Client';
 
 import Script from 'next/script';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CustomOverlayMap, Map, MapMarker } from 'react-kakao-maps-sdk';
+import tempImg from 'leader_github_logo.png';
+import Image from 'next/image';
 
 type coords = {
   latitude: number;
   longitude: number;
 };
 
+type latlng = {
+  lat: number;
+  lng: number;
+};
+
+type goCampingData = {
+  title: string;
+  latlng: latlng;
+};
+
 const KAKAO_SDK_URL = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&autoload=false`;
 
 const KakaoMap = () => {
-  const [goCampingData, setgoCampingData] = useState<any>(null);
+  const [goCampingData, setgoCampingData] = useState<goCampingData[] | null>(
+    null,
+  );
   const [error, setError] = useState<Error>();
   const [selectedMarker, setSelectedMarker] = useState<any | null>(null);
   const [geoData, setGeoData] = useState<coords | null>(null);
@@ -77,7 +91,7 @@ const KakaoMap = () => {
           level={3}
           onCreate={setMap}
         >
-          {goCampingData.map((position, index) => (
+          {goCampingData!.map((position, index) => (
             <MapMarker
               key={`${position.title}-${position.latlng}`}
               position={position.latlng} // 마커를 표시할 위치
@@ -92,21 +106,29 @@ const KakaoMap = () => {
               onClick={() => setSelectedMarker(position)}
             />
           ))}
-          {goCampingData.map((position) => {
+          {goCampingData!.map((position) => {
             if (selectedMarker === position) {
               return (
                 <CustomOverlayMap
                   key={`${position.title}-${position.latlng}`}
                   position={selectedMarker.latlng}
                 >
-                  <div
-                    className="bg-white p-[10px] rounded-lg"
-                  >
+                  <div className="flex flex-col bg-white p-[10px] rounded-lg">
                     <strong>{selectedMarker.title}</strong>
-                    {/* <Image src={}></Image> */}
-                    <p>여기에는 마커에 대한 추가 정보가 들어갑니다.</p>
+                    <div className="flex flex-row gap-5 justify-center items-center">
+                      <Image
+                        src="/images/leader_github_logo.png" // public 폴더 안의 이미지 경로
+                        alt="Example Image"
+                        width={100} // 이미지 너비
+                        height={100} // 이미지 높이
+                      />
+                      <p className="max-w-[350px]">
+                        여기에는 마커에 대한 추가 정보가 들어갑니다.
+                      </p>
+                    </div>
+
                     <div
-                      className="absolute top-1 right-2"
+                      className="absolute top-1 right-2 cursor-pointer"
                       onClick={() => setSelectedMarker(null)}
                     >
                       닫기
