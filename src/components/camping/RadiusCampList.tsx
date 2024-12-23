@@ -1,12 +1,24 @@
 'use client';
-
 import { fetchRadiusCampList } from '@/app/api/campingApi';
 import { Camping, CampingResponse } from '@/types/Camping';
 import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import WeatherInfo from '../weather/WeatherInfo';
-
+import MapComponent from '../map/MapComponent';
+import { useEffect, useState } from 'react';
 const RadiusCampList = () => {
+  const [goCampingData, setgoCampingData] = useState<goCampingData[] | null>(
+    null,
+  );
+  const [geoData, setGeoData] = useState<coords | null>(null);
+  useEffect(() => {
+    const getGeoData = async () => {
+      navigator.geolocation.getCurrentPosition((res) => {
+        setGeoData(res.coords);
+      });
+    };
+    getGeoData();
+  }, []);
   const {
     data: radiusCampData,
     isPending: isCampListPending,
@@ -14,17 +26,14 @@ const RadiusCampList = () => {
     error: campListError,
   } = useQuery<CampingResponse>({
     queryKey: ['radiusCampData'],
-    queryFn: fetchRadiusCampList,
+    queryFn: () => fetchRadiusCampList(geoData!.latitude, geoData!.longitude),
   });
-
   if (isCampListPending) {
     return <p>Loading...</p>;
   }
-
   if (isCampListError) {
     return <p>Error:{campListError.message}</p>;
   }
-
   const radiusCampList: Pick<
     Camping,
     | 'contentId'
@@ -35,42 +44,35 @@ const RadiusCampList = () => {
     | 'mapY'
     | 'mapX'
   >[] = radiusCampData?.response.body.items.item || [];
-
   return (
     <div>
       {radiusCampList.map((camp) => (
-        <div key={camp.contentId} className="flex">
+        <div key={camp.contentId}>
           {camp.firstImageUrl ? (
-            <Image
-              src={camp.firstImageUrl}
-              alt={camp.facltNm}
-              width={320}
-              height={320}
-              className=""
-            />
+            <div>
+              <Image
+                src={camp.firstImageUrl}
+                alt={camp.facltNm}
+                width={320}
+                height={320}
+                className=""
+              />
+            </div>
           ) : (
-            <p>사진 없음</p>
+            <div>
+              <p>사진 없음</p>
+            </div>
           )}
-          {/* <p>입지:{camp.lctCl}</p> */}
-          <p>캠핑장명:{camp.facltNm}</p>
-          {/* <p>한줄소개:{camp.lineIntro}</p>
-          <p>소개:{camp.intro}</p> */}
-          <p>주소:{camp.addr1}</p>
-          <p>업종:{camp.induty}</p>
-          <WeatherInfo lat={camp.mapY} lon={camp.mapX} />
-          {/* <p>경도:{camp.mapX}</p>
-          <p>위도:{camp.mapY}</p>
-          <p>오는길 :{camp.direction}</p>
-          <p>전화 :{camp.tel}</p>
-          <p>홈페이지:{camp.homepage}</p> */}
-          {/* <p>툴팁 :{camp.tooltip}</p>
-          <p>카라반내부시설 :{camp.caravInnerFclty}</p>
-          <p>애완동물여부:{camp.animalCmgCl}</p>
-          <p>부대시설 :{camp.sbrsEtc}</p> */}
+          <div>
+            {' '}
+            <p>{camp.facltNm}</p>
+            <p>{camp.addr1}</p>
+            <WeatherInfo lat={camp.mapY} lon={camp.mapX} />
+          </div>
         </div>
       ))}
+      <MapComponent radiusCampList={radiusCampList} geoData={geoData} />
     </div>
   );
 };
-
 export default RadiusCampList;
