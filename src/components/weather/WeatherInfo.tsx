@@ -24,10 +24,7 @@ const WeatherInfo = ({ lat, lon }: { lat: string; lon: string }) => {
   if (isWeatherError) {
     return <p>Error:{weatherError.message}</p>;
   }
-<<<<<<< HEAD
-=======
   const weatherCondition = weatherInfo.weather[0].main;
-
   const weatherImgSrc = (condition: string) => {
     switch (condition) {
       case 'thunderstorm':
@@ -42,7 +39,6 @@ const WeatherInfo = ({ lat, lon }: { lat: string; lon: string }) => {
         return '/images/weather/Clear.png';
     }
   };
->>>>>>> aa4b85e3f45a9f2e2e4440f92115d21e5a1e43cb
 
   return (
     <div>
