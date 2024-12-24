@@ -6,7 +6,7 @@ import { addLike, removeLike } from '@/utils/likes/actions'; // 서버 액션 im
 
 type LikeButtonProps = {
   userId: string; // 사용자 ID
-  placeId: string; // 장소 ID
+  placeImgUrl: string; // 장소 이미지
   placeName: string; // 장소 이름
   addressName: string; // 주소
   phoneNumber: string; // 전화번호
@@ -18,7 +18,7 @@ type LikeButtonProps = {
 
 const LikeButton = ({
   userId,
-  placeId,
+  placeImgUrl,
   placeName,
   addressName,
   phoneNumber,
@@ -38,12 +38,12 @@ const LikeButton = ({
     try {
       if (liked) {
         // 좋아요 취소
-        await removeLike(userId, placeId);
+        await removeLike(userId, placeName);
       } else {
         // 좋아요 추가
         await addLike({
           user_id: userId,
-          place_id: placeId,
+          place_image: placeImgUrl,
           place_name: placeName,
           address_name: addressName,
           phone_number: phoneNumber,

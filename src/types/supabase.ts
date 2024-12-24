@@ -51,7 +51,7 @@ export type Database = {
           location_x: number
           location_y: number
           phone_number: string | null
-          place_id: string
+          place_image: string
           place_name: string
           user_id: string
         }
@@ -61,7 +61,7 @@ export type Database = {
           location_x: number
           location_y: number
           phone_number?: string | null
-          place_id: string
+          place_image: string
           place_name: string
           user_id: string
         }
@@ -71,7 +71,7 @@ export type Database = {
           location_x?: number
           location_y?: number
           phone_number?: string | null
-          place_id?: string
+          place_image?: string
           place_name?: string
           user_id?: string
         }
