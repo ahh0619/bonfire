@@ -1,14 +1,15 @@
 'use server';
 
-import { Likes } from '@/types/Likes';
 import { createClient } from '@/utils/supabase/server';
+import { Database, Tables } from '@/types/supabase';
 
-export const addLike = async (userId: string, placeId: string) => {
+type LikesInsert = Database['public']['Tables']['likes']['Insert'];
+type LikesRow = Tables<'likes'>;
+
+export const addLike = async (like: LikesInsert) => {
   const supabase = await createClient();
 
-  const { data, error } = await supabase
-    .from('likes')
-    .insert([{ user_id: userId, place_id: placeId }]);
+  const { data, error } = await supabase.from('likes').insert([like]);
 
   if (error) {
     throw new Error(`Failed to add like: ${error.message}`);
@@ -17,26 +18,26 @@ export const addLike = async (userId: string, placeId: string) => {
   return data;
 };
 
-export const removeLike = async (userId: string, placeId: string) => {
+export const removeLike = async (userId: string, placeName: string) => {
   const supabase = await createClient();
 
   const { error } = await supabase
     .from('likes')
     .delete()
-    .match({ user_id: userId, place_id: placeId });
+    .match({ user_id: userId, place_name: placeName });
 
   if (error) {
     throw new Error(`Failed to remove like: ${error.message}`);
   }
 };
 
-export const getLikeCount = async (placeId: string) => {
+export const getLikeCount = async (placeName: string) => {
   const supabase = await createClient();
 
   const { count, error } = await supabase
     .from('likes')
     .select('*', { count: 'exact' })
-    .eq('place_id', placeId);
+    .eq('place_name', placeName);
 
   if (error) {
     throw new Error(`Failed to fetch like count: ${error.message}`);
@@ -45,7 +46,7 @@ export const getLikeCount = async (placeId: string) => {
   return count || 0;
 };
 
-export const fetchLikedPlaces = async (userId: string): Promise<Likes[]> => {
+export const fetchLikedPlaces = async (userId: string): Promise<LikesRow[]> => {
   const supabase = await createClient();
 
   const { data, error } = await supabase
@@ -57,5 +58,5 @@ export const fetchLikedPlaces = async (userId: string): Promise<Likes[]> => {
     throw new Error(`Failed to fetch liked places: ${error.message}`);
   }
 
-  return data;
+  return data || [];
 };

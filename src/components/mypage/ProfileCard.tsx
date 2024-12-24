@@ -41,8 +41,6 @@ export const ProfileCard = () => {
       <div className="ml-6">
         {/* 유저 닉네임 */}
         <h2 className="text-2xl font-semibold">{userProfile.nickname}</h2>
-        {/* 유저 이메일 */}
-        <p className="text-gray-600">{userProfile.email}</p>
         <button
           className="mt-2 px-4 py-2 text-sm border border-black text-black rounded-3xl hover:bg-black hover:text-white"
           onClick={() => setModalOpen(true)}
