@@ -3,7 +3,8 @@
 import Script from 'next/script';
 import { useState } from 'react';
 import Image from 'next/image';
-import { StaticMap } from 'react-kakao-maps-sdk';
+import { Map, StaticMap } from 'react-kakao-maps-sdk';
+import useSdkLoad from '@/hooks/map/useSdkLoad';
 
 const KAKAO_SDK_URL = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&autoload=false`;
 
@@ -23,29 +24,18 @@ const DetailMap = ({
   height = '300px',
 }: DetailMapProps) => {
   const [isSdkLoaded, setIsSdkLoaded] = useState(false);
+  useSdkLoad(setIsSdkLoaded);
 
   return (
     <>
-      <Script
-        src={KAKAO_SDK_URL}
-        strategy="afterInteractive"
-        onLoad={() => setIsSdkLoaded(true)}
-      />
+      <Script src={KAKAO_SDK_URL} strategy="afterInteractive" />
       {isSdkLoaded ? (
-        <div style={{ width, height, position: 'relative' }}>
+        <div>
           <StaticMap
             center={{ lat: latitude, lng: longitude }}
-            style={{
-              width,
-              height,
-            }}
+
             level={level}
-            marker={{
-              position: { lat: latitude, lng: longitude },
-            }}
-            onCreate={(map) => {
-              console.log('Static Map Created:', map); 
-            }}
+						marker={{ position: { lat: latitude, lng: longitude }}}
           />
         </div>
       ) : (

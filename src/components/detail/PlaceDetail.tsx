@@ -4,7 +4,7 @@ import { Camping } from '@/types/Camping';
 import DetailMap from './DetailMap';
 
 type PlaceDetailProps = {
-  details: Camping
+  details: Camping;
 };
 
 const PlaceDetail = ({ details }: PlaceDetailProps) => {
@@ -33,15 +33,13 @@ const PlaceDetail = ({ details }: PlaceDetailProps) => {
       </div>
 
       {/* 지도 부분 */}
-      <div className="w-[320px] aspect-square sm:w-[360px] sm:h-[360px] rounded-xl overflow-hidden">
-        <DetailMap
-          latitude={parseFloat(details.mapY)}
-          longitude={parseFloat(details.mapX)}
-          level={3}
-          width="360"
-          height="360"
-        />
-      </div>
+      <DetailMap
+        latitude={parseFloat(details.mapY)}
+        longitude={parseFloat(details.mapX)}
+        level={3}
+        width="360"
+        height="360"
+      />
     </div>
   );
 };
