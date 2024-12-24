@@ -1,5 +1,3 @@
-'use client';
-
 export const ProfileSkeleton = () => {
   return (
     <div className="flex items-center animate-pulse">
