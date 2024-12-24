@@ -5,15 +5,16 @@ import { Camping } from '@/types/Camping';
 
 export type MapComponentProps = {
   radiusCampList: Pick<
-    Camping,
-    | 'contentId'
-    | 'firstImageUrl'
-    | 'facltNm'
-    | 'addr1'
-    | 'induty'
-    | 'mapY'
-    | 'mapX'
-  >[];
+  Camping,
+  | 'contentId'
+  | 'firstImageUrl'
+  | 'facltNm'
+  | 'addr1'
+  | 'induty'
+  | 'mapY'
+  | 'mapX'
+  | 'tel'
+>[]
   geoData: coords | null;
 };
 
