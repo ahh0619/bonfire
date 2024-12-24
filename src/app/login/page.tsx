@@ -2,23 +2,28 @@
 
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
-import { login } from './actions';
 import Button from '@/components/common/Button';
 import Input from '@/components/login/Input';
+import { LoginFormData } from '@/types/LoginFormData';
+import { loginFields } from '@/components/login/formFields';
+import { login } from './actions';
 import { useAuthStore } from '@/store/authStore';
 
 const LoginPage = () => {
   const { logIn } = useAuthStore();
-
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<LoginFormData>();
 
-  const onSubmit = async (data: any) => {
-    await login(data);
-    logIn();
+  const onSubmit = async (data: LoginFormData) => {
+    try {
+      await login(data);
+      logIn();
+    } catch (error) {
+      alert('로그인에 실패했습니다. 다시 시도해주세요.');
+    }
   };
 
   return (
@@ -31,46 +36,26 @@ const LoginPage = () => {
           로그인
         </h1>
 
-        <Input
-          id="email"
-          label="이메일"
-          type="email"
-          placeholder="이메일을 입력해주세요"
-          register={register}
-          error={errors.email?.message as string}
-          validation={{
-            required: '이메일을 입력해주세요.',
-            pattern: {
-              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-              message: '올바른 이메일 형식이 아닙니다',
-            },
-          }}
-        />
+        {loginFields.map((field) => (
+          <Input
+            key={field.id}
+            id={field.id}
+            label={field.label}
+            type={field.type}
+            placeholder={field.placeholder}
+            register={register}
+            error={errors[field.id]?.message}
+            validation={field.validation}
+          />
+        ))}
 
-        <Input
-          id="password"
-          label="비밀번호"
-          type="password"
-          placeholder="비밀번호를 입력해주세요"
-          register={register}
-          error={errors.password?.message as string}
-          validation={{
-            required: '비밀번호를 입력해주세요.',
-            pattern: {
-              value:
-                /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$/,
-              message: '영문, 숫자, 특수문자 포함 6 ~ 20자로 입력해주세요',
-            },
-          }}
-        />
-
-        <Button text={'로그인'} />
+        <Button text="로그인" />
 
         <p className="text-sm text-gray-600 mt-4 text-center">
           계정이 없으신가요?{' '}
           <Link
             href="/signup"
-            className="text-[#FD470E] font-semibold hover:underline"
+            className="text-green-500 font-semibold hover:underline"
           >
             회원가입
           </Link>
