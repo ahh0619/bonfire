@@ -18,26 +18,26 @@ export const addLike = async (like: LikesInsert) => {
   return data;
 };
 
-export const removeLike = async (userId: string, placeId: string) => {
+export const removeLike = async (userId: string, placeName: string) => {
   const supabase = await createClient();
 
   const { error } = await supabase
     .from('likes')
     .delete()
-    .match({ user_id: userId, place_id: placeId });
+    .match({ user_id: userId, place_name: placeName });
 
   if (error) {
     throw new Error(`Failed to remove like: ${error.message}`);
   }
 };
 
-export const getLikeCount = async (placeId: string) => {
+export const getLikeCount = async (placeName: string) => {
   const supabase = await createClient();
 
   const { count, error } = await supabase
     .from('likes')
     .select('*', { count: 'exact' })
-    .eq('place_id', placeId);
+    .eq('place_name', placeName);
 
   if (error) {
     throw new Error(`Failed to fetch like count: ${error.message}`);
