@@ -3,12 +3,18 @@ import { fetchRadiusCampList } from '@/app/api/campingApi';
 import { Camping, CampingResponse } from '@/types/Camping';
 import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
-import WeatherInfo from '../weather/WeatherInfo';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import MapComponent from '../map/MapComponent';
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Scrollbar, Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import Link from 'next/link';
+const defaultCampImage = '/images/banner.png';
+
 import { useEffect, useState } from 'react';
+import MapComponent from '../map/MapComponent';
+
 const RadiusCampList = () => {
   const [goCampingData, setgoCampingData] = useState<goCampingData[] | null>(
     null,
@@ -48,53 +54,49 @@ const RadiusCampList = () => {
     | 'mapX'
   >[] = radiusCampData?.response.body.items.item || [];
 
-  const settings = {
-    dots: false, // 하단 네비게이션 점 표시
-    infinite: true, // 무한 루프
-    speed: 500, // 슬라이드 전환 속도(ms)
-    slidesToShow: 3, // 한 번에 표시할 슬라이드 수
-    slidesToScroll: 3, // 한 번에 이동할 슬라이드 수
-    arrows: true, // 좌우 화살표 표시
-  };
-
   return (
     <div className="w-full mx-auto">
-      <Slider {...settings}>
+      <Swiper
+        modules={[Navigation, Scrollbar, Scrollbar, Autoplay]}
+        loop={true} // 슬라이드 루프
+        spaceBetween={30} // 슬라이스 사이 간격
+        slidesPerView={3} // 보여질 슬라이스 수
+        navigation={true} // prev, next button
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false, // 사용자 상호작용시 슬라이더 일시 정지 비활성
+        }}
+      >
         {radiusCampList?.map((camp) => (
-          <div
+          <SwiperSlide
             key={camp.contentId}
-            className="p-4 flex flex-col items-center border border-gray-300 shadow-lg rounded-lg"
+            className="p-8 flex justify-center items-center border border-gray-300 shadow-lg rounded-lg"
           >
-            {camp.firstImageUrl ? (
-              <Image
-                src={camp.firstImageUrl}
-                alt={camp.facltNm}
-                width={320}
-                height={320}
-                className=""
-              />
-            ) : (
-              <p>사진 없음</p>
-            )}
-            <p className="font-bold text-lg">{camp.facltNm}</p>
-            <p className="text-gray-600">{camp.addr1}</p>
-            <WeatherInfo lat={camp.mapY} lon={camp.mapX} />
-            {/* <p>업종:{camp.induty}</p> */}
-            {/* <p>입지:{camp.lctCl}</p> */}
-            {/* <p>한줄소개:{camp.lineIntro}</p>
-          <p>소개:{camp.intro}</p> */}
-            {/* <p>경도:{camp.mapX}</p>
-          <p>위도:{camp.mapY}</p>
-          <p>오는길 :{camp.direction}</p>
-          <p>전화 :{camp.tel}</p>
-          <p>홈페이지:{camp.homepage}</p> */}
-            {/* <p>툴팁 :{camp.tooltip}</p>
-          <p>카라반내부시설 :{camp.caravInnerFclty}</p>
-          <p>애완동물여부:{camp.animalCmgCl}</p>
-          <p>부대시설 :{camp.sbrsEtc}</p> */}
-          </div>
+            <Link href={`/detail/${camp.facltNm}`}>
+              {camp.firstImageUrl ? (
+                <Image
+                  src={camp.firstImageUrl}
+                  alt={camp.facltNm}
+                  width={350}
+                  height={320}
+                  className="h-[200px]"
+                />
+              ) : (
+                <Image
+                  src={defaultCampImage}
+                  alt={camp.facltNm}
+                  width={350}
+                  height={320}
+                  className="h-[200px]"
+                />
+              )}
+
+              <p className="font-bold text-lg">{camp.facltNm}</p>
+              <p className="text-gray-600">{camp.addr1}</p>
+            </Link>
+          </SwiperSlide>
         ))}
-      </Slider>
+      </Swiper>
       <MapComponent radiusCampList={radiusCampList} geoData={geoData} />
     </div>
   );
