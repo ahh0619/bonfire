@@ -5,8 +5,11 @@ import { useForm } from 'react-hook-form';
 import { login } from './actions';
 import Button from '@/components/common/Button';
 import Input from '@/components/login/Input';
+import { useAuthStore } from '@/store/authStore';
 
 const LoginPage = () => {
+  const { logIn } = useAuthStore();
+
   const {
     register,
     handleSubmit,
@@ -15,6 +18,7 @@ const LoginPage = () => {
 
   const onSubmit = async (data: any) => {
     await login(data);
+    logIn();
   };
 
   return (
