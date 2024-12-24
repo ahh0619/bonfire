@@ -1,104 +1,106 @@
 'use client';
-import Image from 'next/image';
+
+import Link from 'next/link';
+import { useForm } from 'react-hook-form';
+import Button from '@/components/common/Button';
 import { signup } from '../login/actions';
-import { useState } from 'react';
+import Input from '@/components/login/Input';
 
-const SignUpPage = () => {
-  const [profileImgFile, setProfileImgFile] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState('');
+const SignUp = () => {
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors },
+  } = useForm();
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const fileObj = e.target.files?.[0];
-    if (fileObj) {
-      setProfileImgFile(fileObj);
-      const objectUrl = URL.createObjectURL(fileObj);
-      setPreviewUrl(objectUrl);
-    }
+  const onSubmit = async (data: any) => {
+    await signup(data);
   };
 
   return (
-    <form
-      onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        const form = e.target as HTMLFormElement;
-        const formData = new FormData(form);
-
-        if (profileImgFile) {
-          formData.append('profileImage', profileImgFile);
-        }
-
-        await signup(formData);
-      }}
-    >
-      <div>
-        <label htmlFor="email">Email:</label>
-        <input
-          className="border border-gray-300 rounded-md p-2"
-          id="email"
-          name="email"
-          type="text"
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="nickname">Nickname:</label>
-        <input
-          className="border border-gray-300 rounded-md p-2"
-          id="nickname"
-          name="nickname"
-          type="text"
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="password">Password:</label>
-        <input
-          className="border border-gray-300 rounded-md p-2"
-          id="password"
-          name="password"
-          type="password"
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="passwordConfirm">Confirm Password:</label>
-        <input
-          className="border border-gray-300 rounded-md p-2"
-          id="passwordConfirm"
-          name="passwordConfirm"
-          type="password"
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="profileImage">Profile Image:</label>
-        {previewUrl ? (
-          <Image
-            src={previewUrl}
-            alt="미리보기 이미지"
-            width={200}
-            height={200}
-          />
-        ) : (
-          <p>이미지 없음</p>
-        )}
-        <input
-          className="border border-gray-300 rounded-md p-2"
-          id="profileImage"
-          name="profileImage"
-          type="file"
-          accept="image/*"
-          onChange={handleImageChange}
-        />
-      </div>
-      <button
-        className="bg-green-500 text-white px-4 py-2 rounded-md"
-        type="submit"
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 mt-[-20px]">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col items-center bg-white p-8 rounded-lg shadow-md w-full max-w-md"
       >
-        Sign up
-      </button>
-    </form>
+        <h1 className="text-3xl font-bold mb-6 text-black">회원가입</h1>
+
+        <Input
+          id="nickname"
+          label="닉네임"
+          type="text"
+          placeholder="닉네임을 입력해주세요"
+          register={register}
+          error={errors.nickname?.message as string}
+          validation={{ required: '닉네임을 입력해주세요.' }}
+        />
+
+        <Input
+          id="email"
+          label="이메일"
+          type="email"
+          placeholder="이메일을 입력해주세요"
+          register={register}
+          error={errors.email?.message as string}
+          validation={{
+            required: '이메일을 입력해주세요.',
+            pattern: {
+              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+              message: '올바른 이메일 형식이 아닙니다',
+            },
+          }}
+        />
+
+        <Input
+          id="password"
+          label="비밀번호"
+          type="password"
+          placeholder="비밀번호를 입력해주세요"
+          register={register}
+          error={errors.password?.message as string}
+          validation={{
+            required: '비밀번호를 입력해주세요.',
+            pattern: {
+              value:
+                /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$/,
+              message: '영문, 숫자, 특수문자 포함 6 ~ 20자로 입력해주세요',
+            },
+          }}
+        />
+
+        <Input
+          id="passwordConfirm"
+          label="비밀번호 확인"
+          type="password"
+          placeholder="비밀번호를 다시 입력해주세요"
+          register={register}
+          error={errors.passwordConfirm?.message as string}
+          validation={{
+            required: '비밀번호 확인을 입력해주세요.',
+            validate: {
+              matchPassword: (value: string) => {
+                const { password } = getValues();
+                return password === value || '비밀번호가 일치하지 않습니다';
+              },
+            },
+          }}
+        />
+
+        <Button text={'회원가입'} />
+
+        <p className="text-sm text-gray-600 mt-4">
+          이미 계정이 있으신가요?{' '}
+          <Link
+            href="/login"
+            className="text-green-500 font-semibold hover:underline"
+          >
+            로그인
+          </Link>
+        </p>
+      </form>
+    </div>
   );
 };
 
-export default SignUpPage;
+export default SignUp;
