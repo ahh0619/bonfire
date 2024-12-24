@@ -36,11 +36,11 @@ export const signup = async (formData: SignupFormData): Promise<void> => {
   });
 
   if (dbError) {
-    redirect('/error?message=Database insertion failed');
+    throw new Error('Database insertion failed');
   }
 
-  revalidatePath('/', 'layout');
-  redirect('/');
+  // revalidatePath('/login', 'layout');
+  // redirect('/login');
 };
 
 const createAccount = async (email: string, password: string) => {
