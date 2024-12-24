@@ -4,8 +4,8 @@ import CommentForm from '@/components/detail/CommentForm';
 import Comments from '@/components/detail/Comments';
 import { fetchOneCampSite } from '@/app/api/campingApi';
 
-// ISR 설정
-export const revalidate = 3600; // 1 시간마다
+// ISR 설정: 페이지가 1시간마다 재생성
+export const revalidate = 3600; // 1시간
 
 type PlaceDetailPageProps = {
   params: {
@@ -13,6 +13,13 @@ type PlaceDetailPageProps = {
   };
 };
 
+// 동적 라우트의 params를 build 때 생성
+export async function generateStaticParams() {
+  // 유저가 어떠한 장소를 넣어도 이후에 generate 됨
+  return [];
+}
+
+// 페이지 컴포넌트
 const PlaceDetailPage = async ({ params }: PlaceDetailPageProps) => {
   const facltNm = decodeURIComponent(params.id);
   const placeDetails = await fetchOneCampSite(facltNm);
