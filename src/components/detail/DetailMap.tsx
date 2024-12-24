@@ -30,14 +30,16 @@ const DetailMap = ({
     <>
       <Script src={KAKAO_SDK_URL} strategy="afterInteractive" />
       {isSdkLoaded ? (
-        <div>
-          <StaticMap
-            center={{ lat: latitude, lng: longitude }}
-
-            level={level}
-						marker={{ position: { lat: latitude, lng: longitude }}}
-          />
-        </div>
+        <StaticMap
+          center={{ lat: latitude, lng: longitude }}
+          style={{
+            // 지도의 크기
+            width,
+            height,
+          }}
+          level={level}
+          marker={{ position: { lat: latitude, lng: longitude } }}
+        />
       ) : (
         <p>로딩 중입니다.</p>
       )}

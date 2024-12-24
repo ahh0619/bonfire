@@ -11,6 +11,7 @@ const config: Config = {
     extend: {
       screens: {
         'xl-custom': '1950px', // 1950px 이상일 때를 나타냄
+        'mobile': "320px",
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
