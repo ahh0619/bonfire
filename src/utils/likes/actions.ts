@@ -1,8 +1,9 @@
 'use server';
 
+import { Likes } from '@/types/Likes';
 import { createClient } from '@/utils/supabase/server';
 
-export async function addLike(userId: string, placeId: string) {
+export const addLike = async (userId: string, placeId: string) => {
   const supabase = await createClient();
 
   const { data, error } = await supabase
@@ -14,9 +15,9 @@ export async function addLike(userId: string, placeId: string) {
   }
 
   return data;
-}
+};
 
-export async function removeLike(userId: string, placeId: string) {
+export const removeLike = async (userId: string, placeId: string) => {
   const supabase = await createClient();
 
   const { error } = await supabase
@@ -27,9 +28,9 @@ export async function removeLike(userId: string, placeId: string) {
   if (error) {
     throw new Error(`Failed to remove like: ${error.message}`);
   }
-}
+};
 
-export async function getLikeCount(placeId: string) {
+export const getLikeCount = async (placeId: string) => {
   const supabase = await createClient();
 
   const { count, error } = await supabase
@@ -42,4 +43,19 @@ export async function getLikeCount(placeId: string) {
   }
 
   return count || 0;
-}
+};
+
+export const fetchLikedPlaces = async (userId: string): Promise<Likes[]> => {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from('likes')
+    .select('*')
+    .eq('user_id', userId);
+
+  if (error) {
+    throw new Error(`Failed to fetch liked places: ${error.message}`);
+  }
+
+  return data;
+};
