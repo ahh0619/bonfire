@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import Button from '@/components/common/Button';
 import Input from '@/components/login/Input';
 import { LoginFormData } from '@/types/LoginFormData';
-import { loginFields } from '@/components/login/\bformFields';
+import { loginFields } from '@/components/login/formFields';
 import { login } from './actions';
 import { useAuthStore } from '@/store/authStore';
 
