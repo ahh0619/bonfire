@@ -2,7 +2,7 @@
 
 import { useForm } from 'react-hook-form';
 
-interface InputProps {
+type InputProps = {
   id: string;
   label: string;
   type: string;
@@ -10,7 +10,7 @@ interface InputProps {
   register: ReturnType<typeof useForm>['register'];
   error?: string;
   validation?: object;
-}
+};
 
 const Input = ({
   id,
