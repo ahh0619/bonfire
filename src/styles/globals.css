@@ -104,3 +104,23 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* Swiper 기본 버튼 스타일 덮어쓰기 */
+.swiper-button-prev,
+.swiper-button-next {
+  @apply text-[#FD470E] absolute top-1/2 -translate-y-1/2 bg-transparent text-2xl z-10;
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+  @apply text-[#D23B0D]; /* 호버 시 색상 변경 */
+}
+
+/* 버튼 위치 조정 (카드 바깥으로 이동) */
+.swiper-button-prev {
+  @apply -left-14; /* 왼쪽 버튼 위치 */
+}
+
+.swiper-button-next {
+  @apply -right-14; /* 오른쪽 버튼 위치 */
+}
