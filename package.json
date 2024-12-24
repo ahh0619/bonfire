@@ -31,6 +31,7 @@
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
     "uuid": "^11.0.3",
+    "xml2js": "^0.6.2",
     "zustand": "^5.0.2"
   },
   "devDependencies": {

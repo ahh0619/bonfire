@@ -1,6 +1,8 @@
 import RadiusCampList from '@/components/camping/RadiusCampList';
+
 import Image from 'next/image';
 const bannerImage = '/images/banner.png';
+
 export default function Home() {
   console.log('홈페이지가 동작한다');
 

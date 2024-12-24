@@ -1,9 +1,9 @@
 'use client';
-
 import { fetchRadiusCampList } from '@/app/api/campingApi';
 import { Camping, CampingResponse } from '@/types/Camping';
 import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
+
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Scrollbar, Autoplay } from 'swiper/modules';
 import 'swiper/css';
@@ -11,7 +11,22 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import Link from 'next/link';
 const defaultCampImage = '/images/banner.png';
+
+import { useEffect, useState } from 'react';
+
 const RadiusCampList = () => {
+  const [goCampingData, setgoCampingData] = useState<goCampingData[] | null>(
+    null,
+  );
+  const [geoData, setGeoData] = useState<coords | null>(null);
+  useEffect(() => {
+    const getGeoData = async () => {
+      navigator.geolocation.getCurrentPosition((res) => {
+        setGeoData(res.coords);
+      });
+    };
+    getGeoData();
+  }, []);
   const {
     data: radiusCampData,
     isPending: isCampListPending,
@@ -19,17 +34,14 @@ const RadiusCampList = () => {
     error: campListError,
   } = useQuery<CampingResponse>({
     queryKey: ['radiusCampData'],
-    queryFn: fetchRadiusCampList,
+    queryFn: () => fetchRadiusCampList(geoData!.latitude, geoData!.longitude),
   });
-
   if (isCampListPending) {
     return <p>Loading...</p>;
   }
-
   if (isCampListError) {
     return <p>Error:{campListError.message}</p>;
   }
-
   const radiusCampList: Pick<
     Camping,
     | 'contentId'
@@ -87,5 +99,4 @@ const RadiusCampList = () => {
     </div>
   );
 };
-
 export default RadiusCampList;

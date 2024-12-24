@@ -24,6 +24,9 @@
 }
 
 body {
+
+  font-family: "Pretendard", sans-serif;
+
   font-family: 'Pretendard', sans-serif;
   color: rgb(var(--foreground-rgb));
   /* background: linear-gradient(
@@ -32,6 +35,7 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb)); */
+
 }
 
 @layer utilities {
