@@ -7,6 +7,11 @@ import { addLike, removeLike } from '@/utils/likes/actions'; // 서버 액션 im
 type LikeButtonProps = {
   userId: string; // 사용자 ID
   placeId: string; // 장소 ID
+  placeName: string; // 장소 이름
+  addressName: string; // 주소
+  phoneNumber: string; // 전화번호
+  locationX?: number; // 위치 X 좌표
+  locationY?: number; // 위치 Y 좌표
   initialLikes: number;
   initialLiked: boolean; // 초기 좋아요 상태
 };
@@ -14,6 +19,11 @@ type LikeButtonProps = {
 const LikeButton = ({
   userId,
   placeId,
+  placeName,
+  addressName,
+  phoneNumber,
+  locationX,
+  locationY,
   initialLikes,
   initialLiked,
 }: LikeButtonProps) => {
@@ -27,9 +37,19 @@ const LikeButton = ({
 
     try {
       if (liked) {
-        await removeLike(userId, placeId); // 좋아요 취소
+        // 좋아요 취소
+        await removeLike(userId, placeId);
       } else {
-        await addLike(userId, placeId); // 좋아요 추가
+        // 좋아요 추가
+        await addLike({
+          user_id: userId,
+          place_id: placeId,
+          place_name: placeName,
+          address_name: addressName,
+          phone_number: phoneNumber,
+          location_x: locationX!,
+          location_y: locationY!,
+        });
       }
     } catch (error) {
       console.error('Error toggling like:', error);

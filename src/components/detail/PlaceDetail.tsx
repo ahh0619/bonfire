@@ -31,8 +31,8 @@ const PlaceDetail = ({ details }: PlaceDetailProps) => {
           {` `}애완 동물 출입 여부: {details.petAllowed ? '가능' : '불가능'}
         </p>
         <div className="flex flex-row justify-between mb-2 mt-4 items-center">
-					<p className="text-gray-500">tel: {details.tel}</p>
-					<LikeButton />
+          <p className="text-gray-500">tel: {details.tel}</p>
+          {/* <LikeButton /> */}
         </div>
       </div>
       <div className="bg-gray-300 w-[320px] aspect-square rounded-xl sm:w-[360px] sm:h-[360px]"></div>

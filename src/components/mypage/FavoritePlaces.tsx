@@ -3,11 +3,13 @@
 import { useQuery } from '@tanstack/react-query';
 import { getUserProfile } from '@/app/mypage/actions'; // 서버 액션 호출
 import { fetchLikedPlaces } from '@/utils/likes/actions'; // 좋아요 데이터 가져오는 함수
-import { Likes } from '@/types/Likes'; // Likes 타입 정의
 import { FavoriteSkeleton } from '@/components/mypage/FavoriteSkeleton'; // 스켈레톤 UI
+import { Tables } from '@/types/supabase';
+
+type LikesRow = Tables<'likes'>;
 
 export const FavoritePlaces = () => {
-  const { data, isPending, isError, error } = useQuery<Likes[], Error>({
+  const { data, isPending, isError, error } = useQuery<LikesRow[], Error>({
     queryKey: ['likedPlaces'],
     queryFn: async () => {
       const userProfile = await getUserProfile();
