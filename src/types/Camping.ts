@@ -16,7 +16,9 @@ export type Camping = {
   caravInnerFclty: string; // 카라반일 경우 내부 시설
   glampInnerFclty: string; // 글램핑일 경우 내부 시설
   animalCmgCl: string; // 애완동물 여부
-  sbrsEtc: string; // 부대시설
+  sbrsEtc: string; // 부대시설 기타
+  sbrsCl: string; // 부대시설
+  posblFcltyCl: string;
 };
 
 export type CampingResponse = {
