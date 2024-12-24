@@ -18,7 +18,7 @@ const WeatherInfo = ({ lat, lon }: { lat: string; lon: string }) => {
   });
 
   if (isWeatherPending) {
-    return <p>Loading...</p>;
+    return <p className="ml-2 text-sm font-bold text-gray-600">Loading...</p>;
   }
 
   if (isWeatherError) {
@@ -41,16 +41,17 @@ const WeatherInfo = ({ lat, lon }: { lat: string; lon: string }) => {
   };
 
   return (
-    <div>
-      {' '}
-      <div>
-        <p>현재 온도: {weatherInfo.main.temp}°C</p>
+    <div className="w-[300px] items-start">
+      <div className="flex flex-row items-center">
         <Image
           src={weatherImgSrc(weatherCondition)}
           alt={weatherCondition}
           width={30}
           height={30}
         />
+        <p className="ml-2 text-sm font-bold text-gray-600">
+          현재 온도 : <span className="font-normal">{weatherInfo.main.temp}°C</span>
+        </p>
       </div>
     </div>
   );
