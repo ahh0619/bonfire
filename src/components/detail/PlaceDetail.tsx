@@ -1,6 +1,7 @@
 import { PawPrint, Phone } from 'lucide-react';
 import LikeButton from './LikeButton';
 import { Camping } from '@/types/Camping';
+import DetailMap from './DetailMap';
 
 type PlaceDetailProps = {
   details: Camping
@@ -18,7 +19,6 @@ const PlaceDetail = ({ details }: PlaceDetailProps) => {
         </p>
         <p className="mb-2 text-gray-500">
           주변이용 가능 시설: {details.posblFcltyCl || '해당 사항 없음'}
-          {/* 주변 이용 가능 시설: {details.nearbyFacilities.join(', ')} */}
         </p>
         <p className="mb-2 mt-8 text-gray-500 flex flex-row gap-2">
           <PawPrint />
@@ -31,7 +31,17 @@ const PlaceDetail = ({ details }: PlaceDetailProps) => {
           {/* <LikeButton /> */}
         </div>
       </div>
-      <div className="bg-gray-300 w-[320px] aspect-square rounded-xl sm:w-[360px] sm:h-[360px]"></div>
+
+      {/* 지도 부분 */}
+      <div className="w-[320px] aspect-square sm:w-[360px] sm:h-[360px] rounded-xl overflow-hidden">
+        <DetailMap
+          latitude={parseFloat(details.mapY)}
+          longitude={parseFloat(details.mapX)}
+          level={3}
+          width="360"
+          height="360"
+        />
+      </div>
     </div>
   );
 };
