@@ -4,7 +4,7 @@ import { Camping } from '@/types/Camping';
 import DetailMap from './DetailMap';
 
 type PlaceDetailProps = {
-  details: Camping
+  details: Camping;
 };
 
 const PlaceDetail = ({ details }: PlaceDetailProps) => {
