@@ -8,7 +8,7 @@ import { updateUserProfile } from '@/app/mypage/actions'; // 서버 액션 호�
 type ProfileModalProps = {
   onClose: () => void; // 모달을 닫는 함수
   userId: string; // 유저 ID
-  currentImage: string; // 현재 프로필 이미지 URL
+  currentImage: string | null; // 현재 프로필 이미지 URL
   currentNickname: string; // 현재 닉네임
 };
 
@@ -78,7 +78,7 @@ export const ProfileModal = ({
         {/* 이미지 섹션 */}
         <div className="flex flex-col items-center mb-6">
           <Image
-            src={image}
+            src={image!}
             alt="프로필 사진"
             className="rounded-full mb-4 aspect-square object-cover"
             width={120}
