@@ -46,6 +46,7 @@ const RadiusCampList = () => {
     | 'induty'
     | 'mapY'
     | 'mapX'
+    | 'tel'
   >[] = radiusCampData?.response.body.items.item || [];
 
   const settings = {
@@ -79,19 +80,6 @@ const RadiusCampList = () => {
             <p className="font-bold text-lg">{camp.facltNm}</p>
             <p className="text-gray-600">{camp.addr1}</p>
             <WeatherInfo lat={camp.mapY} lon={camp.mapX} />
-            {/* <p>업종:{camp.induty}</p> */}
-            {/* <p>입지:{camp.lctCl}</p> */}
-            {/* <p>한줄소개:{camp.lineIntro}</p>
-          <p>소개:{camp.intro}</p> */}
-            {/* <p>경도:{camp.mapX}</p>
-          <p>위도:{camp.mapY}</p>
-          <p>오는길 :{camp.direction}</p>
-          <p>전화 :{camp.tel}</p>
-          <p>홈페이지:{camp.homepage}</p> */}
-            {/* <p>툴팁 :{camp.tooltip}</p>
-          <p>카라반내부시설 :{camp.caravInnerFclty}</p>
-          <p>애완동물여부:{camp.animalCmgCl}</p>
-          <p>부대시설 :{camp.sbrsEtc}</p> */}
           </div>
         ))}
       </Slider>
