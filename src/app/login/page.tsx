@@ -6,6 +6,7 @@ import { login } from './actions';
 import Button from '@/components/common/Button';
 import Input from '@/components/login/Input';
 import { useAuthStore } from '@/store/authStore';
+import { LoginFormData } from '@/types/LoginFormData';
 
 const LoginPage = () => {
   const { logIn } = useAuthStore();
@@ -14,9 +15,9 @@ const LoginPage = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<LoginFormData>();
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: LoginFormData) => {
     await login(data);
     logIn();
   };

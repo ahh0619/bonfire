@@ -3,8 +3,10 @@
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
+import { SignupFormData } from '@/types/SignupFormData';
+import { LoginFormData } from '@/types/LoginFormData';
 
-export const login = async (formData: any) => {
+export const login = async (formData: LoginFormData) => {
   const supabase = await createClient();
 
   const { email, password } = formData;
@@ -18,7 +20,8 @@ export const login = async (formData: any) => {
   redirect('/');
 };
 
-export const signup = async (formData: any) => {
+export const signup = async (formData: SignupFormData): Promise<void> => {
+  console.log('signup data: ', formData);
   const supabase = await createClient();
 
   const { email, nickname, password } = formData;
@@ -63,12 +66,12 @@ export const logout = async () => {
   redirect('/login');
 };
 
-export const fetchSession = async (): Promise<any> => {
-  const supabase = await createClient();
-  const { data: user, error } = await supabase.auth.getUser();
+// export const fetchSession = async (): Promise<any> => {
+//   const supabase = await createClient();
+//   const { data: user, error } = await supabase.auth.getUser();
 
-  if (error) {
-    return null;
-  }
-  return user;
-};
+//   if (error) {
+//     return null;
+//   }
+//   return user;
+// };

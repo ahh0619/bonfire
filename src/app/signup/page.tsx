@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import Button from '@/components/common/Button';
 import { signup } from '../login/actions';
 import Input from '@/components/login/Input';
+import { SignupFormData } from '@/types/SignupFormData';
 
 const SignUp = () => {
   const {
@@ -12,9 +13,9 @@ const SignUp = () => {
     handleSubmit,
     getValues,
     formState: { errors },
-  } = useForm();
+  } = useForm<SignupFormData>();
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: SignupFormData): Promise<void> => {
     await signup(data);
   };
 
