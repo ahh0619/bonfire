@@ -18,7 +18,7 @@ const PlaceDetailPage = async ({ params }: PlaceDetailPageProps) => {
   const placeDetails = await fetchOneCampSite(facltNm);
 
   return (
-    <div className="container xl:w-[1024px] mx-auto px-4 py-8">
+    <div className="container min-h-screen xl:w-[1024px] mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">상세 페이지</h1>
       <PlaceDetail details={placeDetails} />
       <div className="flex flex-col border rounded-xl border-black p-8">

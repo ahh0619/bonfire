@@ -18,7 +18,7 @@ export type Camping = {
   animalCmgCl: string; // 애완동물 여부
   sbrsEtc: string; // 부대시설 기타
   sbrsCl: string; // 부대시설
-  posblFcltyCl: string;
+  posblFcltyCl: string; // 주변 이용 가능 시설 
 };
 
 export type CampingResponse = {

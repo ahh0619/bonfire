@@ -28,7 +28,7 @@ const PlaceDetail = ({ details }: PlaceDetailProps) => {
           <p className="text-gray-500 flex flex-row gap-2">
             <Phone /> {details.tel || '전화번호 없음'}
           </p>
-          <LikeButton />
+          {/* <LikeButton /> */}
         </div>
       </div>
       <div className="bg-gray-300 w-[320px] aspect-square rounded-xl sm:w-[360px] sm:h-[360px]"></div>
