@@ -1,11 +1,11 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-interface AuthState {
+type AuthState = {
   isLoggedIn: boolean;
   logIn: () => void;
   logOut: () => void;
-}
+};
 
 export const useAuthStore = create(
   persist<AuthState>(

@@ -1,4 +1,5 @@
 import RadiusCampList from '@/components/camping/RadiusCampList';
+import { createClient } from '@/utils/supabase/server';
 
 import Image from 'next/image';
 const bannerImage = '/images/banner.png';

@@ -3,22 +3,24 @@
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
+import { SignupFormData } from '@/types/SignupFormData';
+import { LoginFormData } from '@/types/LoginFormData';
 
-export const login = async (formData: any) => {
+export const login = async (formData: LoginFormData): Promise<void> => {
   const supabase = await createClient();
 
   const { email, password } = formData;
 
   const { error } = await supabase.auth.signInWithPassword({ email, password });
   if (error) {
-    redirect('/error');
+    throw new Error('supabase auth failed');
   }
 
   revalidatePath('/', 'layout');
   redirect('/');
 };
 
-export const signup = async (formData: any) => {
+export const signup = async (formData: SignupFormData): Promise<void> => {
   const supabase = await createClient();
 
   const { email, nickname, password } = formData;
@@ -33,7 +35,7 @@ export const signup = async (formData: any) => {
   });
 
   if (dbError) {
-    redirect('/error?message=Database insertion failed');
+    throw new Error('Database insertion failed');
   }
 
   revalidatePath('/', 'layout');
@@ -48,27 +50,23 @@ const createAccount = async (email: string, password: string) => {
   });
 
   if (signUpError) {
-    redirectWithError('Sign-up failed');
+    throw new Error('SignUp failed');
   }
   return signUpData.user?.id;
 };
 
-const redirectWithError = (message: string) => {
-  redirect(`/error?message=${encodeURIComponent(message)}`);
-};
-
-export const logout = async () => {
+export const logout = async (): Promise<void> => {
   const supabase = await createClient();
   await supabase.auth.signOut();
   redirect('/login');
 };
 
-export const fetchSession = async (): Promise<any> => {
-  const supabase = await createClient();
-  const { data: user, error } = await supabase.auth.getUser();
+// export const fetchSession = async (): Promise<any> => {
+//   const supabase = await createClient();
+//   const { data: user, error } = await supabase.auth.getUser();
 
-  if (error) {
-    return null;
-  }
-  return user;
-};
+//   if (error) {
+//     return null;
+//   }
+//   return user;
+// };
