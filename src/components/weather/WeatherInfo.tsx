@@ -11,7 +11,7 @@ const WeatherInfo = ({ lat, lon }: { lat: string; lon: string }) => {
     isError: isWeatherError,
     error: weatherError,
   } = useQuery<Weather>({
-    queryKey: ['weatherInfo'],
+    queryKey: ['weatherInfo', lat, lon],
     queryFn: () => fetchWeather(Number(lat), Number(lon)),
   });
 
@@ -22,6 +22,7 @@ const WeatherInfo = ({ lat, lon }: { lat: string; lon: string }) => {
   if (isWeatherError) {
     return <p>Error:{weatherError.message}</p>;
   }
+
   return (
     <div>
       {' '}
