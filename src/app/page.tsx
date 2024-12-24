@@ -7,12 +7,9 @@ export default function Home() {
   console.log('홈페이지가 동작한다');
 
   return (
-    <main className="w-full">
+    <main className="max-w-[1920px] mx-auto">
       <Image src={bannerImage} alt={'banner-image'} width={1920} height={800} />
-      <div className="flex min-h-screen flex-col items-center justify-between p-24">
-        <RadiusCampList />
-        <h1>home</h1>
-      </div>
+      <RadiusCampList />
     </main>
   );
 }
