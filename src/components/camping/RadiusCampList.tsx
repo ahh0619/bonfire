@@ -52,6 +52,7 @@ const RadiusCampList = () => {
     | 'induty'
     | 'mapY'
     | 'mapX'
+    | 'tel'
   >[] = radiusCampData?.response.body.items.item || [];
 
   return (

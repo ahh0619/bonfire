@@ -12,7 +12,7 @@ const WeatherInfo = ({ lat, lon }: { lat: string; lon: string }) => {
     isError: isWeatherError,
     error: weatherError,
   } = useQuery<Weather>({
-    queryKey: ['weatherInfo'],
+    queryKey: ['weatherInfo', lat, lon],
     queryFn: () => fetchWeather(Number(lat), Number(lon)),
     enabled: !!lat && !!lon,
   });
@@ -25,7 +25,6 @@ const WeatherInfo = ({ lat, lon }: { lat: string; lon: string }) => {
     return <p>Error:{weatherError.message}</p>;
   }
   const weatherCondition = weatherInfo.weather[0].main;
-
   const weatherImgSrc = (condition: string) => {
     switch (condition) {
       case 'thunderstorm':
