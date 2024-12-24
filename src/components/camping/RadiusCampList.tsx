@@ -13,6 +13,7 @@ import Link from 'next/link';
 const defaultCampImage = '/images/banner.png';
 
 import { useEffect, useState } from 'react';
+import MapComponent from '../map/MapComponent';
 
 const RadiusCampList = () => {
   const [goCampingData, setgoCampingData] = useState<goCampingData[] | null>(
@@ -96,6 +97,7 @@ const RadiusCampList = () => {
           </SwiperSlide>
         ))}
       </Swiper>
+      <MapComponent radiusCampList={radiusCampList} geoData={geoData} />
     </div>
   );
 };
