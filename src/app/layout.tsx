@@ -5,6 +5,7 @@ import '@/styles/globals.css';
 import Footer from '@/components/layout/Footer';
 import Providers from '@/providers/providers';
 import Header from '@/components/layout/header';
+
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
