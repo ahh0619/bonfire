@@ -10,7 +10,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import Link from 'next/link';
-const defaultCampImage = '/images/banner.png';
+const defaultCampImage = '/images/default_icon.png';
 
 import { useEffect, useState } from 'react';
 import MapComponent from '../map/MapComponent';
@@ -106,7 +106,7 @@ const RadiusCampList = () => {
                   alt={camp.facltNm}
                   width={400}
                   height={250}
-                  className="h-[250px] pb-[15px] object-cover rounded-lg"
+                  className="h-[250px] rounded-lg"
                 />
               ) : (
                 <Image
@@ -114,11 +114,11 @@ const RadiusCampList = () => {
                   alt={camp.facltNm}
                   width={400}
                   height={250}
-                  className="h-[250px] pb-[15px] object-cover rounded-lg"
+                  className="h-[250px]"
                 />
               )}
 
-              <p className="font-bold text-lg">{camp.facltNm}</p>
+              <p className="font-bold text-lg mt-8">{camp.facltNm}</p>
               <p className="text-gray-600">{camp.addr1}</p>
             </Link>
           </SwiperSlide>
