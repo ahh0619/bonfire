@@ -10,11 +10,7 @@ const Nav = () => {
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsReady(true);
-    }, 1);
-
-    return () => clearTimeout(timer);
+    setIsReady(true);
   }, []);
 
   if (!isReady) {
