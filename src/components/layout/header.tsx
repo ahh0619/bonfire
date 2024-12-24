@@ -28,7 +28,7 @@ const Header = async () => {
                 <Link href="/mypage">마이페이지</Link>
               </li>
               <li>
-                <form action={logout} method="POST">
+                <form action={logout}>
                   <button type="submit" className="hover:underline">
                     로그아웃
                   </button>
