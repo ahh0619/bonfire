@@ -5,6 +5,7 @@ import { getUserProfile } from '@/app/mypage/actions'; // 서버 액션 호출
 import { fetchLikedPlaces } from '@/utils/likes/actions'; // 좋아요 데이터 가져오는 함수
 import { FavoriteSkeleton } from '@/components/mypage/FavoriteSkeleton'; // 스켈레톤 UI
 import { Tables } from '@/types/supabase';
+import Image from 'next/image';
 
 type LikesRow = Tables<'likes'>;
 
@@ -34,17 +35,27 @@ export const FavoritePlaces = () => {
           <p className="text-gray-500 text-lg">좋아요한 장소가 없습니다.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-6">
           {data.map((place) => (
             <div
               key={place.id}
-              className="bg-white h-auto shadow rounded-lg p-4 flex transform transition-transform duration-200 hover:scale-105 cursor-pointer"
+              className="bg-white h-auto shadow rounded-lg p-4 flex hover:scale-105 cursor-pointer"
             >
-              <div className="bg-gray-300 w-1/2 rounded-md mr-4"></div>
+              <div className="bg-gray-300 w-1/2 rounded-md mr-4">
+                <Image
+                  src={place.place_image}
+                  alt={place.place_name}
+                  width={300}
+                  height={300}
+                  className="rounded-md object-cover w-full h-full"
+                />
+              </div>
               <div className="flex flex-col justify-between w-1/2">
-                <h4 className="text-md font-semibold">{place.place_name}</h4>
-                <p className="text-xs text-gray-600">{place.address_name}</p>
-                <p className="text-xs text-gray-600">{place.phone_number}</p>
+                <h4 className="text-lg font-semibold text-black">
+                  {place.place_name}
+                </h4>
+                <p className="text-md text-gray-600">{place.address_name}</p>
+                <p className="text-md text-gray-600">{place.phone_number}</p>
               </div>
             </div>
           ))}

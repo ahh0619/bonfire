@@ -1,5 +1,4 @@
 import { PenLine, Trash2 } from 'lucide-react';
-import React from 'react';
 
 type CommentProps = {
   nickname: string;
