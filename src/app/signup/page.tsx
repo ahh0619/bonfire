@@ -7,11 +7,11 @@ import Input from '@/components/login/Input';
 import { SignupFormData } from '@/types/SignupFormData';
 import { signupFields } from '@/components/login/\bformFields';
 import { signup } from '../login/actions';
-import { useReducer } from 'react';
-import { useRouter } from 'next/navigation';
+import { useAuthStore } from '@/store/authStore';
 
 const SignUp = () => {
-  const router = useRouter();
+  const { logIn } = useAuthStore();
+
   const {
     register,
     handleSubmit,
@@ -21,9 +21,8 @@ const SignUp = () => {
   const onSubmit = async (data: SignupFormData) => {
     try {
       await signup(data);
-      router.push('/login');
+      logIn();
     } catch (error) {
-      console.error('Signup failed: ', error);
       alert('회원가입에 실패했습니다. 다시 시도해주세요.');
     }
   };

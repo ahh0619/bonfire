@@ -6,14 +6,14 @@ import { createClient } from '@/utils/supabase/server';
 import { SignupFormData } from '@/types/SignupFormData';
 import { LoginFormData } from '@/types/LoginFormData';
 
-export const login = async (formData: LoginFormData) => {
+export const login = async (formData: LoginFormData): Promise<void> => {
   const supabase = await createClient();
 
   const { email, password } = formData;
 
   const { error } = await supabase.auth.signInWithPassword({ email, password });
   if (error) {
-    redirect('/error');
+    throw new Error('supabase auth failed');
   }
 
   revalidatePath('/', 'layout');
@@ -21,7 +21,6 @@ export const login = async (formData: LoginFormData) => {
 };
 
 export const signup = async (formData: SignupFormData): Promise<void> => {
-  console.log('signup data: ', formData);
   const supabase = await createClient();
 
   const { email, nickname, password } = formData;
@@ -39,8 +38,8 @@ export const signup = async (formData: SignupFormData): Promise<void> => {
     throw new Error('Database insertion failed');
   }
 
-  // revalidatePath('/login', 'layout');
-  // redirect('/login');
+  revalidatePath('/', 'layout');
+  redirect('/');
 };
 
 const createAccount = async (email: string, password: string) => {
@@ -51,16 +50,12 @@ const createAccount = async (email: string, password: string) => {
   });
 
   if (signUpError) {
-    redirectWithError('Sign-up failed');
+    throw new Error('SignUp failed');
   }
   return signUpData.user?.id;
 };
 
-const redirectWithError = (message: string) => {
-  redirect(`/error?message=${encodeURIComponent(message)}`);
-};
-
-export const logout = async () => {
+export const logout = async (): Promise<void> => {
   const supabase = await createClient();
   await supabase.auth.signOut();
   redirect('/login');
