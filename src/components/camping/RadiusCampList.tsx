@@ -1,12 +1,33 @@
 'use client';
-
 import { fetchRadiusCampList } from '@/app/api/campingApi';
 import { Camping, CampingResponse } from '@/types/Camping';
 import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
-import WeatherInfo from '../weather/WeatherInfo';
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Scrollbar, Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import Link from 'next/link';
+const defaultCampImage = '/images/banner.png';
+
+import { useEffect, useState } from 'react';
+import MapComponent from '../map/MapComponent';
 
 const RadiusCampList = () => {
+  const [goCampingData, setgoCampingData] = useState<goCampingData[] | null>(
+    null,
+  );
+  const [geoData, setGeoData] = useState<coords | null>(null);
+  useEffect(() => {
+    const getGeoData = async () => {
+      navigator.geolocation.getCurrentPosition((res) => {
+        setGeoData(res.coords);
+      });
+    };
+    getGeoData();
+  }, []);
   const {
     data: radiusCampData,
     isPending: isCampListPending,
@@ -14,17 +35,14 @@ const RadiusCampList = () => {
     error: campListError,
   } = useQuery<CampingResponse>({
     queryKey: ['radiusCampData'],
-    queryFn: fetchRadiusCampList,
+    queryFn: () => fetchRadiusCampList(geoData!.latitude, geoData!.longitude),
   });
-
   if (isCampListPending) {
     return <p>Loading...</p>;
   }
-
   if (isCampListError) {
     return <p>Error:{campListError.message}</p>;
   }
-
   const radiusCampList: Pick<
     Camping,
     | 'contentId'
@@ -37,40 +55,50 @@ const RadiusCampList = () => {
   >[] = radiusCampData?.response.body.items.item || [];
 
   return (
-    <div>
-      {radiusCampList.map((camp) => (
-        <div key={camp.contentId} className="flex">
-          {camp.firstImageUrl ? (
-            <Image
-              src={camp.firstImageUrl}
-              alt={camp.facltNm}
-              width={320}
-              height={320}
-              className=""
-            />
-          ) : (
-            <p>사진 없음</p>
-          )}
-          {/* <p>입지:{camp.lctCl}</p> */}
-          <p>캠핑장명:{camp.facltNm}</p>
-          {/* <p>한줄소개:{camp.lineIntro}</p>
-          <p>소개:{camp.intro}</p> */}
-          <p>주소:{camp.addr1}</p>
-          <p>업종:{camp.induty}</p>
-          <WeatherInfo lat={camp.mapY} lon={camp.mapX} />
-          {/* <p>경도:{camp.mapX}</p>
-          <p>위도:{camp.mapY}</p>
-          <p>오는길 :{camp.direction}</p>
-          <p>전화 :{camp.tel}</p>
-          <p>홈페이지:{camp.homepage}</p> */}
-          {/* <p>툴팁 :{camp.tooltip}</p>
-          <p>카라반내부시설 :{camp.caravInnerFclty}</p>
-          <p>애완동물여부:{camp.animalCmgCl}</p>
-          <p>부대시설 :{camp.sbrsEtc}</p> */}
-        </div>
-      ))}
+    <div className="w-full mx-auto">
+      <Swiper
+        modules={[Navigation, Scrollbar, Scrollbar, Autoplay]}
+        loop={true} // 슬라이드 루프
+        spaceBetween={30} // 슬라이스 사이 간격
+        slidesPerView={3} // 보여질 슬라이스 수
+        navigation={true} // prev, next button
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false, // 사용자 상호작용시 슬라이더 일시 정지 비활성
+        }}
+      >
+        {radiusCampList?.map((camp) => (
+          <SwiperSlide
+            key={camp.contentId}
+            className="p-8 flex justify-center items-center border border-gray-300 shadow-lg rounded-lg"
+          >
+            <Link href={`/detail/${camp.facltNm}`}>
+              {camp.firstImageUrl ? (
+                <Image
+                  src={camp.firstImageUrl}
+                  alt={camp.facltNm}
+                  width={350}
+                  height={320}
+                  className="h-[200px]"
+                />
+              ) : (
+                <Image
+                  src={defaultCampImage}
+                  alt={camp.facltNm}
+                  width={350}
+                  height={320}
+                  className="h-[200px]"
+                />
+              )}
+
+              <p className="font-bold text-lg">{camp.facltNm}</p>
+              <p className="text-gray-600">{camp.addr1}</p>
+            </Link>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+      <MapComponent radiusCampList={radiusCampList} geoData={geoData} />
     </div>
   );
 };
-
 export default RadiusCampList;
