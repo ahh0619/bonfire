@@ -2,7 +2,6 @@ import { PawPrint, Phone } from 'lucide-react';
 import LikeButton from './LikeButton';
 import { Camping } from '@/types/Camping';
 import DetailMap from './DetailMap';
-import Image from 'next/image';
 
 type PlaceDetailProps = {
   details: Camping;
@@ -29,30 +28,22 @@ const PlaceDetail = ({ details }: PlaceDetailProps) => {
           <p className=" text-gray-500 flex flex-row gap-2">
             <Phone /> {details.tel || '전화번호 없음'}
           </p>
-          {/* <LikeButton /> */}
+          {/* 유저 아이디 주는 방법? */}
+          {/* firstImgUrl이 없는 경우의 기본 이미지가 필요합니다. */}
+          <LikeButton
+            userId={'MashedPotato'}
+            placeImgUrl={details.firstImageUrl}
+            placeName={details.facltNm}
+            addressName={details.addr1}
+            phoneNumber={details.tel}
+            locationX={Number(details.mapX)}
+            locationY={Number(details.mapY)}
+          />
         </div>
       </div>
 
       {/* 지도 부분 */}
       <div className="justify-items-center align-items-center mobile:max-w-[200px] sm:aspect-square sm:max-w-[340px] overflow-hidden rounded-lg">
-        {/* {details.firstImageUrl ? (
-          <Image
-            src={details.firstImageUrl}
-            alt={details.facltNm}
-            width={400}
-            height={250}
-            className="h-[350px]"
-          />
-        ) : (
-          <DetailMap
-            latitude={parseFloat(details.mapY)}
-            longitude={parseFloat(details.mapX)}
-            level={3}
-            width="350px"
-            height="350px"
-          />
-        )} */}
-
         <DetailMap
           latitude={parseFloat(details.mapY)}
           longitude={parseFloat(details.mapX)}

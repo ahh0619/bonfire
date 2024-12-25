@@ -12,8 +12,8 @@ type LikeButtonProps = {
   phoneNumber: string; // 전화번호
   locationX?: number; // 위치 X 좌표
   locationY?: number; // 위치 Y 좌표
-  initialLikes: number;
-  initialLiked: boolean; // 초기 좋아요 상태
+  // initialLikes: number;
+  // initialLiked: boolean; // 초기 좋아요 상태
 };
 
 const LikeButton = ({
@@ -24,11 +24,11 @@ const LikeButton = ({
   phoneNumber,
   locationX,
   locationY,
-  initialLikes,
-  initialLiked,
+  // initialLikes,
+  // initialLiked,
 }: LikeButtonProps) => {
-  const [likes, setLikes] = useState(initialLikes);
-  const [liked, setLiked] = useState(initialLiked);
+  const [likes, setLikes] = useState<number | null>(null);
+  const [liked, setLiked] = useState<boolean | null>(null);
 
   const toggleLike = async () => {
     const updatedLikes = liked ? likes - 1 : likes + 1;
