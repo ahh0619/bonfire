@@ -1,24 +1,23 @@
-import Comment from "./Comment";
+import CommentItem from './CommentItem';
+import { Comment } from '@/types/Comment';
 
-async function getComments(placeId: string) {
-  // temporary data
-  // need to grab it from supabase
-  return [
-    { id: 1, nickname: '사용자1', content: '댓글이 나오는 부분입니다.' },
-    { id: 2, nickname: '사용자2', content: '두 번째 댓글입니다.' },
-  ];
-}
+type CommentsProps = {
+  commentList: Comment[];
+};
 
-const Comments = async ({ placeId }: { placeId: string }) => {
-  const comments = await getComments(placeId);
-
+const Comments = ({ commentList }: CommentsProps) => {
   return (
     <div>
-      {comments.map((comment) => (
-        <Comment key={comment.id} {...comment} />
+      {commentList.map((comment) => (
+        <CommentItem
+          key={comment.id}
+          nickname={comment.user?.nickname || 'Unknown User'}
+          profileImage={comment.user?.profile_image || null}
+          content={comment.content}
+        />
       ))}
     </div>
   );
-}
+};
 
-export default Comments
+export default Comments;
