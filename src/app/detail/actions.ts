@@ -36,17 +36,22 @@ export const addComment = async (comment: CommentsInsert) => {
   }
 };
 
-// 모든 댓글 읽어들이기
+// 모든 댓글 읽어들이기 (SSR 필요)
 export const fetchComments = async (placeName: string) => {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from('comments')
-    .select('*')
+    .select(`id, content, created_at, user_id, users(nickname, profile_image)`)
     .eq('place_name', placeName);
 
   if (error) {
     throw new Error(`댓글 불러오기에 실패했습니다: ${error!.message}`);
   }
 
-  return data;
+  return data.map((comment) => ({
+    id: comment.id,
+    content: comment.content,
+    created_at: comment.created_at,
+    user: comment.users, // 닉네임과 프로필 이미지 첨부
+  }));
 };

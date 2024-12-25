@@ -10,7 +10,7 @@ import { addComment } from '@/app/detail/actions';
 type CommentFormProps = {
   userId: string;
   placeName: string;
-}
+};
 
 const CommentForm = ({ userId, placeName }: CommentFormProps) => {
   const [comment, setComment] = useState('');
@@ -23,26 +23,27 @@ const CommentForm = ({ userId, placeName }: CommentFormProps) => {
       // TODO: 에러 처리보다는 로그인으로 유도하는 것이 필요해보입니다
       // 인증된 유저가 아닌 경우 에러 처리
       if (!userId) {
-        throw new Error('댓글 입력을 위해서는 로그인이 필요합니다')
+        throw new Error('댓글 입력을 위해서는 로그인이 필요합니다');
       }
 
       // DB로 전송 (서버 액션)
       await addComment({
-          content: comment,
-          place_name: placeName,
-          user_id: userId
+        content: comment,
+        place_name: placeName,
+        user_id: userId,
       });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['comments', placeName] });
       setComment('');
+      router.refresh();
     },
     onError: (error) => {
       console.error('댓글 등록 실패:', error);
       // TODO: alert 말고 다른것으로 바꾸기
       alert('댓글 등록에 실패했습니다.');
-    }
-  })
+    },
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -54,7 +55,6 @@ const CommentForm = ({ userId, placeName }: CommentFormProps) => {
       return;
     }
     mutation.mutate();
-    router.refresh()
   };
 
   return (
