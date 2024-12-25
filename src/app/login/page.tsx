@@ -8,14 +8,20 @@ import { LoginFormData } from '@/types/LoginFormData';
 import { loginFields } from '@/components/login/formFields';
 import { login } from './actions';
 import { useAuthStore } from '@/store/authStore';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { loginSchema } from '@/\bvalidations/loginSchema';
 
 const LoginPage = () => {
   const { logIn } = useAuthStore();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginFormData>();
+  } = useForm<LoginFormData>({
+    mode: 'onChange',
+    resolver: zodResolver(loginSchema),
+  });
 
   const onSubmit = async (data: LoginFormData) => {
     try {
@@ -45,7 +51,6 @@ const LoginPage = () => {
             placeholder={field.placeholder}
             register={register}
             error={errors[field.id]?.message}
-            validation={field.validation}
           />
         ))}
 

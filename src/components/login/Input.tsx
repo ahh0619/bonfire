@@ -9,7 +9,6 @@ type InputProps<T extends FieldValues> = {
   placeholder: string;
   register: UseFormRegister<T>;
   error?: string;
-  validation?: object;
 };
 
 const Input = <T extends FieldValues>({
@@ -19,7 +18,6 @@ const Input = <T extends FieldValues>({
   placeholder,
   register,
   error,
-  validation,
 }: InputProps<T>) => {
   return (
     <div className="w-full mb-4">
@@ -36,7 +34,7 @@ const Input = <T extends FieldValues>({
         className={`w-full border-b py-2 text-sm placeholder-gray-400 focus:outline-none ${
           error ? 'border-red-500' : 'border-gray-300 focus:border-red-500'
         }`}
-        {...register(id, validation)}
+        {...register(id)}
       />
       {error && <p className="text-sm text-red-500 mt-1">{error}</p>}
     </div>
