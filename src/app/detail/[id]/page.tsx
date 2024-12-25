@@ -14,10 +14,10 @@ type PlaceDetailPageProps = {
 };
 
 // 동적 라우트의 params를 build 때 생성
-export async function generateStaticParams() {
-  // 유저가 어떠한 장소를 넣어도 이후에 generate 됨
-  return [];
-}
+// export async function generateStaticParams() {
+//   // 유저가 어떠한 장소를 넣어도 이후에 generate 됨
+//   return [];
+// }
 
 // 페이지 컴포넌트
 const PlaceDetailPage = async ({ params }: PlaceDetailPageProps) => {
