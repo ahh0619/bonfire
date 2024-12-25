@@ -10,9 +10,10 @@ import { addComment } from '@/app/detail/actions';
 type CommentFormProps = {
   userId: string;
   placeName: string;
+  commentNum: number;
 };
 
-const CommentForm = ({ userId, placeName }: CommentFormProps) => {
+const CommentForm = ({ userId, placeName, commentNum }: CommentFormProps) => {
   const [comment, setComment] = useState('');
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -62,7 +63,7 @@ const CommentForm = ({ userId, placeName }: CommentFormProps) => {
       <div className="flex flex-row gap-2">
         <h1>댓글</h1>
         <MessageSquare className="fill-black text-black" />
-        <p>(0)</p>
+        <p>{`(${commentNum})`}</p>
       </div>
 
       <hr className="border border-gray-500 my-4" />

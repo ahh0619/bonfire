@@ -1,17 +1,15 @@
-import { fetchComments } from '@/app/detail/actions';
-import Comment from './Comment';
+import CommentItem from './CommentItem';
+import { Comment } from '@/types/Comment';
 
 type CommentsProps = {
-  placeName: string;
+  commentList: Comment[];
 };
 
-const Comments = async ({ placeName }: CommentsProps) => {
-  const comments = await fetchComments(placeName);
-
+const Comments = ({ commentList }: CommentsProps) => {
   return (
     <div>
-      {comments.map((comment) => (
-        <Comment
+      {commentList.map((comment) => (
+        <CommentItem
           key={comment.id}
           nickname={comment.user?.nickname || 'Unknown User'}
           profileImage={comment.user?.profile_image || null}
