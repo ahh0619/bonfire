@@ -3,6 +3,7 @@ import PlaceDetail from '@/components/detail/PlaceDetail';
 import CommentForm from '@/components/detail/CommentForm';
 import Comments from '@/components/detail/Comments';
 import { fetchOneCampSite } from '@/app/api/campingApi';
+import { getCurrentUserId } from '../actions';
 
 // ISR 설정: 페이지가 1시간마다 재생성
 export const revalidate = 3600; // 1시간
@@ -23,15 +24,16 @@ export async function generateStaticParams() {
 const PlaceDetailPage = async ({ params }: PlaceDetailPageProps) => {
   const facltNm = decodeURIComponent(params.id);
   const placeDetails = await fetchOneCampSite(facltNm);
+  const userId = await getCurrentUserId();
 
   return (
     <div className="container min-h-screen xl:w-[1024px] mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">상세 페이지</h1>
       <PlaceDetail details={placeDetails} />
       <div className="flex flex-col border rounded-xl border-black p-8">
-        <CommentForm placeId={params.id} />
+        <CommentForm userId={userId} placeName={facltNm} />
         <Suspense fallback={<div>댓글 로딩 중...</div>}>
-          <Comments placeId={params.id} />
+          <Comments placeName={facltNm} />
         </Suspense>
       </div>
     </div>

@@ -4,30 +4,63 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { MessageSquare } from 'lucide-react';
 import { CommentInput } from './CommentInput';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { addComment } from '@/app/detail/actions';
 
-const CommentForm = ({ placeId }: { placeId: string }) => {
-  const [nickname, setNickname] = useState('');
+type CommentFormProps = {
+  userId: string;
+  placeName: string;
+}
+
+const CommentForm = ({ userId, placeName }: CommentFormProps) => {
   const [comment, setComment] = useState('');
+  const queryClient = useQueryClient();
   const router = useRouter();
+
+  // TODO: 훅으로 분리 필요해보임...
+  const mutation = useMutation({
+    mutationFn: async () => {
+      // TODO: 에러 처리보다는 로그인으로 유도하는 것이 필요해보입니다
+      // 인증된 유저가 아닌 경우 에러 처리
+      if (!userId) {
+        throw new Error('댓글 입력을 위해서는 로그인이 필요합니다')
+      }
+
+      // DB로 전송 (서버 액션)
+      await addComment({
+          content: comment,
+          place_name: placeName,
+          user_id: userId
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['comments', placeName] });
+      setComment('');
+    },
+    onError: (error) => {
+      console.error('댓글 등록 실패:', error);
+      // TODO: alert 말고 다른것으로 바꾸기
+      alert('댓글 등록에 실패했습니다.');
+    }
+  })
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // 댓글 제출 기능 
-    console.log(`닉네임: ${nickname}\n댓글: ${comment}\nplaceId: ${placeId}`);
-
-    setNickname('');
-    setComment('');
-    router.refresh();
+    // 댓글 (빈 댓글 받으면 안됨)
+    if (!comment.trim()) {
+      // TODO: alert 말고 다른 것
+      alert('댓글 입력창이 비어있습니다.');
+      return;
+    }
+    mutation.mutate();
+    router.refresh()
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex flex-col mb-6"
-    >
-			<div className="flex flex-row gap-2">
-				<h1>댓글</h1>
+    <form onSubmit={handleSubmit} className="flex flex-col mb-6">
+      <div className="flex flex-row gap-2">
+        <h1>댓글</h1>
         <MessageSquare className="fill-black text-black" />
         <p>(0)</p>
       </div>
@@ -45,7 +78,7 @@ const CommentForm = ({ placeId }: { placeId: string }) => {
         type="submit"
         className="bg-[#FFB200] px-4 py-2 rounded-lg text-white font-semibold place-self-end"
       >
-        작성하기
+        {mutation.isPending ? '작성 중...' : '작성하기'}
       </button>
     </form>
   );
