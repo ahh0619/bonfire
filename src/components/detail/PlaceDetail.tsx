@@ -29,7 +29,7 @@ const PlaceDetail = ({ details }: PlaceDetailProps) => {
             <Phone /> {details.tel || '전화번호 없음'}
           </p>
           {/* 유저 아이디 주는 방법? */}
-          {/* firstImgUrl이 없는 경우의 기본 이미지가 필요합니다. */}
+          {/* TODO: firstImgUrl이 없는 경우의 기본 이미지가 필요합니다. */}
           <LikeButton
             userId={'MashedPotato'}
             placeImgUrl={details.firstImageUrl}

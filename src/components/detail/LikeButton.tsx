@@ -1,8 +1,9 @@
 'use client';
 
 import { Heart } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { addLike, removeLike } from '@/utils/likes/actions'; // 서버 액션 import
+import { fetchInitialLikes, isUserLikedPlace } from '@/app/detail/actions';
 
 type LikeButtonProps = {
   userId: string; // 사용자 ID
@@ -24,21 +25,40 @@ const LikeButton = ({
   phoneNumber,
   locationX,
   locationY,
-  // initialLikes,
-  // initialLiked,
-}: LikeButtonProps) => {
+}: // initialLikes,
+// initialLiked,
+LikeButtonProps) => {
   const [likes, setLikes] = useState<number | null>(null);
   const [liked, setLiked] = useState<boolean | null>(null);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [totalLikes, userLiked] = await Promise.all([
+          fetchInitialLikes(placeName),
+          isUserLikedPlace(userId, placeName),
+        ]);
+
+        setLikes(totalLikes);
+        setLiked(userLiked);
+      } catch (error) {
+        console.error('Error fetching like data:', error);
+      }
+    };
+
+    fetchData();
+  }, [placeName, userId]);
+
   const toggleLike = async () => {
-    const updatedLikes = liked ? likes - 1 : likes + 1;
-    setLiked(!liked);
-    setLikes(updatedLikes);
+    // 데이터 로딩 중 토글 방지
+    if (liked === null || likes === null) return;
 
     try {
       if (liked) {
         // 좋아요 취소
         await removeLike(userId, placeName);
+        setLikes((prev) => (prev !== null ? prev - 1 : prev));
+        setLiked(false);
       } else {
         // 좋아요 추가
         await addLike({
@@ -50,6 +70,8 @@ const LikeButton = ({
           location_x: locationX!,
           location_y: locationY!,
         });
+        setLikes((prev) => (prev !== null ? prev + 1 : prev));
+        setLiked(true);
       }
     } catch (error) {
       console.error('Error toggling like:', error);
@@ -65,7 +87,7 @@ const LikeButton = ({
           liked ? 'fill-red-500 text-red-500' : 'fill-none text-gray-500'
         }`}
       />
-      <p>{likes}</p>
+      <p>{(likes===null || liked===null) ? 0 : likes}</p>
     </button>
   );
 };

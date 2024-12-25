@@ -3,7 +3,7 @@
 import { createClient } from '@/utils/supabase/server';
 
 // 장소가 받은 총 좋아요 수 받아오는 로직
-export const fetchInitialLikes = async (placeName: string): Promise<Number> => {
+export const fetchInitialLikes = async (placeName: string): Promise<number> => {
   const supabase = await createClient();
 
   const { data, error } = await supabase
