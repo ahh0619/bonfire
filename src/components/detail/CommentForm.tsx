@@ -13,7 +13,7 @@ const CommentForm = ({ placeId }: { placeId: string }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // 댓글 제출 기능
+    // 댓글 제출 기능 
     console.log(`닉네임: ${nickname}\n댓글: ${comment}\nplaceId: ${placeId}`);
 
     setNickname('');
