@@ -2,8 +2,7 @@
 
 import { Heart } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { addLike, removeLike } from '@/utils/likes/actions'; // 서버 액션 import
-import { fetchInitialLikes, isUserLikedPlace } from '@/app/detail/actions';
+import { addLike, getLikeCount, isUserLikedPlace, removeLike } from '@/utils/likes/actions'; // 서버 액션 import
 
 type LikeButtonProps = {
   userId: string; // 사용자 ID
@@ -35,10 +34,11 @@ LikeButtonProps) => {
     const fetchData = async () => {
       try {
         const [totalLikes, userLiked] = await Promise.all([
-          fetchInitialLikes(placeName),
+          getLikeCount(placeName),
           isUserLikedPlace(userId, placeName),
         ]);
 
+        console.log(totalLikes)
         setLikes(totalLikes);
         setLiked(userLiked);
       } catch (error) {

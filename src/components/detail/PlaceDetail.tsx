@@ -31,7 +31,7 @@ const PlaceDetail = ({ details }: PlaceDetailProps) => {
           {/* 유저 아이디 주는 방법? */}
           {/* TODO: firstImgUrl이 없는 경우의 기본 이미지가 필요합니다. */}
           <LikeButton
-            userId={'MashedPotato'}
+            userId={process.env.NEXT_PUBLIC_TEST_USER as string}
             placeImgUrl={details.firstImageUrl}
             placeName={details.facltNm}
             addressName={details.addr1}
