@@ -2,8 +2,29 @@
 
 import Link from 'next/link';
 import Nav from './Nav';
+import { useEffect, useRef, useState } from 'react';
+import { Menu } from 'lucide-react';
 
 const Header = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const closeMenu = () => {
+    setMenuOpen(false);
+  };
+
   return (
     <header
       className="flex justify-between items-center p-5 border-b fixed top-0 bg-white w-full z-50"
@@ -12,7 +33,28 @@ const Header = () => {
       <Link href="/">
         <h1 className="text-2xl">🔥BonFire</h1>
       </Link>
-      <Nav />
+
+      <div className="md:hidden">
+        <button
+          onClick={() => setMenuOpen((prev) => !prev)}
+          className="text-gray-700 p-2 rounded-lg hover:bg-gray-200 focus:outline-none"
+        >
+          <Menu className="w-6 h-6" />
+        </button>
+      </div>
+
+      <div className="hidden md:block">
+        <Nav closeMenu={() => {}} />
+      </div>
+
+      {menuOpen && (
+        <div
+          ref={menuRef}
+          className="absolute top-full right-5 mt-2 w-48 bg-white border rounded-lg shadow-lg p-4 md:hidden"
+        >
+          <Nav closeMenu={closeMenu} />
+        </div>
+      )}
     </header>
   );
 };
