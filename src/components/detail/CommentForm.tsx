@@ -69,18 +69,21 @@ const CommentForm = ({ placeName, commentNum }: CommentFormProps) => {
       <hr className="border border-gray-500 my-4" />
       <div className="mb-4">
         <CommentInput
-          placeholder="댓글을 입력하세요"
+          disabled={!currentUser}
+          placeholder={!currentUser? "로그인이 필요합니다" :"댓글을 입력하세요"}
           value={comment}
           onChange={(e) => setComment(e.target.value)}
           required
         />
       </div>
-      <button
-        type="submit"
-        className="bg-[#FFB200] px-4 py-2 rounded-lg text-white font-semibold place-self-end"
-      >
-        {mutation.isPending ? '작성 중...' : '작성하기'}
-      </button>
+      {currentUser && (
+        <button
+          type="submit"
+          className="bg-[#FFB200] px-4 py-2 rounded-lg text-white font-semibold place-self-end"
+        >
+          {mutation.isPending ? '작성 중...' : '작성하기'}
+        </button>
+      )}
     </form>
   );
 };
