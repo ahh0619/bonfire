@@ -41,7 +41,10 @@ const DetailMap = ({
           marker={{ position: { lat: latitude, lng: longitude } }}
         />
       ) : (
-        <p>로딩 중입니다.</p>
+        <div
+          style={{ width, height }}
+          className="animate-pulse bg-gray-300"
+        ></div>
       )}
     </>
   );
