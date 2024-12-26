@@ -30,7 +30,7 @@ const useCampingList = () => {
     };
 
     getGeoData();
-  }); 
+  }, []); 
 
   const {
     data: radiusCampData,
