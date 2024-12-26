@@ -1,8 +1,9 @@
-"use client"
+'use client';
 
 import { useAuthStore } from '@/store/authStore';
 import { PenLine, Trash2 } from 'lucide-react';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
 type CommentProps = {
   userId: string;
@@ -13,6 +14,7 @@ type CommentProps = {
 
 const Comment = ({ userId, nickname, profileImage, content }: CommentProps) => {
   const { user: currentUser } = useAuthStore();
+  const allowedToChange = currentUser?.[0]?.id === userId;
 
   return (
     <div className="flex flex-col">
@@ -33,7 +35,7 @@ const Comment = ({ userId, nickname, profileImage, content }: CommentProps) => {
       </div>
       <div className="border rounded-xl px-3 py-4 my-4">{content}</div>
       <div className="flex flex-row place-self-end gap-2">
-        {currentUser?.id === userId && (
+        {allowedToChange && (
           <>
             <button>
               <PenLine />
