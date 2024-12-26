@@ -8,7 +8,7 @@ type listernProps = {
 };
 
 type AuthState = {
-  user: User | null;
+  user: User[] | null;
   logIn: (userData: any) => void;
   logOut: () => void;
   // listenToAuthChanges: () => listernProps;
