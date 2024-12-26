@@ -33,8 +33,6 @@ export const updateSession = async (request: NextRequest) => {
     data: { user },
   } = await supabase.auth.getUser();
 
-  console.log('middle ware User: ', user);
-
   // 현재 로그인 상태이면서 경로가 /login 인 경우 홈화면으로 리다이렉트.
   if (user && request.nextUrl.pathname.startsWith('/login')) {
     return NextResponse.redirect(request.nextUrl.origin);

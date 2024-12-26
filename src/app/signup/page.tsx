@@ -6,7 +6,7 @@ import Button from '@/components/common/Button';
 import Input from '@/components/login/Input';
 import { SignupFormData } from '@/types/SignupFormData';
 import { signupFields } from '@/components/login/formFields';
-import { signup } from '../login/actions';
+import { getUser, signup } from '../login/actions';
 import { useAuthStore } from '@/store/authStore';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signUpSchema } from '@/validations/signUpSchema';
@@ -26,7 +26,9 @@ const SignUp = () => {
   const onSubmit = async (data: SignupFormData) => {
     try {
       await signup(data);
-      logIn();
+      // logIn();
+      const session = await getUser();
+      logIn(session); // 상태 갱신
     } catch (error) {
       alert('회원가입에 실패했습니다. 다시 시도해주세요.');
     }
