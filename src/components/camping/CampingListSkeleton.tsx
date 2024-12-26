@@ -1,3 +1,4 @@
+// 홈 페이지 캠핑 리스트 캐러셀 스켈레톤 UI
 const CampingListSkeleton = () => {
   return (
     <div className="py-8 flex flex-col justify-center items-center border border-gray-300 shadow-lg rounded-lg animate-pulse">

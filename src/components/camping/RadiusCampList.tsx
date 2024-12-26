@@ -14,18 +14,20 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
+// 캠핑장 이미지가 없는 캠핑장 기본 이미지
 const defaultCampImage = '/images/default_icon.png';
 
 const RadiusCampList = () => {
   const {
-    geoData,
-    radiusCampList,
+    geoData, // 사용자의 현재 위치정보
+    radiusCampList, // 주변 캠핑장 리스트 데이터
     isCampListPending,
     isCampListError,
     campListError,
   } = useCampingList();
 
   if (isCampListPending) {
+    // 로딩 중 스켈레톤 UI 적용
     return (
       <div className="px-[30px] max-w-[1900px] mx-auto overflow-hidden">
         <p className="font-extrabold text-4xl py-[60px] text-center">
@@ -85,10 +87,12 @@ const RadiusCampList = () => {
               key={camp.contentId}
               className="py-8 flex flex-col justify-center items-center border border-gray-300 shadow-lg rounded-lg"
             >
+              {/* 클릭 시 캠핑장 디테일 페이지로 이동 */}
               <Link
                 href={`/detail/${camp.facltNm}`}
                 className="flex flex-col items-center"
               >
+                {/* 캠핑장 이미지 */}
                 <div className="w-full px-10">
                   {camp.firstImageUrl ? (
                     <Image
@@ -99,6 +103,7 @@ const RadiusCampList = () => {
                       className="h-[250px] object-cover mx-auto"
                     />
                   ) : (
+                    // 캠핑장 디폴트 이미지
                     <Image
                       src={defaultCampImage}
                       alt={camp.facltNm}
@@ -108,6 +113,7 @@ const RadiusCampList = () => {
                     />
                   )}
                 </div>
+                {/* 캠핑장 명, 캠핑장 주소 */}
                 <p className="font-bold text-lg mt-8">{camp.facltNm}</p>
                 <p className="text-gray-600">{camp.addr1}</p>
               </Link>

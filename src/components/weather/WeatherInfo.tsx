@@ -2,12 +2,11 @@
 
 import Image from 'next/image';
 import useWeatherInfo from '@/hooks/weather/useWeatherInfo';
-import { Weather } from '@/types/Weather';
 
 const WeatherInfo = ({ lat, lon }: { lat: string; lon: string }) => {
   const {
-    weatherCondition,
-    weatherInfo,
+    weatherCondition, // 캠핑장의 현재 날씨 상태(맑음, 비, 눈, 번개)
+    weatherInfo, // 캠핑장의 현재 전체 날씨 데이터
     isWeatherPending,
     isWeatherError,
     weatherError,
