@@ -50,7 +50,8 @@ const WeatherInfo = ({ lat, lon }: { lat: string; lon: string }) => {
           height={30}
         />
         <p className="ml-2 text-sm font-bold text-gray-600">
-          현재 온도 : <span className="font-normal">{weatherInfo.main.temp}°C</span>
+          현재 온도 :{' '}
+          <span className="font-normal">{weatherInfo.main.temp}°C</span>
         </p>
       </div>
     </div>
