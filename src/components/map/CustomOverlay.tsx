@@ -72,7 +72,7 @@ const CustomOverlay = ({
                     alt="Example Image"
                     width={300} // 이미지 너비
                     height={300} // 이미지 높이
-                    className="object-cover w-full h-full"
+                    className="object-cover w-[300px] h-[150px]"
                   />
                 )}
                 <p className="w-[300px] whitespace-normal text-sm font-bold text-gray-600 leading-6">
