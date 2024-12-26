@@ -28,20 +28,20 @@ export async function GET(request: Request) {
 
       const defaultprofileImage = '/images/leader_github_logo.png';
 
-      const { error: dbError } = await supabase.from('users').upsert({
-        id: user.id,
-        // email: user.email,
-        nickname: user.user_metadata.full_name || 'Guest',
-        profile_image: user.user_metadata.avatar_url || defaultprofileImage,
-      });
+      // const { error: dbError } = await supabase.from('users').upsert({
+      //   id: user.id,
+      //   // email: user.email,
+      //   nickname: user.user_metadata.full_name || 'Guest',
+      //   profile_image: user.user_metadata.avatar_url || defaultprofileImage,
+      // });
 
-      if (dbError) {
-        throw new Error('Failed to upsert user');
-        // return NextResponse.json(
-        //   { error: 'Failed to upsert user' },
-        //   { status: 500 },
-        // );
-      }
+      // if (dbError) {
+      //   throw new Error('Failed to upsert user');
+      //   // return NextResponse.json(
+      //   //   { error: 'Failed to upsert user' },
+      //   //   { status: 500 },
+      //   // );
+      // }
 
       if (isLocalEnv) {
         return NextResponse.redirect(`${origin}${next}`);

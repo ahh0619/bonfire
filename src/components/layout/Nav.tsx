@@ -2,14 +2,22 @@
 
 import Link from 'next/link';
 import { useAuthStore } from '@/store/authStore';
-import { logout } from '@/app/login/actions';
+import { getUser, logout } from '@/app/login/actions';
 import { useEffect, useState } from 'react';
+import { createClient } from '@/utils/supabase/client';
 
 const Nav = () => {
-  const { user, logOut } = useAuthStore();
+  const { user, logIn, logOut } = useAuthStore();
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
+    const fetchSession = async () => {
+      const userData = await getUser();
+      console.log('nav userData: ', userData);
+      logIn(userData);
+    };
+
+    fetchSession();
     setIsReady(true);
   }, []);
 
