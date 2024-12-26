@@ -12,7 +12,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '@/validations/loginSchema';
 import { createClient } from '@/utils/supabase/client';
 import Image from 'next/image';
-const goggleImage = '/images/google_logo.png';
+const googleImage = '/images/google_logo.png';
 
 const LoginPage = () => {
   const { logIn } = useAuthStore();
@@ -83,7 +83,7 @@ const LoginPage = () => {
           className="text-base font-semibold w-full py-2 rounded-md hover:bg-gray-200 transition-colors mb-4 flex items-center justify-center border border-gray-300"
         >
           <Image
-            src={goggleImage}
+            src={googleImage}
             alt={'google-image'}
             width={25}
             height={25}

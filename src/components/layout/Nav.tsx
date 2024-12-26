@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useAuthStore } from '@/store/authStore';
 import { getUser, logout } from '@/app/login/actions';
 import { useEffect, useState } from 'react';
-import { createClient } from '@/utils/supabase/client';
 
 const Nav = () => {
   const { user, logIn, logOut } = useAuthStore();
