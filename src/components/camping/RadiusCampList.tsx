@@ -14,6 +14,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { ErrorFallback } from '../common/ErrorFallback';
+import Loading from '../common/Loading';
 
 // 캠핑장 이미지가 없는 캠핑장 기본 이미지
 const defaultCampImage = '/images/default_icon.png';
@@ -32,9 +33,14 @@ const RadiusCampList = () => {
     // 로딩 중 스켈레톤 UI 적용
     return (
       <div className="px-[30px] max-w-[1900px] mx-auto overflow-hidden">
-        <p className="font-extrabold text-4xl py-[60px] text-center">
-          근처 캠핑장 loading...
-        </p>
+        <div className="flex flex-row align-center justify-center">
+          <p className="font-extrabold text-4xl py-[60px] text-center">
+            근처 캠핑장
+          </p>
+          <div className="py-[60px]">
+            <Loading />
+          </div>
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {Array.from({ length: 3 }).map((_, index) => (
             <CampingListSkeleton key={index} />

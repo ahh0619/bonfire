@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import useWeatherInfo from '@/hooks/weather/useWeatherInfo';
 import { ErrorFallback } from '../common/ErrorFallback';
+import Loading from '../common/Loading';
 
 const WeatherInfo = ({ lat, lon }: { lat: string; lon: string }) => {
   const {
@@ -16,7 +17,7 @@ const WeatherInfo = ({ lat, lon }: { lat: string; lon: string }) => {
   } = useWeatherInfo({ lat, lon });
 
   if (isWeatherPending) {
-    return <p className="ml-2 text-sm font-bold text-gray-600">Loading...</p>;
+    return <Loading />;
   }
 
   if (isWeatherError) {
