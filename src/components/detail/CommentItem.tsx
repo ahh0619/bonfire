@@ -1,20 +1,35 @@
 'use client';
 
+import { useComments } from '@/hooks/comment/useComment';
 import { useAuthStore } from '@/store/authStore';
 import { PenLine, Trash2 } from 'lucide-react';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 type CommentProps = {
   userId: string;
   nickname: string;
   profileImage: string | null;
   content: string;
+  commentId: string;
+  placeName: string;
 };
 
-const Comment = ({ userId, nickname, profileImage, content }: CommentProps) => {
+const Comment = ({ userId, nickname, profileImage, content, commentId, placeName }: CommentProps) => {
   const { user: currentUser } = useAuthStore();
+  const { deleteComment, isDeleting } = useComments(placeName);
   const allowedToChange = currentUser?.[0]?.id === userId;
+  const router = useRouter();
+
+  const handleDelete = () => {
+    if (confirm('정말로 이 댓글을 삭제하시겠습니까?')) {
+      deleteComment(commentId, {
+        onSuccess: () => {
+          router.refresh();
+        } 
+      });
+    }
+  };
 
   return (
     <div className="flex flex-col">
@@ -40,7 +55,7 @@ const Comment = ({ userId, nickname, profileImage, content }: CommentProps) => {
             <button>
               <PenLine />
             </button>
-            <button>
+            <button onClick={handleDelete} disabled={isDeleting}>
               <Trash2 />
             </button>
           </>

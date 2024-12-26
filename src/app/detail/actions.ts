@@ -39,3 +39,15 @@ export const fetchComments = async (placeName: string) => {
     user: comment.users, // 닉네임과 프로필 이미지 첨부
   }));
 };
+
+// 댓글 삭제 기능
+export const deleteComment = async (commentId: string) => {
+  const supabase = await createClient();
+
+  const { error } = await supabase.from('comments').delete().eq('id', commentId);
+
+  if (error) {
+    throw new Error(`댓글 삭제에 실패했습니다: ${error!.message}`);
+  }
+};
+
