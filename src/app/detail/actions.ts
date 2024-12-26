@@ -8,23 +8,6 @@ import { createClient } from '@/utils/supabase/server';
 type CommentsInsert = Database['public']['Tables']['comments']['Insert'];
 type CommentsRow = Tables<'comments'>;
 
-// 현재 유저 정보 가져오기
-export const getCurrentUserId = async (): Promise<string> => {
-  const supabase = await createClient();
-
-  // 유저 정보 가져오기
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
-
-  if (error || !user) {
-    throw new Error(`유저 정보 불러오기 실패: ${error!.message}`);
-  }
-
-  return user.id;
-};
-
 // 댓글 추가 받아온 formData 사용
 export const addComment = async (comment: CommentsInsert) => {
   const supabase = await createClient();
