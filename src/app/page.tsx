@@ -2,7 +2,7 @@ import RadiusCampList from '@/components/camping/RadiusCampList';
 import { Metadata } from 'next';
 
 import Image from 'next/image';
-const bannerImage = '/images/banner.png';
+const bannerImage = '/images/banner.webp';
 
 export const metadata: Metadata = {
   title: 'BonFire - 홈 페이지',

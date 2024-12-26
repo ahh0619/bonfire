@@ -1,3 +1,5 @@
+'use client';
+
 import { fetchWeather } from '@/app/api/weatherApi';
 import { Weather } from '@/types/Weather';
 import { useQuery } from '@tanstack/react-query';
@@ -11,10 +13,8 @@ const useWeatherInfo = ({ lat, lon }: { lat: string; lon: string }) => {
   } = useQuery<Weather>({
     queryKey: ['weatherInfo', lat, lon],
     queryFn: () => fetchWeather(Number(lat), Number(lon)),
-    enabled: !!lat && !!lon,
   });
-
-  const weatherCondition = weatherInfo!.weather[0].main;
+  const weatherCondition = weatherInfo?.weather[0]?.main || 'clear';
 
   const weatherImgSrc = (condition: string) => {
     switch (condition) {
