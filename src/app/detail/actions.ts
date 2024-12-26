@@ -52,6 +52,7 @@ export const fetchComments = async (placeName: string) => {
     id: comment.id,
     content: comment.content,
     created_at: comment.created_at,
+    user_id: comment.user_id,
     user: comment.users, // 닉네임과 프로필 이미지 첨부
   }));
 };

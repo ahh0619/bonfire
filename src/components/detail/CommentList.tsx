@@ -5,7 +5,7 @@ type CommentsProps = {
   commentList: Comment[];
 };
 
-const Comments = ({ commentList }: CommentsProps) => {
+const CommentList = ({ commentList }: CommentsProps) => {
   return (
     <div>
       {commentList.map((comment) => (
@@ -14,10 +14,11 @@ const Comments = ({ commentList }: CommentsProps) => {
           nickname={comment.user?.nickname || 'Unknown User'}
           profileImage={comment.user?.profile_image || null}
           content={comment.content}
+          userId={comment.user_id}
         />
       ))}
     </div>
   );
 };
 
-export default Comments;
+export default CommentList;
