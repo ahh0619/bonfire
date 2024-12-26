@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { ProfileModal } from './ProfileModal';
 import { ProfileSkeleton } from '@/components/mypage/ProfileSkeleton'; // 스켈레톤 UI
-import { ErrorFallback } from './ErrorFallback';
+import { ErrorFallback } from '@/components/common/ErrorFallback';
 import { getUser } from '@/app/login/actions';
 
 export const ProfileCard = () => {
