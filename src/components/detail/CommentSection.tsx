@@ -17,9 +17,9 @@ const CommentSection = async ({facltNm }: CommentSectionProps) => {
         placeName={facltNm}
         commentNum={commentList.length}
       />
-      <Suspense fallback={<CommentListSkeleton />}>
+      {/* <Suspense fallback={<CommentListSkeleton />}>
         <CommentList commentList={commentList} />
-      </Suspense>
+      </Suspense> */}
     </div>
   );
 };

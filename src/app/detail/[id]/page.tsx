@@ -20,7 +20,7 @@ const PlaceDetailPage = async ({ params }: PlaceDetailPageProps) => {
     <div className="container min-h-screen xl:w-[1024px] mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">상세 페이지</h1>
       <PlaceDetail details={placeDetails} />
-      {/* <CommentSection facltNm={facltNm} /> */}
+      <CommentSection facltNm={facltNm} />
     </div>
   );
 };

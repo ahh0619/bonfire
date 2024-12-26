@@ -14,7 +14,7 @@ type CommentFormProps = {
 };
 
 const CommentForm = ({ placeName, commentNum }: CommentFormProps) => {
-  const { user } = useAuthStore();
+  const { user: currentUser } = useAuthStore();
   const [comment, setComment] = useState('');
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -23,7 +23,7 @@ const CommentForm = ({ placeName, commentNum }: CommentFormProps) => {
     mutationFn: async () => {
       // TODO: 에러 처리보다는 로그인으로 유도하는 것이 필요해보입니다
       // 인증된 유저가 아닌 경우 에러 처리
-      if (!user?.id) {
+      if (!currentUser) {
         throw new Error('댓글 입력을 위해서는 로그인이 필요합니다');
       }
 
@@ -31,7 +31,7 @@ const CommentForm = ({ placeName, commentNum }: CommentFormProps) => {
       await addComment({
         content: comment,
         place_name: placeName,
-        user_id: user.id,
+        user_id: currentUser[0].id,
       });
     },
     onSuccess: () => {

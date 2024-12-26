@@ -35,8 +35,6 @@ const LikeButton = ({
     if (!currentUser) {
       return;
     }
-    console.log('currentUser', currentUser);
-    console.log('like button', currentUser[0]?.id);
 
     const fetchData = async () => {
       try {
@@ -45,7 +43,6 @@ const LikeButton = ({
           isUserLikedPlace(currentUser[0].id, placeName),
         ]);
 
-        console.log(totalLikes);
         setLikes(totalLikes);
         setLiked(userLiked);
       } catch (error) {
