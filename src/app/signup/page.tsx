@@ -9,7 +9,7 @@ import { signupFields } from '@/components/login/formFields';
 import { signup } from '../login/actions';
 import { useAuthStore } from '@/store/authStore';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signUpSchema } from '@/\bvalidations/signupSchema';
+import { signUpSchema } from '@/validations/signUpSchema';
 
 const SignUp = () => {
   const { logIn } = useAuthStore();

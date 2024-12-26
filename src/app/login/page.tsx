@@ -9,7 +9,10 @@ import { loginFields } from '@/components/login/formFields';
 import { login } from './actions';
 import { useAuthStore } from '@/store/authStore';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { loginSchema } from '@/\bvalidations/loginSchema';
+import { loginSchema } from '@/validations/loginSchema';
+import { createClient } from '@/utils/supabase/client';
+import Image from 'next/image';
+const goggleImage = '/images/google_logo.png';
 
 const LoginPage = () => {
   const { logIn } = useAuthStore();
@@ -23,6 +26,28 @@ const LoginPage = () => {
     resolver: zodResolver(loginSchema),
   });
 
+  const googleLogin = async () => {
+    const supabase = await createClient();
+
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: window.origin + '/auth/callback',
+        queryParams: {
+          access_type: 'offline',
+          prompt: 'consent',
+        },
+      },
+    });
+
+    if (data) {
+      logIn();
+    }
+    if (error) {
+      alert('로그인에 실패했습니다. 다시 시도해주세요.');
+    }
+  };
+
   const onSubmit = async (data: LoginFormData) => {
     try {
       await login(data);
@@ -34,30 +59,47 @@ const LoginPage = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 mt-[-20px]">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="bg-white p-8 rounded-lg shadow-md w-full max-w-md"
-      >
-        <h1 className="text-3xl font-bold mb-6 text-center text-black">
-          로그인
-        </h1>
+      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          // className="bg-white p-8 rounded-lg shadow-md w-full max-w-md"
+        >
+          <h1 className="text-3xl font-bold mb-6 text-center text-black">
+            로그인
+          </h1>
 
-        {loginFields.map((field) => (
-          <Input
-            key={field.id}
-            id={field.id}
-            label={field.label}
-            type={field.type}
-            placeholder={field.placeholder}
-            register={register}
-            error={errors[field.id]?.message}
+          {loginFields.map((field) => (
+            <Input
+              key={field.id}
+              id={field.id}
+              label={field.label}
+              type={field.type}
+              placeholder={field.placeholder}
+              register={register}
+              error={errors[field.id]?.message}
+            />
+          ))}
+
+          <Button text="로그인" />
+        </form>
+
+        <button
+          onClick={googleLogin}
+          className="text-base font-semibold w-full py-2 rounded-md hover:bg-gray-200 transition-colors mb-4 flex items-center justify-center border border-gray-300"
+        >
+          <Image
+            src={goggleImage}
+            alt={'google-image'}
+            width={25}
+            height={25}
+            onClick={googleLogin}
+            className="mr-3"
           />
-        ))}
-
-        <Button text="로그인" />
+          구글로 로그인하기
+        </button>
 
         <p className="text-sm text-gray-600 mt-4 text-center">
-          계정이 없으신가요?{' '}
+          계정이 없으신가요?
           <Link
             href="/signup"
             className="text-green-500 font-semibold hover:underline"
@@ -65,7 +107,7 @@ const LoginPage = () => {
             회원가입
           </Link>
         </p>
-      </form>
+      </div>
     </div>
   );
 };
