@@ -1,12 +1,12 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { getUserProfile } from '@/app/mypage/actions'; // 서버 액션 호출
 import { fetchLikedPlaces } from '@/utils/likes/actions'; // 좋아요 데이터 가져오는 함수
 import { FavoriteSkeleton } from '@/components/mypage/FavoriteSkeleton'; // 스켈레톤 UI
 import { Tables } from '@/types/supabase';
 import Image from 'next/image';
 import Link from 'next/link';
+import { getUser } from '@/app/login/actions';
 
 type LikesRow = Tables<'likes'>;
 
@@ -14,7 +14,7 @@ export const FavoritePlaces = () => {
   const { data, isPending, isError, error } = useQuery<LikesRow[], Error>({
     queryKey: ['likedPlaces'],
     queryFn: async () => {
-      const userProfile = await getUserProfile();
+      const userProfile = await getUser();
       if (!userProfile?.id) {
         throw new Error('User ID is not available');
       }

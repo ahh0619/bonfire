@@ -26,7 +26,7 @@ const SignUp = () => {
   const onSubmit = async (data: SignupFormData) => {
     try {
       await signup(data);
-      logIn();
+      // logIn();
     } catch (error) {
       alert('회원가입에 실패했습니다. 다시 시도해주세요.');
     }
