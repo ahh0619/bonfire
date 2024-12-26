@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { ProfileModal } from './ProfileModal';
 import { getUserProfile } from '@/app/mypage/actions'; // 서버 액션 호출
 import { ProfileSkeleton } from '@/components/mypage/ProfileSkeleton'; // 스켈레톤 UI
+import { ErrorFallback } from './ErrorFallback';
 
 export const ProfileCard = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -13,7 +14,9 @@ export const ProfileCard = () => {
   const {
     data: userProfile,
     isPending,
+    isError,
     error,
+    refetch,
   } = useQuery({
     queryKey: ['userProfile'],
     queryFn: async () => {
@@ -23,10 +26,27 @@ export const ProfileCard = () => {
 
   if (isPending) return <ProfileSkeleton />;
 
-  if (error)
-    return <div>유저 정보를 가져오는 중 오류 발생: {error.message}</div>;
+  if (isError) {
+    return (
+      <ErrorFallback
+        message="유저 정보를 가져오는 중 오류가 발생했습니다."
+        errorDetail={error.message}
+        onRetry={refetch}
+        retryLabel="다시 시도"
+      />
+    );
+  }
 
-  if (!userProfile) return <div>유저 정보를 불러올 수 없습니다.</div>;
+  if (!userProfile) {
+    return (
+      <ErrorFallback
+        message="유저 정보를 불러올 수 없습니다."
+        onRetry={refetch}
+        retryLabel="다시 시도"
+        backgroundClass="bg-blue-50 border border-blue-200"
+      />
+    );
+  }
 
   return (
     <div className="flex items-center">
