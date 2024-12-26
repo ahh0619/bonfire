@@ -6,7 +6,7 @@ import Button from '@/components/common/Button';
 import Input from '@/components/login/Input';
 import { LoginFormData } from '@/types/LoginFormData';
 import { loginFields } from '@/components/login/formFields';
-import { login } from './actions';
+import { getUser, login } from './actions';
 import { useAuthStore } from '@/store/authStore';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '@/validations/loginSchema';
@@ -40,8 +40,11 @@ const LoginPage = () => {
       },
     });
 
+    console.log('gooogle lgoin data: ', data);
     if (data) {
-      logIn();
+      const userData = await getUser();
+      console.log('google userData: ', userData);
+      logIn(userData);
     }
     if (error) {
       alert('로그인에 실패했습니다. 다시 시도해주세요.');
@@ -51,7 +54,8 @@ const LoginPage = () => {
   const onSubmit = async (data: LoginFormData) => {
     try {
       await login(data);
-      logIn();
+      const userData = await getUser();
+      logIn(userData);
     } catch (error) {
       alert('로그인에 실패했습니다. 다시 시도해주세요.');
     }
