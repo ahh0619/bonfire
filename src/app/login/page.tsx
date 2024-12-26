@@ -40,15 +40,13 @@ const LoginPage = () => {
       },
     });
 
-    console.log('gooogle lgoin data: ', data);
-    if (data) {
-      const userData = await getUser();
-      console.log('google userData: ', userData);
-      logIn(userData);
-    }
     if (error) {
       alert('로그인에 실패했습니다. 다시 시도해주세요.');
     }
+
+    const session = await getUser();
+    console.log('session: ', session);
+    logIn(session); // 상태 갱신
   };
 
   const onSubmit = async (data: LoginFormData) => {
