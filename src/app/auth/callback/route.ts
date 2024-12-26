@@ -18,30 +18,9 @@ export async function GET(request: Request) {
         error: userError,
       } = await supabase.auth.getUser();
 
-      console.log('route user:', user);
-
       if (userError || !user) {
-        // console.error('failed to authenticated user:', userError?.message);
-        throw new Error('failed to authenticated user');
-        // return NextResponse.redirect(`${origin}/auth/auth-code-error`);
+        return NextResponse.redirect(`${origin}/auth/auth-code-error`);
       }
-
-      const defaultprofileImage = '/images/leader_github_logo.png';
-
-      // const { error: dbError } = await supabase.from('users').upsert({
-      //   id: user.id,
-      //   // email: user.email,
-      //   nickname: user.user_metadata.full_name || 'Guest',
-      //   profile_image: user.user_metadata.avatar_url || defaultprofileImage,
-      // });
-
-      // if (dbError) {
-      //   throw new Error('Failed to upsert user');
-      //   // return NextResponse.json(
-      //   //   { error: 'Failed to upsert user' },
-      //   //   { status: 500 },
-      //   // );
-      // }
 
       if (isLocalEnv) {
         return NextResponse.redirect(`${origin}${next}`);
@@ -53,6 +32,5 @@ export async function GET(request: Request) {
     }
   }
 
-  // return NextResponse.redirect(`${origin}/auth/auth-code-error`);
-  throw new Error('failed to google login');
+  return NextResponse.redirect(`${origin}/auth/auth-code-error`);
 }

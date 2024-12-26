@@ -43,10 +43,6 @@ const LoginPage = () => {
     if (error) {
       alert('로그인에 실패했습니다. 다시 시도해주세요.');
     }
-
-    const session = await getUser();
-    console.log('session: ', session);
-    logIn(session); // 상태 갱신
   };
 
   const onSubmit = async (data: LoginFormData) => {
@@ -62,10 +58,7 @@ const LoginPage = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 mt-[-20px]">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          // className="bg-white p-8 rounded-lg shadow-md w-full max-w-md"
-        >
+        <form onSubmit={handleSubmit(onSubmit)}>
           <h1 className="text-3xl font-bold mb-6 text-center text-black">
             로그인
           </h1>
