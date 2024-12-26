@@ -1,20 +1,24 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
+import { getUserProfile } from '@/app/mypage/actions'; // 서버 액션 호출
 import { fetchLikedPlaces } from '@/utils/likes/actions'; // 좋아요 데이터 가져오는 함수
 import { FavoriteSkeleton } from '@/components/mypage/FavoriteSkeleton'; // 스켈레톤 UI
 import { Tables } from '@/types/supabase';
 import Image from 'next/image';
 import Link from 'next/link';
-import { getUser } from '@/app/login/actions';
+import { ErrorFallback } from './ErrorFallback';
 
 type LikesRow = Tables<'likes'>;
 
 export const FavoritePlaces = () => {
-  const { data, isPending, isError, error } = useQuery<LikesRow[], Error>({
+  const { data, isPending, isError, error, refetch } = useQuery<
+    LikesRow[],
+    Error
+  >({
     queryKey: ['likedPlaces'],
     queryFn: async () => {
-      const userProfile = await getUser();
+      const userProfile = await getUserProfile();
       if (!userProfile?.id) {
         throw new Error('User ID is not available');
       }
@@ -28,8 +32,14 @@ export const FavoritePlaces = () => {
       <h3 className="text-xl font-bold border-b-2 border-gray-300 pb-2">
         좋아요한 곳
       </h3>
-      {isError && <div>오류 발생: {error?.message}</div>}
-      {isPending ? (
+      {isError ? (
+        <ErrorFallback
+          message="좋아요한 장소를 가져오는 중 오류가 발생했습니다."
+          errorDetail={error?.message}
+          onRetry={refetch}
+          retryLabel="다시 시도"
+        />
+      ) : isPending ? (
         <FavoriteSkeleton />
       ) : !data || data.length === 0 ? (
         <div className="flex items-center justify-center h-64">
