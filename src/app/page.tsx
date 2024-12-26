@@ -2,6 +2,8 @@ import RadiusCampList from '@/components/camping/RadiusCampList';
 import { Metadata } from 'next';
 
 import Image from 'next/image';
+
+// 배너 이미지
 const bannerImage = '/images/banner.webp';
 
 export const metadata: Metadata = {
