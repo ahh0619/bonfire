@@ -43,9 +43,9 @@ export const FavoritePlaces = () => {
                 key={place.id}
                 className="bg-white h-auto shadow rounded-lg p-4 flex hover:scale-105 cursor-pointer"
               >
-                <div className="bg-gray-300 w-1/2 rounded-md mr-4">
+                <div className="w-1/2 rounded-md mr-4">
                   <Image
-                    src={place.place_image}
+                    src={place.place_image || '/images/default_icon.png'}
                     alt={place.place_name}
                     width={300}
                     height={300}
@@ -57,7 +57,9 @@ export const FavoritePlaces = () => {
                     {place.place_name}
                   </h4>
                   <p className="text-md text-gray-600">{place.address_name}</p>
-                  <p className="text-md text-gray-600">{place.phone_number}</p>
+                  <p className="text-md text-gray-600">
+                    {place.phone_number || '전화번호 없음'}
+                  </p>
                 </div>
               </div>
             </Link>
