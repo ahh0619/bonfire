@@ -25,28 +25,40 @@ export const signup = async (formData: SignupFormData): Promise<void> => {
 
   const { email, nickname, password } = formData;
 
-  const profileImageUrl = '/images/leader_github_logo.png';
-  const userId = await createAccount(email, password);
+  // const profileImageUrl = '/images/leader_github_logo.png';
+  const userId = await createAccount(email, password, nickname);
 
-  const { error: dbError } = await supabase.from('users').insert({
-    id: userId,
-    nickname,
-    profile_image: profileImageUrl,
-  });
+  // const { error: dbError } = await supabase.from('users').insert({
+  //   id: userId,
+  //   nickname,
+  //   profile_image: profileImageUrl,
+  // });
 
-  if (dbError) {
-    throw new Error('Database insertion failed');
-  }
+  // if (dbError) {
+  //   throw new Error('Database insertion failed');
+  // }
 
   revalidatePath('/', 'layout');
   redirect('/');
 };
 
-const createAccount = async (email: string, password: string) => {
+const createAccount = async (
+  email: string,
+  password: string,
+  nickname: string,
+) => {
   const supabase = await createClient();
+  const profileImageUrl = '/images/leader_github_logo.png';
+
   const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
     email,
     password,
+    options: {
+      data: {
+        full_name: nickname,
+        avatar_url: profileImageUrl,
+      },
+    },
   });
 
   if (signUpError) {
@@ -69,6 +81,7 @@ export const getUser = async (): Promise<any> => {
   if (userDataError || !userData.user) {
     return null;
   }
+  console.log('server userdata table: ', userData);
 
   const { data: user, error } = await supabase
     .from('users')
@@ -78,5 +91,7 @@ export const getUser = async (): Promise<any> => {
   if (error) {
     return null;
   }
+
+  console.log('server user table: ', user);
   return user;
 };
