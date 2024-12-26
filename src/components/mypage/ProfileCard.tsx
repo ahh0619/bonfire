@@ -4,9 +4,9 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { ProfileModal } from './ProfileModal';
-import { getUserProfile } from '@/app/mypage/actions'; // 서버 액션 호출
 import { ProfileSkeleton } from '@/components/mypage/ProfileSkeleton'; // 스켈레톤 UI
 import { ErrorFallback } from './ErrorFallback';
+import { getUser } from '@/app/login/actions';
 
 export const ProfileCard = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -20,7 +20,8 @@ export const ProfileCard = () => {
   } = useQuery({
     queryKey: ['userProfile'],
     queryFn: async () => {
-      return await getUserProfile(); // 서버 액션에서 인증된 유저의 프로필 가져오기
+      const data = await getUser();
+      return data[0]; // 서버 액션에서 인증된 유저의 프로필 가져오기
     },
   });
 
