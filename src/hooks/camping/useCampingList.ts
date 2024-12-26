@@ -7,15 +7,31 @@ const useCampingList = () => {
   // 사용자의 위치 정보 상태
   const [geoData, setGeoData] = useState<coords | null>(null);
   // 사용자의 위치 정보 불러오기
+  const Swal = require('sweetalert2');
+
   useEffect(() => {
     const getGeoData = async () => {
-      navigator.geolocation.getCurrentPosition((res) => {
-        setGeoData(res.coords);
-      });
+      try {
+        const position = await new Promise<GeolocationPosition>(
+          (resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, reject);
+          },
+        );
+        setGeoData(position.coords); // 위치 정보 저장
+      } catch (error) {
+        console.error('Error fetching location:', error);
+        Swal.fire({
+          icon: 'error',
+          text: '위치 정보를 가져올 수 없습니다. 설정에서 위치 권한을 허용해주세요.',
+          confirmButtonColor: '#FD470E',
+        });
+      }
     };
+
     getGeoData();
   }, []);
   // 사용자 위치 정보를 바탕으로 캠핑장 정보 불러오기
+
   const {
     data: radiusCampData, // 사용자 주변 반경 20km 내 캠핑장 데이터
     isPending: isCampListPending,

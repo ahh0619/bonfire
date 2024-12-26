@@ -22,24 +22,31 @@ const PlaceDetail = ({ details }: PlaceDetailProps) => {
         </p>
         <p className="mb-2 mt-8 text-gray-500 flex flex-row gap-2">
           <PawPrint />
-          {` `}애완 동물 출입 여부: {details.animalCmgCl ? '가능' : '불가능'}
+          {` `}애완 동물: {details.animalCmgCl ? '출입 가능' : '출입 불가능'}
         </p>
         <div className="flex flex-row justify-between mb-2 mt-4 items-center">
-          <p className="text-gray-500 flex flex-row gap-2">
+          <p className=" text-gray-500 flex flex-row gap-2">
             <Phone /> {details.tel || '전화번호 없음'}
           </p>
-          {/* <LikeButton /> */}
+          <LikeButton
+            placeImgUrl={details.firstImageUrl}
+            placeName={details.facltNm}
+            addressName={details.addr1}
+            phoneNumber={details.tel}
+            locationX={Number(details.mapX)}
+            locationY={Number(details.mapY)}
+          />
         </div>
       </div>
 
       {/* 지도 부분 */}
-      <div className="w-[320px] aspect-square sm:w-[360px] sm:h-[360px] rounded-xl overflow-hidden">
+      <div className="justify-items-center align-items-center mobile:max-w-[200px] sm:aspect-square sm:max-w-[340px] overflow-hidden rounded-lg">
         <DetailMap
           latitude={parseFloat(details.mapY)}
           longitude={parseFloat(details.mapX)}
           level={3}
-          width="360"
-          height="360"
+          width="350px"
+          height="350px"
         />
       </div>
     </div>
