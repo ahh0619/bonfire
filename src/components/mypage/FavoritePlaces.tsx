@@ -46,27 +46,30 @@ export const FavoritePlaces = () => {
           <p className="text-gray-500 text-lg">좋아요한 장소가 없습니다.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
           {data.map((place) => (
             <Link href={`/detail/${place.place_name}`} key={place.id}>
               <div
                 key={place.id}
-                className="bg-white h-auto shadow rounded-lg p-4 flex hover:scale-105 cursor-pointer"
+                className="bg-white min-h-[200px] shadow rounded-lg p-4 flex hover:scale-105 cursor-pointer flex-col"
               >
-                <div className="w-1/2 rounded-md mr-4">
+                {/* 이미지 컨테이너 */}
+                <div className="relative w-full aspect-[4/3] rounded-md overflow-hidden mb-4">
                   <Image
                     src={place.place_image || '/images/default_icon.png'}
                     alt={place.place_name}
-                    width={300}
-                    height={300}
-                    className="rounded-md object-cover w-full h-full"
+                    layout="fill"
+                    className="object-cover"
                   />
                 </div>
-                <div className="flex flex-col justify-between w-1/2">
-                  <h4 className="text-lg font-semibold text-black">
+                {/* 텍스트 영역 */}
+                <div className="flex flex-col justify-between flex-grow">
+                  <h4 className="text-lg font-semibold text-black truncate">
                     {place.place_name}
                   </h4>
-                  <p className="text-md text-gray-600">{place.address_name}</p>
+                  <p className="text-md text-gray-600 truncate">
+                    {place.address_name}
+                  </p>
                   <p className="text-md text-gray-600">
                     {place.phone_number || '전화번호 없음'}
                   </p>
