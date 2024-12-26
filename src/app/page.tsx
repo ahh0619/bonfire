@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <main className="max-w-[1920px] mx-auto">
+    <main className="max-w-[1920px] mt-[200px] mx-auto">
       <Image src={bannerImage} alt={'banner-image'} width={1920} height={800} />
       <RadiusCampList />
     </main>

@@ -21,6 +21,7 @@ const useCampingList = () => {
   } = useQuery<CampingResponse>({
     queryKey: ['radiusCampData'],
     queryFn: () => fetchRadiusCampList(geoData!.latitude, geoData!.longitude),
+    enabled: !!geoData,
   });
 
   const radiusCampList: Pick<

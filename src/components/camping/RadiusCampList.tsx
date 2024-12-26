@@ -74,7 +74,7 @@ const RadiusCampList = () => {
               spaceBetween: 30,
             },
             1920: {
-              slidesPerView: 3, // 초대형 화면에서 4개
+              slidesPerView: 3, // 초대형 화면에서 3개
               spaceBetween: 40,
             },
           }}
@@ -89,24 +89,25 @@ const RadiusCampList = () => {
                 href={`/detail/${camp.facltNm}`}
                 className="flex flex-col items-center"
               >
-                {camp.firstImageUrl ? (
-                  <Image
-                    src={camp.firstImageUrl}
-                    alt={camp.facltNm}
-                    width={400}
-                    height={250}
-                    className="h-[250px] rounded-lg"
-                  />
-                ) : (
-                  <Image
-                    src={defaultCampImage}
-                    alt={camp.facltNm}
-                    width={400}
-                    height={250}
-                    className="h-[250px]"
-                  />
-                )}
-
+                <div className="w-full px-10">
+                  {camp.firstImageUrl ? (
+                    <Image
+                      src={camp.firstImageUrl}
+                      alt={camp.facltNm}
+                      width={500}
+                      height={250}
+                      className="h-[250px] object-cover mx-auto"
+                    />
+                  ) : (
+                    <Image
+                      src={defaultCampImage}
+                      alt={camp.facltNm}
+                      width={500}
+                      height={250}
+                      className="h-[250px]"
+                    />
+                  )}
+                </div>
                 <p className="font-bold text-lg mt-8">{camp.facltNm}</p>
                 <p className="text-gray-600">{camp.addr1}</p>
               </Link>
