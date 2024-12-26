@@ -21,7 +21,7 @@ const CommentForm = ({ placeName, commentNum }: CommentFormProps) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Check for empty comments
+    // 댓글이 비어 있는 경우 추가 X
     if (!comment.trim()) {
       alert('댓글 입력창이 비어있습니다.');
       return;
@@ -48,18 +48,15 @@ const CommentForm = ({ placeName, commentNum }: CommentFormProps) => {
         <p>{`(${commentNum})`}</p>
       </div>
 
-      <hr className="border border-gray-500 my-4" />
-      <div className="mb-4">
-        <CommentInput
-          disabled={!currentUser}
-          placeholder={
-            !currentUser ? '로그인이 필요합니다' : '댓글을 입력하세요'
-          }
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-          required
-        />
-      </div>
+      <hr className="border border-gray-500 mt-4" />
+      <CommentInput
+        disabled={!currentUser}
+        type="text"
+        placeholder={!currentUser ? '로그인이 필요합니다' : '댓글을 입력하세요'}
+        value={comment}
+        onChange={(e) => setComment(e.target.value)}
+        required
+      />
       {currentUser && (
         <button
           type="submit"

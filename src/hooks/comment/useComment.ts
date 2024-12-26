@@ -70,7 +70,7 @@ export const useComments = (placeName: string) => {
     isAdding: addCommentMutation.isPending,
     deleteComment: deleteCommentMutation.mutate,
     isDeleting: deleteCommentMutation.isPending,
-    update: updateCommentMutation.mutate,
+    updateComment: updateCommentMutation.mutate,
     isUpdating: updateCommentMutation.isPending,
   };
 };
