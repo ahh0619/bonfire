@@ -13,6 +13,7 @@ import useCampingList from '@/hooks/camping/useCampingList';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import { ErrorFallback } from '../common/ErrorFallback';
 
 // 캠핑장 이미지가 없는 캠핑장 기본 이미지
 const defaultCampImage = '/images/default_icon.png';
@@ -24,6 +25,7 @@ const RadiusCampList = () => {
     isCampListPending,
     isCampListError,
     campListError,
+    refetch,
   } = useCampingList();
 
   if (isCampListPending) {
@@ -42,7 +44,14 @@ const RadiusCampList = () => {
     );
   }
   if (isCampListError) {
-    return <p>Error:{campListError!.message}</p>;
+    return (
+      <ErrorFallback
+        message="주변 캠핑장 데이터를 불러오는 중 오류가 발생했습니다."
+        errorDetail={campListError?.message}
+        onRetry={refetch}
+        retryLabel="다시 시도"
+      />
+    );
   }
 
   return (

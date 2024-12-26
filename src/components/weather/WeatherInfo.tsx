@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import useWeatherInfo from '@/hooks/weather/useWeatherInfo';
+import { ErrorFallback } from '../common/ErrorFallback';
 
 const WeatherInfo = ({ lat, lon }: { lat: string; lon: string }) => {
   const {
@@ -11,6 +12,7 @@ const WeatherInfo = ({ lat, lon }: { lat: string; lon: string }) => {
     isWeatherError,
     weatherError,
     weatherImgSrc,
+    refetch,
   } = useWeatherInfo({ lat, lon });
 
   if (isWeatherPending) {
@@ -18,12 +20,20 @@ const WeatherInfo = ({ lat, lon }: { lat: string; lon: string }) => {
   }
 
   if (isWeatherError) {
-    return <p>Error:{weatherError!.message}</p>;
+    return (
+      <ErrorFallback
+        message="캠핑장 날씨 데이터를 불러오는 중 오류가 발생했습니다."
+        errorDetail={weatherError?.message}
+        onRetry={refetch}
+        retryLabel="다시 시도"
+      />
+    );
   }
 
   return (
     <div className="w-[300px] items-start">
       <div className="flex flex-row items-center">
+        {/* 캠핑장 날씨 이미지 */}
         <Image
           src={weatherImgSrc(weatherCondition)}
           alt={weatherCondition}

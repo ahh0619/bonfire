@@ -1,5 +1,3 @@
-'use client';
-
 import { fetchWeather } from '@/app/api/weatherApi';
 import { Weather } from '@/types/Weather';
 import { useQuery } from '@tanstack/react-query';
@@ -11,6 +9,7 @@ const useWeatherInfo = ({ lat, lon }: { lat: string; lon: string }) => {
     isPending: isWeatherPending,
     isError: isWeatherError,
     error: weatherError,
+    refetch,
   } = useQuery<Weather>({
     queryKey: ['weatherInfo', lat, lon],
     queryFn: () => fetchWeather(Number(lat), Number(lon)),
@@ -41,6 +40,7 @@ const useWeatherInfo = ({ lat, lon }: { lat: string; lon: string }) => {
     isWeatherError,
     weatherError,
     weatherImgSrc,
+    refetch,
   };
 };
 

@@ -21,6 +21,7 @@ const useCampingList = () => {
     isPending: isCampListPending,
     isError: isCampListError,
     error: campListError,
+    refetch,
   } = useQuery<CampingResponse>({
     queryKey: ['radiusCampData'],
     queryFn: () => fetchRadiusCampList(geoData!.latitude, geoData!.longitude),
@@ -44,6 +45,7 @@ const useCampingList = () => {
     isCampListPending,
     isCampListError,
     campListError,
+    refetch,
   };
 };
 
