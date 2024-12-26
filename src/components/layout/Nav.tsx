@@ -6,7 +6,7 @@ import { logout } from '@/app/login/actions';
 import { useEffect, useState } from 'react';
 
 const Nav = () => {
-  const { isLoggedIn, logOut } = useAuthStore();
+  const { user, logOut } = useAuthStore();
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const Nav = () => {
   return (
     <nav>
       <ul className="flex gap-4">
-        {isLoggedIn ? (
+        {user ? (
           <>
             <li>
               <Link href="/mypage">마이페이지</Link>
