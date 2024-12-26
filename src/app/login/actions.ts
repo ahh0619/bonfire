@@ -61,12 +61,22 @@ export const logout = async (): Promise<void> => {
   redirect('/login');
 };
 
-// export const fetchSession = async (): Promise<any> => {
-//   const supabase = await createClient();
-//   const { data: user, error } = await supabase.auth.getUser();
+export const getUser = async (): Promise<any> => {
+  const supabase = await createClient();
+  const { data: userData, error: userDataError } =
+    await supabase.auth.getUser();
 
-//   if (error) {
-//     return null;
-//   }
-//   return user;
-// };
+  if (userDataError || !userData.user) {
+    return null;
+  }
+
+  const { data: user, error } = await supabase
+    .from('users')
+    .select('*')
+    .eq('id', userData.user.id);
+
+  if (error) {
+    return null;
+  }
+  return user;
+};
