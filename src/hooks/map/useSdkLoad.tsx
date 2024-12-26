@@ -9,6 +9,6 @@ const useSdkLoad = (setIsSdkLoaded: Dispatch<SetStateAction<boolean>>) => {
     };
     const interval = setInterval(checkSdkLoaded, 100);
     return () => clearInterval(interval);
-  }, []);
+  });
 };
 export default useSdkLoad;

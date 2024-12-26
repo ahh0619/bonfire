@@ -9,8 +9,10 @@ import CustomOverlay from './CustomOverlay';
 import { Camping } from '@/types/Camping';
 import useSetMapBounds from '@/hooks/map/useSetMapBounds';
 import useSdkLoad from '@/hooks/map/useSdkLoad';
+import FacilMarker from './FacilMarker';
+import FacilOverlay from './FacilOverlay';
 
-const KAKAO_SDK_URL = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&autoload=false`;
+const KAKAO_SDK_URL = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&libraries=services&autoload=false`;
 
 const KakaoMap = ({ radiusCampList, geoData }: MapComponentProps) => {
   const [selectedMarker, setSelectedMarker] = useState<Pick<
@@ -24,8 +26,14 @@ const KakaoMap = ({ radiusCampList, geoData }: MapComponentProps) => {
     | 'mapX'
     | 'tel'
   > | null>(null);
+  const [selectedFacilMarker, setSelectedFacilMarker] =
+    useState<kakao.maps.services.PlacesSearchResultItem | null>(null);
   const [map, setMap] = useState<kakao.maps.Map | null>(null); // Map 객체 저장
   const [isSdkLoaded, setIsSdkLoaded] = useState(false);
+  const [facilSearchResult, setFacilSearchResult] = useState<
+    kakao.maps.services.PlacesSearchResult | []
+  >([]);
+  const [facilCode, setFacilCode] = useState<string>('');
   useSetMapBounds(map, radiusCampList);
   useSdkLoad(setIsSdkLoaded);
   return (
@@ -45,11 +53,31 @@ const KakaoMap = ({ radiusCampList, geoData }: MapComponentProps) => {
             radiusCampList={radiusCampList}
             setSelectedMarker={setSelectedMarker}
           />
+          <FacilMarker
+            facilSearchResult={facilSearchResult}
+            facilCode={facilCode}
+            setSelectedFacilMarker={setSelectedFacilMarker}
+          />
           <CustomOverlay
             radiusCampList={radiusCampList}
             selectedMarker={selectedMarker}
             setSelectedMarker={setSelectedMarker}
+            setFacilSearchResult={setFacilSearchResult}
+            setFacilCode={setFacilCode}
           />
+          <FacilOverlay
+            facilSearchResult={facilSearchResult}
+            selectedFacilMarker={selectedFacilMarker}
+            setSelectedFacilMarker={setSelectedFacilMarker}
+          />
+          {facilSearchResult.length ? (
+            <button
+              className="absolute bg-blue-500 hover:bg-blue-700 text-white font-bold m-3 py-2 px-4 rounded z-10"
+              onClick={() => setFacilSearchResult([])}
+            >
+              돌아가기
+            </button>
+          ) : null}
         </Map>
       ) : (
         <p>로딩 중입니다.</p>
