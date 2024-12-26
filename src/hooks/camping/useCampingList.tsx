@@ -25,12 +25,12 @@ const useCampingList = () => {
           confirmButtonColor: "#FD470E",
         });
       } finally {
-        setIsLoading(false); // 로딩 상태 업데이트
+        setIsLoading(false); 
       }
     };
 
     getGeoData();
-  }, []); // 컴포넌트가 마운트될 때 실행
+  }); 
 
   const {
     data: radiusCampData,
