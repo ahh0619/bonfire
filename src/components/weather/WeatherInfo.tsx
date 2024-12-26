@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import useWeatherInfo from '@/hooks/weather/useWeatherInfo';
+import { Weather } from '@/types/Weather';
 
 const WeatherInfo = ({ lat, lon }: { lat: string; lon: string }) => {
   const {
@@ -32,7 +33,7 @@ const WeatherInfo = ({ lat, lon }: { lat: string; lon: string }) => {
         />
         <p className="ml-2 text-sm font-bold text-gray-600">
           현재 온도 :{' '}
-          <span className="font-normal">{weatherInfo!.main.temp}°C</span>
+          <span className="font-normal">{weatherInfo?.main.temp}°C</span>
         </p>
       </div>
     </div>
