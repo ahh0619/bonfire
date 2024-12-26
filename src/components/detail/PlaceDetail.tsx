@@ -28,10 +28,7 @@ const PlaceDetail = ({ details }: PlaceDetailProps) => {
           <p className=" text-gray-500 flex flex-row gap-2">
             <Phone /> {details.tel || '전화번호 없음'}
           </p>
-          {/* TODO: store에 유저 아이디 존재하면 바로 꺼내 쓰면 좋을 것 같습니다. */}
-          {/* TODO: firstImgUrl이 없는 경우의 기본 이미지가 필요합니다. */}
           <LikeButton
-            userId={process.env.NEXT_PUBLIC_TEST_USER as string}
             placeImgUrl={details.firstImageUrl}
             placeName={details.facltNm}
             addressName={details.addr1}

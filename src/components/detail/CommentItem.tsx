@@ -1,3 +1,6 @@
+"use client"
+
+import { useAuthStore } from '@/store/authStore';
 import { PenLine, Trash2 } from 'lucide-react';
 import Image from 'next/image';
 
@@ -9,7 +12,7 @@ type CommentProps = {
 };
 
 const Comment = ({ userId, nickname, profileImage, content }: CommentProps) => {
-  const currentUserId = process.env.NEXT_PUBLIC_TEST_USER;
+  const { user: currentUser } = useAuthStore();
 
   return (
     <div className="flex flex-col">
@@ -30,7 +33,7 @@ const Comment = ({ userId, nickname, profileImage, content }: CommentProps) => {
       </div>
       <div className="border rounded-xl px-3 py-4 my-4">{content}</div>
       <div className="flex flex-row place-self-end gap-2">
-        {currentUserId === userId && (
+        {currentUser?.id === userId && (
           <>
             <button>
               <PenLine />

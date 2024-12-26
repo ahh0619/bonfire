@@ -6,24 +6,24 @@ import { MessageSquare } from 'lucide-react';
 import { CommentInput } from './CommentInput';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { addComment } from '@/app/detail/actions';
+import { useAuthStore } from '@/store/authStore';
 
 type CommentFormProps = {
-  userId: string;
   placeName: string;
   commentNum: number;
 };
 
-const CommentForm = ({ userId, placeName, commentNum }: CommentFormProps) => {
+const CommentForm = ({ placeName, commentNum }: CommentFormProps) => {
+  const { user } = useAuthStore();
   const [comment, setComment] = useState('');
   const queryClient = useQueryClient();
   const router = useRouter();
 
-  // TODO: 훅으로 분리 필요해보임...
   const mutation = useMutation({
     mutationFn: async () => {
       // TODO: 에러 처리보다는 로그인으로 유도하는 것이 필요해보입니다
       // 인증된 유저가 아닌 경우 에러 처리
-      if (!userId) {
+      if (!user?.id) {
         throw new Error('댓글 입력을 위해서는 로그인이 필요합니다');
       }
 
@@ -31,7 +31,7 @@ const CommentForm = ({ userId, placeName, commentNum }: CommentFormProps) => {
       await addComment({
         content: comment,
         place_name: placeName,
-        user_id: userId,
+        user_id: user.id,
       });
     },
     onSuccess: () => {
