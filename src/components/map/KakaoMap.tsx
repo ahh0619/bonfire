@@ -72,7 +72,7 @@ const KakaoMap = ({ radiusCampList, geoData }: MapComponentProps) => {
           />
           {facilSearchResult.length ? (
             <button
-              className="absolute bg-blue-500 hover:bg-blue-700 text-white font-bold m-3 py-2 px-4 rounded z-10"
+              className="absolute bg-[#FD470E] text-white text-base font-semibold w-[200px] m-5 p-2 rounded-md hover:bg-[#e0400e] transition-all z-10"
               onClick={() => setFacilSearchResult([])}
             >
               돌아가기
