@@ -91,7 +91,7 @@ const CustomOverlay = ({
                   </span>
                 </p>
                 <WeatherInfo lat={list.mapY} lon={list.mapX} />
-                <div className="flex flex-row items-start justify-center">
+                <div className="flex flex-row items-start gap-1 mt-3">
                   <FacilSearchBtn
                     facil={'병원'}
                     facilClickHandler={facilClickHandler}

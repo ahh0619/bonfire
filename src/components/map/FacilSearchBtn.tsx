@@ -4,7 +4,7 @@ type FacilSearchBtnProps = {
   facilClickHandler: (
     lat: number,
     lon: number,
-    code: `${kakao.maps.CategoryCode}`
+    code: `${kakao.maps.CategoryCode}`,
   ) => void;
   facil: string;
   list: Pick<
@@ -41,7 +41,7 @@ const FacilSearchBtn = ({
   }
   return (
     <button
-      className="bg-blue-500 hover:bg-blue-700 text-white font-bold m-3 py-2 px-4 rounded"
+      className="bg-[#FD470E] text-white text-base font-semibold w-full p-2 rounded-md hover:bg-[#e0400e] transition-colors"
       onClick={() =>
         facilClickHandler(Number(list.mapY), Number(list.mapX), code)
       }
