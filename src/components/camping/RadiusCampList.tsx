@@ -13,8 +13,8 @@ import useCampingList from '@/hooks/camping/useCampingList';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { ErrorFallback } from '../common/ErrorFallback';
-import Loading from '../common/Loading';
+import { ErrorFallback } from '@/components/common/ErrorFallback';
+import Loading from '@/components/common/Loading';
 
 // 캠핑장 이미지가 없는 캠핑장 기본 이미지
 const defaultCampImage = '/images/default_icon.png';

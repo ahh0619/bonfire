@@ -2,8 +2,8 @@
 
 import Image from 'next/image';
 import useWeatherInfo from '@/hooks/weather/useWeatherInfo';
-import { ErrorFallback } from '../common/ErrorFallback';
-import Loading from '../common/Loading';
+import { ErrorFallback } from '@/components/common/ErrorFallback';
+import Loading from '@/components/common/Loading';
 
 const WeatherInfo = ({ lat, lon }: { lat: string; lon: string }) => {
   const {
