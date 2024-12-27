@@ -61,7 +61,6 @@ export const fetchLikedPlaces = async (userId: string): Promise<LikesRow[]> => {
   return data || [];
 };
 
-// 유저가 장소를 좋아요 했는지 확인하는 로직
 export const isUserLikedPlace = async (
   userId: string,
   placeName: string,

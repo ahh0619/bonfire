@@ -1,6 +1,7 @@
 'use server';
 
-import { Database, Tables } from '@/types/supabase';
+import { Comment } from '@/types/Comment';
+import { Database } from '@/types/supabase';
 import { createClient } from '@/utils/supabase/server';
 
 // 상세 페이지 댓글 관련 actions 모음
@@ -18,8 +19,8 @@ export const addComment = async (comment: CommentsInsert) => {
   }
 };
 
-// 모든 댓글 읽어들이기 (SSR 필요)
-export const fetchComments = async (placeName: string) => {
+// 모든 댓글 읽어들이기
+export const fetchComments = async (placeName: string): Promise<Comment[]> => {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from('comments')
@@ -57,10 +58,12 @@ export const deleteComment = async (commentId: string) => {
 export const updateComment = async (commentId: string, content: string) => {
   const supabase = await createClient();
 
-  const { error } = await supabase.from('comments').update({ content }).eq('id', commentId);
-  
+  const { error } = await supabase
+    .from('comments')
+    .update({ content })
+    .eq('id', commentId);
+
   if (error) {
     throw new Error(`댓글 수정에 실패했습니다: ${error!.message}`);
   }
 };
-

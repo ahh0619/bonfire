@@ -1,7 +1,7 @@
 import { PawPrint, Phone } from 'lucide-react';
-import LikeButton from './LikeButton';
+import LikeButton from '@/components/detail/LikeButton';
 import { Camping } from '@/types/Camping';
-import DetailMap from './DetailMap';
+import DetailMap from '@/components/detail/DetailMap';
 
 type PlaceDetailProps = {
   details: Camping;
@@ -40,13 +40,13 @@ const PlaceDetail = ({ details }: PlaceDetailProps) => {
       </div>
 
       {/* 지도 부분 */}
-      <div className="justify-items-center align-items-center mobile:max-w-[200px] sm:aspect-square sm:max-w-[340px] overflow-hidden rounded-lg">
+      <div className="justify-items-center align-items-center mobile:max-w-[200px] sm:aspect-square sm:max-w-[270px] overflow-hidden rounded-lg">
         <DetailMap
           latitude={parseFloat(details.mapY)}
           longitude={parseFloat(details.mapX)}
           level={3}
-          width="350px"
-          height="350px"
+          width="280px"
+          height="280px"
         />
       </div>
     </div>
