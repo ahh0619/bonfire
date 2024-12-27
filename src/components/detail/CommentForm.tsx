@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { MessageSquare } from 'lucide-react';
 import { CommentInput } from '@/components/detail/CommentInput';
 import { useAuthStore } from '@/store/authStore';
@@ -17,7 +16,6 @@ const CommentForm = ({ placeName, commentNum }: CommentFormProps) => {
   const { user: currentUser } = useAuthStore();
   const [comment, setComment] = useState('');
   const { addComment, isAdding } = useComments(placeName);
-  const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,7 +37,14 @@ const CommentForm = ({ placeName, commentNum }: CommentFormProps) => {
         {
           onSuccess: () => {
             setComment('');
-            router.refresh();
+          },
+          onError: () => {
+            Swal.fire({
+              icon: 'error',
+              text: '댓글 작성에 실패했습니다. 다시 시도해주세요.',
+              confirmButtonColor: '#FD470E',
+              iconColor: '#FD470E',
+            });
           },
         },
       );

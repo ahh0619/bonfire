@@ -4,7 +4,6 @@ import { useComments } from '@/hooks/comment/useComment';
 import { useAuthStore } from '@/store/authStore';
 import { PenLine, Trash2 } from 'lucide-react';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { CommentInput } from '@/components/detail/CommentInput';
 import Swal, { SweetAlertResult } from 'sweetalert2';
@@ -22,7 +21,6 @@ const CommentItem = ({ comment, placeName }: CommentProps) => {
   const { deleteComment, isDeleting, updateComment, isUpdating } =
     useComments(placeName);
   const allowedToChange = currentUser?.[0]?.id === comment.user_id;
-  const router = useRouter();
 
   const handleDelete = () => {
     // 삭제 할건지 한 번만 더 확인

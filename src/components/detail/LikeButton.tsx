@@ -24,14 +24,8 @@ const LikeButton = ({
 }: LikeButtonProps) => {
   const { user: currentUser } = useAuthStore();
   const userId = currentUser?.[0]?.id;
-  const {
-    likes,
-    liked,
-    isLikesPending,
-    isLikedPending,
-    addLike,
-    removeLike,
-  } = useLikes(placeName, userId);
+  const { likes, liked, isLikesPending, isLikedPending, addLike, removeLike } =
+    useLikes(placeName, userId);
   const isPending = isLikesPending || isLikedPending;
 
   const handleToggleLike = async () => {
@@ -56,22 +50,18 @@ const LikeButton = ({
     // 데이터 로딩 중 토글 방지
     if (liked === null || likes === null) return;
 
-    try {
-      if (liked) {
-        // 좋아요 취소
-        removeLike();
-      } else {
-        // 좋아요 추가
-        addLike({
-          placeImage: placeImgUrl,
-          addressName,
-          phoneNumber,
-          locationX: locationX ?? 0,
-          locationY: locationY ?? 0,
-        });
-      }
-    } catch (error) {
-      console.error('Error toggling like:', error);
+    if (liked) {
+      // 좋아요 취소
+      removeLike();
+    } else {
+      // 좋아요 추가
+      addLike({
+        placeImage: placeImgUrl,
+        addressName,
+        phoneNumber,
+        locationX: locationX ?? 0,
+        locationY: locationY ?? 0,
+      });
     }
   };
 
