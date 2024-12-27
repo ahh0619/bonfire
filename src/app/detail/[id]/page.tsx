@@ -1,11 +1,26 @@
-import { Suspense } from 'react';
 import PlaceDetail from '@/components/detail/PlaceDetail';
-import CommentForm from '@/components/detail/CommentForm';
-import Comments from '@/components/detail/Comments';
 import { fetchOneCampSite } from '@/app/api/campingApi';
+import CommentSection from '@/components/detail/CommentSection';
+import { Metadata } from 'next';
 
-// ISR 설정
-export const revalidate = 3600; // 1 시간마다
+// ISR 설정: 페이지가 1시간마다 재생성
+// export const revalidate = 3600; // 1시간
+
+export const generateMetadata = async ({
+  params,
+}: PlaceDetailPageProps): Promise<Metadata> => {
+  const facltNm = decodeURIComponent(params.id);
+
+  return {
+    title: `BonFire - ${facltNm} 상세 정보`,
+    description: `${facltNm}의 캠핑장 상세 정보를 확인하세요.`,
+    openGraph: {
+      title: `BonFire - ${facltNm} 상세 정보`,
+      description: `${facltNm}의 캠핑장 상세 정보를 확인하세요.`,
+      url: `http://localhost:3000/detail/${params.id}`,
+    },
+  };
+}
 
 type PlaceDetailPageProps = {
   params: {
@@ -13,6 +28,7 @@ type PlaceDetailPageProps = {
   };
 };
 
+// 페이지 컴포넌트
 const PlaceDetailPage = async ({ params }: PlaceDetailPageProps) => {
   const facltNm = decodeURIComponent(params.id);
   const placeDetails = await fetchOneCampSite(facltNm);
@@ -21,12 +37,7 @@ const PlaceDetailPage = async ({ params }: PlaceDetailPageProps) => {
     <div className="container min-h-screen xl:w-[1024px] mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">상세 페이지</h1>
       <PlaceDetail details={placeDetails} />
-      <div className="flex flex-col border rounded-xl border-black p-8">
-        <CommentForm placeId={params.id} />
-        <Suspense fallback={<div>댓글 로딩 중...</div>}>
-          <Comments placeId={params.id} />
-        </Suspense>
-      </div>
+      <CommentSection facltNm={facltNm} />
     </div>
   );
 };

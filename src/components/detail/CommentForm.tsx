@@ -4,49 +4,70 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { MessageSquare } from 'lucide-react';
 import { CommentInput } from './CommentInput';
+import { useAuthStore } from '@/store/authStore';
+import { useComments } from '@/hooks/comment/useComment';
 
-const CommentForm = ({ placeId }: { placeId: string }) => {
-  const [nickname, setNickname] = useState('');
+type CommentFormProps = {
+  placeName: string;
+  commentNum: number;
+};
+
+const CommentForm = ({ placeName, commentNum }: CommentFormProps) => {
+  const { user: currentUser } = useAuthStore();
   const [comment, setComment] = useState('');
+  const { addComment, isAdding } = useComments(placeName);
   const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // 댓글 제출 기능
-    console.log(`닉네임: ${nickname}\n댓글: ${comment}\nplaceId: ${placeId}`);
+    // 댓글이 비어 있는 경우 추가 X
+    if (!comment.trim()) {
+      alert('댓글 입력창이 비어있습니다.');
+      return;
+    }
 
-    setNickname('');
-    setComment('');
-    router.refresh();
+    if (currentUser) {
+      addComment(
+        { content: comment, userId: currentUser[0].id },
+        {
+          onSuccess: () => {
+            setComment('');
+            router.refresh();
+          },
+        },
+      );
+    }
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex flex-col mb-6"
-    >
-			<div className="flex flex-row gap-2">
-				<h1>댓글</h1>
+    <form onSubmit={handleSubmit} className="flex flex-col mb-6">
+      <div className="flex flex-row gap-2">
+        <h1>댓글</h1>
         <MessageSquare className="fill-black text-black" />
-        <p>(0)</p>
+        <p>{`(${commentNum})`}</p>
       </div>
 
-      <hr className="border border-gray-500 my-4" />
-      <div className="mb-4">
-        <CommentInput
-          placeholder="댓글을 입력하세요"
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-          required
-        />
-      </div>
-      <button
-        type="submit"
-        className="bg-[#FFB200] px-4 py-2 rounded-lg text-white font-semibold place-self-end"
-      >
-        작성하기
-      </button>
+      <hr className="border border-gray-500 mt-4" />
+      <CommentInput
+        disabled={!currentUser}
+        type="text"
+        placeholder={!currentUser ? '로그인이 필요합니다' : '댓글을 입력하세요'}
+        value={comment}
+        onChange={(e) => setComment(e.target.value)}
+        required
+      />
+      {currentUser && (
+        <button
+          type="submit"
+          className={`px-4 py-2 rounded-lg text-white font-semibold place-self-end ${
+            isAdding ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#FFB200]'
+          }`}
+          disabled={isAdding}
+        >
+          {isAdding ? '작성 중...' : '작성하기'}
+        </button>
+      )}
     </form>
   );
 };

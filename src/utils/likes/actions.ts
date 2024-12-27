@@ -60,3 +60,24 @@ export const fetchLikedPlaces = async (userId: string): Promise<LikesRow[]> => {
 
   return data || [];
 };
+
+// 유저가 장소를 좋아요 했는지 확인하는 로직
+export const isUserLikedPlace = async (
+  userId: string,
+  placeName: string,
+): Promise<boolean> => {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from('likes')
+    .select('id')
+    .eq('user_id', userId)
+    .eq('place_name', placeName)
+    .maybeSingle();
+
+  if (error) {
+    throw new Error(`좋아요 정보를 가져오는데 실패했습니다: ${error.message}`);
+  }
+
+  return !!data;
+};

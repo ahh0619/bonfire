@@ -2,35 +2,6 @@
 
 import { createClient } from '@/utils/supabase/server';
 
-export const getUserProfile = async () => {
-  const supabase = await createClient();
-
-  // 인증된 유저의 정보 가져오기
-  const {
-    data: { user },
-    error: authError,
-  } = await supabase.auth.getUser();
-
-  if (authError || !user) {
-    throw new Error(`유저 인증 실패: ${authError!.message}`);
-  }
-
-  // 유저 ID로 프로필 정보 가져오기
-  const { data: profile, error: profileError } = await supabase
-    .from('users')
-    .select('*')
-    .eq('id', user.id) // 인증된 유저의 ID 사용
-    .single();
-
-  if (profileError) {
-    throw new Error(
-      `프로필 정보를 가져오는 데 실패했습니다: ${profileError.message}`,
-    );
-  }
-
-  return profile;
-};
-
 export const updateUserProfile = async (formData: FormData) => {
   const supabase = await createClient();
 

@@ -83,6 +83,7 @@ export const ProfileModal = ({
             className="rounded-full mb-4 aspect-square object-cover"
             width={120}
             height={120}
+            placeholder="blur"
           />
           <div className="flex space-x-4">
             <label

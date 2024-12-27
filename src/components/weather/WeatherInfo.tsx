@@ -1,48 +1,40 @@
 'use client';
 
-import { fetchWeather } from '@/app/api/weatherApi';
-import { useQuery } from '@tanstack/react-query';
-import { Weather } from '@/types/Weather';
 import Image from 'next/image';
+import useWeatherInfo from '@/hooks/weather/useWeatherInfo';
+import { ErrorFallback } from '@/components/common/ErrorFallback';
+import Loading from '@/components/common/Loading';
 
 const WeatherInfo = ({ lat, lon }: { lat: string; lon: string }) => {
   const {
-    data: weatherInfo,
-    isPending: isWeatherPending,
-    isError: isWeatherError,
-    error: weatherError,
-  } = useQuery<Weather>({
-    queryKey: ['weatherInfo', lat, lon],
-    queryFn: () => fetchWeather(Number(lat), Number(lon)),
-    enabled: !!lat && !!lon,
-  });
+    weatherCondition, // 캠핑장의 현재 날씨 상태(맑음, 비, 눈, 번개)
+    weatherInfo, // 캠핑장의 현재 전체 날씨 데이터
+    isWeatherPending,
+    isWeatherError,
+    weatherError,
+    weatherImgSrc,
+    refetch,
+  } = useWeatherInfo({ lat, lon });
 
   if (isWeatherPending) {
-    return <p className="ml-2 text-sm font-bold text-gray-600">Loading...</p>;
+    return <Loading />;
   }
 
   if (isWeatherError) {
-    return <p>Error:{weatherError.message}</p>;
+    return (
+      <ErrorFallback
+        message="캠핑장 날씨 데이터를 불러오는 중 오류가 발생했습니다."
+        errorDetail={weatherError?.message}
+        onRetry={refetch}
+        retryLabel="다시 시도"
+      />
+    );
   }
-  const weatherCondition = weatherInfo.weather[0].main;
-  const weatherImgSrc = (condition: string) => {
-    switch (condition) {
-      case 'thunderstorm':
-        return '/images/weather/Thunderstorm.png';
-      case 'clouds':
-        return '/images/weather/Clouds.png';
-      case 'rain':
-        return '/images/weather/Rain.png';
-      case 'snow':
-        return '/images/weather/Snow.png';
-      default:
-        return '/images/weather/Clear.png';
-    }
-  };
 
   return (
     <div className="w-[300px] items-start">
       <div className="flex flex-row items-center">
+        {/* 캠핑장 날씨 이미지 */}
         <Image
           src={weatherImgSrc(weatherCondition)}
           alt={weatherCondition}
@@ -50,7 +42,8 @@ const WeatherInfo = ({ lat, lon }: { lat: string; lon: string }) => {
           height={30}
         />
         <p className="ml-2 text-sm font-bold text-gray-600">
-          현재 온도 : <span className="font-normal">{weatherInfo.main.temp}°C</span>
+          현재 온도 :{' '}
+          <span className="font-normal">{weatherInfo?.main.temp}°C</span>
         </p>
       </div>
     </div>

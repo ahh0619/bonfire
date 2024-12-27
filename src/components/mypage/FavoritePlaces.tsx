@@ -1,13 +1,13 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { getUserProfile } from '@/app/mypage/actions'; // 서버 액션 호출
 import { fetchLikedPlaces } from '@/utils/likes/actions'; // 좋아요 데이터 가져오는 함수
 import { FavoriteSkeleton } from '@/components/mypage/FavoriteSkeleton'; // 스켈레톤 UI
 import { Tables } from '@/types/supabase';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ErrorFallback } from './ErrorFallback';
+import { ErrorFallback } from '@/components/common/ErrorFallback';
+import { getUser } from '@/app/login/actions';
 
 type LikesRow = Tables<'likes'>;
 
@@ -18,18 +18,18 @@ export const FavoritePlaces = () => {
   >({
     queryKey: ['likedPlaces'],
     queryFn: async () => {
-      const userProfile = await getUserProfile();
-      if (!userProfile?.id) {
+      const userProfile = await getUser();
+      if (!userProfile[0]?.id) {
         throw new Error('User ID is not available');
       }
-      const likedPlaces = await fetchLikedPlaces(userProfile.id);
+      const likedPlaces = await fetchLikedPlaces(userProfile[0].id);
       return likedPlaces;
     },
   });
 
   return (
     <section className="mt-20 w-full">
-      <h3 className="text-xl font-bold border-b-2 border-gray-300 pb-2">
+      <h3 className="text-2xl font-bold border-b-2 border-gray-300 pb-3">
         좋아요한 곳
       </h3>
       {isError ? (
@@ -56,9 +56,10 @@ export const FavoritePlaces = () => {
                 {/* 이미지 컨테이너 */}
                 <div className="relative w-full aspect-[4/3] rounded-md overflow-hidden mb-4">
                   <Image
-                    src={place.place_image || '/images/default_icon.png'}
+                    src={place.place_image || '/images/default_icon.webp'}
                     alt={place.place_name}
                     layout="fill"
+                    placeholder="blur"
                     className="object-cover"
                   />
                 </div>
