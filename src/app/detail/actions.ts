@@ -1,5 +1,6 @@
 'use server';
 
+import { Comment } from '@/types/Comment';
 import { Database, Tables } from '@/types/supabase';
 import { createClient } from '@/utils/supabase/server';
 
@@ -19,7 +20,7 @@ export const addComment = async (comment: CommentsInsert) => {
 };
 
 // 모든 댓글 읽어들이기 (SSR 필요)
-export const fetchComments = async (placeName: string) => {
+export const fetchComments = async (placeName: string): Promise<Comment[]> => {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from('comments')

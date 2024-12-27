@@ -8,30 +8,23 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { CommentInput } from './CommentInput';
 import Swal, { SweetAlertResult } from 'sweetalert2';
+import { Comment } from '@/types/Comment';
 
 type CommentProps = {
-  userId: string;
-  nickname: string;
-  profileImage: string | null;
-  content: string;
-  commentId: string;
+  comment: Comment;
   placeName: string;
 };
 
-const Comment = ({
-  userId,
-  nickname,
-  profileImage,
-  content,
-  commentId,
+const CommentItem = ({
+  comment,
   placeName,
 }: CommentProps) => {
   const { user: currentUser } = useAuthStore();
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [editedContent, setEditedContent] = useState(content);
+  const [editedContent, setEditedContent] = useState(comment.content);
   const { deleteComment, isDeleting, updateComment, isUpdating } =
     useComments(placeName);
-  const allowedToChange = currentUser?.[0]?.id === userId;
+  const allowedToChange = currentUser?.[0]?.id === comment.user_id;
   const router = useRouter();
 
   const handleDelete = () => {
@@ -47,7 +40,7 @@ const Comment = ({
       cancelButtonColor: '#6c757d',
     }).then((result: SweetAlertResult) => {
       if (result.isConfirmed) {
-        deleteComment(commentId, {
+        deleteComment(comment.id, {
           onSuccess: () => {
             router.refresh();
           },
@@ -64,22 +57,22 @@ const Comment = ({
         confirmButtonColor: '#FD470E',
         iconColor: '#FD470E',
       });
-      setEditedContent(content);
+      setEditedContent(comment.content);
       return;
     }
 
-    if (content === editedContent.trim()) {
+    if (comment.content === editedContent.trim()) {
       setIsEditing(false);
       return;
     }
 
     // 낙관적 업데이트
-    const previousContent = content;
+    const previousContent = comment.content;
     setIsEditing(false);
     setEditedContent(editedContent.trim())
 
     updateComment(
-      { commentId, content: editedContent },
+      { commentId: comment.id, content: editedContent },
       {
         onSuccess: () => {
           router.refresh();
@@ -103,10 +96,10 @@ const Comment = ({
     <div className="flex flex-col">
       <div className="flex flex-row items-center gap-2">
         {/* 유저 프로필 이미지 부분 */}
-        {profileImage ? (
+        {comment.user.profile_image ? (
           <Image
-            src={profileImage}
-            alt={`${nickname}'s profile`}
+            src={comment.user.profile_image}
+            alt={`${comment.user.nickname}'s profile`}
             width={40}
             height={40}
             className="rounded-full w-10 aspect-square object-cover"
@@ -114,7 +107,7 @@ const Comment = ({
         ) : (
           <div className="bg-gray-300 rounded-full w-10 aspect-square"></div>
         )}
-        <p>{nickname}</p>
+        <p>{comment.user.nickname}</p>
       </div>
 
       {isEditing ? (
@@ -125,7 +118,7 @@ const Comment = ({
           disabled={isUpdating}
         />
       ) : (
-        <div className="border rounded-xl px-3 py-4 my-4">{content}</div>
+        <div className="border rounded-xl px-3 py-4 my-4">{comment.content}</div>
       )}
 
       <div className="flex flex-row place-self-end gap-2">
@@ -164,4 +157,4 @@ const Comment = ({
   );
 };
 
-export default Comment;
+export default CommentItem;

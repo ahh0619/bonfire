@@ -49,7 +49,7 @@ const CommentForm = ({ placeName, commentNum }: CommentFormProps) => {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col mb-6">
       <div className="flex flex-row gap-2">
-        <h1>댓글</h1>
+        <h2>댓글</h2>
         <MessageSquare className="fill-black text-black" />
         <p>{`(${commentNum})`}</p>
       </div>
