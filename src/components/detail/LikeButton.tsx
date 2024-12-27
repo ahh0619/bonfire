@@ -29,12 +29,10 @@ const LikeButton = ({
     liked,
     isLikesPending,
     isLikedPending,
-    isAdding,
-    isRemoving,
     addLike,
     removeLike,
   } = useLikes(placeName, userId);
-  const isPending = isLikesPending || isLikedPending || isAdding || isRemoving;
+  const isPending = isLikesPending || isLikedPending;
 
   const handleToggleLike = async () => {
     if (!currentUser) {
