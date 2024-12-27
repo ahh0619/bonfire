@@ -53,10 +53,10 @@ const LoginPage = () => {
 
   // const onSubmit = async (data: LoginFormData) => {
   //   try {
-  //     const data2 = await login(data);
+  //     const data2 = await login(data); //서버액션
   //     console.log('dat2 ', data2);
-  //     const userData = await getUser();
-  //     logIn(userData);
+  //     const userData = await getUser(); //슈퍼베이스 유저
+  //     logIn(userData); //주스탠드에 유저 정보넣기
   //     router.push('/');
   //   } catch (error) {
   //     Swal.fire({
