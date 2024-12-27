@@ -4,8 +4,12 @@ import Link from 'next/link';
 import Nav from './Nav';
 import { useEffect, useRef, useState } from 'react';
 import { Menu } from 'lucide-react';
+import { useAuthStore } from '@/store/authStore';
+import { getUser } from '@/app/login/actions';
 
 const Header = () => {
+  const { user, logIn } = useAuthStore();
+  const [isReady, setIsReady] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -15,7 +19,14 @@ const Header = () => {
         setMenuOpen(false);
       }
     };
+    const fetchSession = async () => {
+      const userData = await getUser();
+      logIn(userData);
+    };
+
     document.addEventListener('mousedown', handleClickOutside);
+    fetchSession();
+    setIsReady(true);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
@@ -44,7 +55,7 @@ const Header = () => {
       </div>
 
       <div className="hidden md:block">
-        <Nav closeMenu={() => {}} />
+        <Nav user={user} isReady={isReady} closeMenu={() => {}} />
       </div>
 
       {menuOpen && (
@@ -52,7 +63,7 @@ const Header = () => {
           ref={menuRef}
           className="absolute top-full right-5 mt-2 w-48 bg-white border rounded-lg shadow-lg p-4 md:hidden"
         >
-          <Nav closeMenu={closeMenu} />
+          <Nav user={user} isReady={isReady} closeMenu={closeMenu} />
         </div>
       )}
     </header>

@@ -1,27 +1,19 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useAuthStore } from '@/store/authStore';
-import { getUser, logout } from '@/app/login/actions';
+import { logout } from '@/app/login/actions';
+import { Tables } from '@/types/supabase';
+import NavSkeleton from './NavSkeleton';
 
 type NavProps = {
+  user: Tables<'users'>[] | null;
+  isReady: boolean;
   closeMenu: () => void;
 };
 
-const Nav = ({ closeMenu }: NavProps) => {
-  const { user, logIn, logOut } = useAuthStore();
-  const [isReady, setIsReady] = useState(false);
-
-  useEffect(() => {
-    const fetchSession = async () => {
-      const userData = await getUser();
-      logIn(userData);
-    };
-
-    fetchSession();
-    setIsReady(true);
-  }, []);
+const Nav = ({ user, isReady, closeMenu }: NavProps) => {
+  const { logOut } = useAuthStore();
 
   const handleLogout = async () => {
     await logout();
@@ -30,7 +22,7 @@ const Nav = ({ closeMenu }: NavProps) => {
   };
 
   if (!isReady) {
-    return null;
+    return <NavSkeleton />;
   }
 
   return (
