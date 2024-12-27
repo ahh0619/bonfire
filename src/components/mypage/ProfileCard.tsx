@@ -55,7 +55,7 @@ export const ProfileCard = () => {
         className="rounded-full mb-4 aspect-square object-cover"
         width={100}
         height={100}
-        // placeholder="blur"
+        placeholder="blur"
       />
       <div className="h-24 ml-5">
         {/* 유저 닉네임 */}
