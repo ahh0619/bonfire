@@ -12,6 +12,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '@/validations/loginSchema';
 import { createClient } from '@/utils/supabase/client';
 import Image from 'next/image';
+import Swal from 'sweetalert2';
 const googleImage = '/images/google_logo.png';
 
 const LoginPage = () => {
@@ -41,7 +42,11 @@ const LoginPage = () => {
     });
 
     if (error) {
-      alert('로그인에 실패했습니다. 다시 시도해주세요.');
+      Swal.fire({
+        icon: 'error',
+        title: '로그인 실패',
+        text: '로그인에 실패했습니다. 다시 시도해주세요.',
+      });
     }
   };
 
@@ -51,7 +56,11 @@ const LoginPage = () => {
       const userData = await getUser();
       logIn(userData);
     } catch (error) {
-      alert('로그인에 실패했습니다. 다시 시도해주세요.');
+      Swal.fire({
+        icon: 'error',
+        title: '로그인 실패',
+        text: '아이디 또는 비밀번호가 잘못 되었습니다.',
+      });
     }
   };
 
