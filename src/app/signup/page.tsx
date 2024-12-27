@@ -57,11 +57,11 @@ const SignUp = () => {
 
         <Button text="회원가입" />
 
-        <p className="text-sm text-gray-600 mt-4 text-center">
+        <p className="text-sm text-gray-600 mt-3 text-center">
           이미 계정이 있으신가요?{' '}
           <Link
             href="/login"
-            className="text-green-500 font-semibold hover:underline"
+            className="text-green-500 font-semibold hover:underline ml-2"
           >
             로그인
           </Link>

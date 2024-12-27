@@ -102,11 +102,11 @@ const LoginPage = () => {
           구글로 로그인하기
         </button>
 
-        <p className="text-sm text-gray-600 mt-4 text-center">
+        <p className="text-sm text-gray-600 mt-6 text-center">
           계정이 없으신가요?
           <Link
             href="/signup"
-            className="text-green-500 font-semibold hover:underline"
+            className="text-green-500 font-semibold hover:underline ml-2"
           >
             회원가입
           </Link>
