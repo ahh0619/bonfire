@@ -50,7 +50,7 @@ export const ProfileCard = () => {
   }
 
   return (
-    <div className="flex items-center space-x-6">
+    <div className="flex items-center">
       {/* 유저 프로필 이미지 */}
       <Image
         src={userProfile.profile_image || '/images/leader_github_logo.png'}
@@ -60,7 +60,7 @@ export const ProfileCard = () => {
         height={100}
         placeholder="blur"
       />
-      <div className="h-24">
+      <div className="h-24 ml-5">
         {/* 유저 닉네임 */}
         <h2 className="text-2xl font-semibold mb-4">{userProfile.nickname}</h2>
         <button
