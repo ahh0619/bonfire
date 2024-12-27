@@ -21,10 +21,6 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="icon" href="/images/favicon.webp" sizes="any" />
-        <link rel="icon" href="/images/favicon.webp" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/site.webmanifest" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className={inter.className}>
         <Header />
