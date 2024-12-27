@@ -12,7 +12,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '@/validations/loginSchema';
 import { createClient } from '@/utils/supabase/client';
 import Image from 'next/image';
-import Head from 'next/head';
 const googleImage = '/images/google_logo.png';
 
 const LoginPage = () => {
@@ -57,65 +56,54 @@ const LoginPage = () => {
   };
 
   return (
-    <>
-      <Head>
-        <title>BonFire - 로그인</title>
-        <meta
-          name="description"
-          content="이미 계정이 있으신가요? BonFire에 로그인하고 콘텐츠를 즐기세요."
-        />
-      </Head>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 mt-[-20px]">
+      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <h1 className="text-3xl font-bold mb-6 text-center text-black">
+            로그인
+          </h1>
 
-      {/* 로그인 페이지 내용 */}
-      <div className="flex items-center justify-center min-h-screen bg-gray-100 mt-[-20px]">
-        <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <h1 className="text-3xl font-bold mb-6 text-center text-black">
-              로그인
-            </h1>
-
-            {loginFields.map((field) => (
-              <Input
-                key={field.id}
-                id={field.id}
-                label={field.label}
-                type={field.type}
-                placeholder={field.placeholder}
-                register={register}
-                error={errors[field.id]?.message}
-              />
-            ))}
-
-            <Button text="로그인" />
-          </form>
-
-          <button
-            onClick={googleLogin}
-            className="text-base font-semibold w-full py-2 rounded-md hover:bg-gray-200 transition-colors mb-4 flex items-center justify-center border border-gray-300"
-          >
-            <Image
-              src={googleImage}
-              alt={'google-image'}
-              width={25}
-              height={25}
-              onClick={googleLogin}
-              className="mr-3"
+          {loginFields.map((field) => (
+            <Input
+              key={field.id}
+              id={field.id}
+              label={field.label}
+              type={field.type}
+              placeholder={field.placeholder}
+              register={register}
+              error={errors[field.id]?.message}
             />
-            구글로 로그인하기
-          </button>
+          ))}
 
-          <p className="text-sm text-gray-600 mt-4 text-center">
-            계정이 없으신가요?
-            <Link
-              href="/signup"
-              className="text-green-500 font-semibold hover:underline"
-            >
-              회원가입
-            </Link>
-          </p>
-        </div>
+          <Button text="로그인" />
+        </form>
+
+        <button
+          onClick={googleLogin}
+          className="text-base font-semibold w-full py-2 rounded-md hover:bg-gray-200 transition-colors mb-4 flex items-center justify-center border border-gray-300"
+        >
+          <Image
+            src={googleImage}
+            alt={'google-image'}
+            width={25}
+            height={25}
+            onClick={googleLogin}
+            className="mr-3"
+          />
+          구글로 로그인하기
+        </button>
+
+        <p className="text-sm text-gray-600 mt-4 text-center">
+          계정이 없으신가요?
+          <Link
+            href="/signup"
+            className="text-green-500 font-semibold hover:underline"
+          >
+            회원가입
+          </Link>
+        </p>
       </div>
-    </>
+    </div>
   );
 };
 
