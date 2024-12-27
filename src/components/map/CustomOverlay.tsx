@@ -5,6 +5,7 @@ import { Camping } from '@/types/Camping';
 import { Dispatch } from 'react';
 import { facilSearch } from '@/utils/map/facilSearch';
 import FacilSearchBtn from './FacilSearchBtn';
+import { Link } from 'lucide-react';
 
 type CustomOverlayProps = {
   radiusCampList: Pick<
@@ -41,7 +42,11 @@ const CustomOverlay = ({
   setFacilSearchResult,
   setFacilCode,
 }: CustomOverlayProps) => {
-  const facilClickHandler = (lat: number, lon: number, code: `${kakao.maps.CategoryCode}`) => {
+  const facilClickHandler = (
+    lat: number,
+    lon: number,
+    code: `${kakao.maps.CategoryCode}`,
+  ) => {
     setFacilSearchResult([]);
     facilSearch(lat, lon, setFacilSearchResult, code);
     setSelectedMarker(null);
@@ -55,25 +60,32 @@ const CustomOverlay = ({
           key={`${list.facltNm}-${{ lat: list.mapY, lng: list.mapX }}`}
           position={{ lat: Number(list.mapY), lng: Number(list.mapX) }}
         >
-          <div className="relative bg-white shadow-lg rounded-lg p-8 max-w-[400px] w-full">
+          <div
+            className="relative bg-white shadow-lg rounded-lg p-8 max-w-[400px] w-full"
+            style={{ pointerEvents: 'auto' }}
+          >
             <div className="flex flex-col items-center gap-4">
               <div className="flex flex-col items-center justify-center max-h-[350px] max-w-full px-2">
                 {list.firstImageUrl.length ? (
-                  <Image
-                    src={`${list.firstImageUrl}`}
-                    alt="Example Image"
-                    width={300} // 이미지 너비
-                    height={300} // 이미지 높이
-                    className="object-cover w-[300px] h-[150px]"
-                  />
+                  <a href={`/detail/${list.facltNm}`}>
+                    <Image
+                      src={`${list.firstImageUrl}`}
+                      alt="Example Image"
+                      width={300} // 이미지 너비
+                      height={300} // 이미지 높이
+                      className="object-cover w-[300px] h-[150px] cursor-pointer hover:scale-105 transition-transform duration-300"
+                    />
+                  </a>
                 ) : (
-                  <Image
-                    src="/images/default_icon.png" // public 폴더 안의 이미지 경로
-                    alt="Example Image"
-                    width={300} // 이미지 너비
-                    height={300} // 이미지 높이
-                    className="object-cover w-[300px] h-[150px]"
-                  />
+                  <a href={`/detail/${list.facltNm}`}>
+                    <Image
+                      src="/images/default_icon.webp" // public 폴더 안의 이미지 경로
+                      alt="Example Image"
+                      width={300} // 이미지 너비
+                      height={300} // 이미지 높이
+                      className="object-cover w-[300px] h-[150px] cursor-pointer hover:scale-105 transition-transform duration-300"
+                    />
+                  </a>
                 )}
                 <p className="w-[300px] whitespace-normal text-sm font-bold text-gray-600 leading-6">
                   이름 : <span className="font-normal">{list.facltNm}</span>
