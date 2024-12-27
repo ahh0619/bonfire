@@ -73,7 +73,7 @@ const RadiusCampList = () => {
           slidesPerView={3} // 보여질 슬라이스 수
           navigation={true} // prev, next button
           autoplay={{
-            delay: 2500,
+            delay: 3000,
             disableOnInteraction: false, // 사용자 상호작용시 슬라이더 일시 정지 비활성
           }}
           breakpoints={{
@@ -100,37 +100,39 @@ const RadiusCampList = () => {
           {radiusCampList?.map((camp) => (
             <SwiperSlide
               key={camp.contentId}
-              className="py-8 flex flex-col justify-center items-center border border-gray-300 shadow-lg rounded-lg"
+              className="py-8 flex flex-col justify-center items-center border border-gray-200 shadow-mg rounded-lg hover:shadow-xl transition-transform duration-300 bg-white"
             >
               {/* 클릭 시 캠핑장 디테일 페이지로 이동 */}
               <Link
                 href={`/detail/${camp.facltNm}`}
-                className="flex flex-col items-center"
+                className="flex flex-col items-center w-full h-full"
               >
                 {/* 캠핑장 이미지 */}
                 <div className="w-full px-10">
-                  {camp.firstImageUrl ? (
-                    <Image
-                      src={camp.firstImageUrl}
-                      alt={camp.facltNm}
-                      width={500}
-                      height={250}
-                      className="h-[250px] object-cover mx-auto"
-                    />
-                  ) : (
-                    // 캠핑장 디폴트 이미지
-                    <Image
-                      src={defaultCampImage}
-                      alt={camp.facltNm}
-                      width={500}
-                      height={250}
-                      className="h-[250px]"
-                    />
-                  )}
+                  <div className="overflow-hidden rounded-lg">
+                    {camp.firstImageUrl ? (
+                      <Image
+                        src={camp.firstImageUrl}
+                        alt={camp.facltNm}
+                        width={500}
+                        height={250}
+                        className="h-[250px] object-cover rounded-lg mx-auto hover:scale-105 transition-transform duration-300"
+                      />
+                    ) : (
+                      // 캠핑장 디폴트 이미지
+                      <Image
+                        src={defaultCampImage}
+                        alt={camp.facltNm}
+                        width={500}
+                        height={250}
+                        className="h-[250px] rounded-lg hover:scale-105 transition-transform duration-300"
+                      />
+                    )}
+                  </div>
                 </div>
                 {/* 캠핑장 명, 캠핑장 주소 */}
                 <p className="font-bold text-lg mt-8">{camp.facltNm}</p>
-                <p className="text-gray-600">{camp.addr1}</p>
+                <p className="text-gray-600 mt-2">{camp.addr1}</p>
               </Link>
             </SwiperSlide>
           ))}

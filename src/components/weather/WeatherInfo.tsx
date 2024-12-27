@@ -5,6 +5,14 @@ import useWeatherInfo from '@/hooks/weather/useWeatherInfo';
 import { ErrorFallback } from '@/components/common/ErrorFallback';
 import WeatherInfoSkeleton from './WeatherInfoSkeleton';
 
+const WEATHER_MAPPING: Record<string, string> = {
+  thunderstorm: '/images/weather/Thunderstorm.png',
+  clouds: '/images/weather/Clouds.png',
+  rain: '/images/weather/Rain.png',
+  snow: '/images/weather/Snow.png',
+  clear: '/images/weather/Clear.png',
+};
+
 const WeatherInfo = ({ lat, lon }: { lat: string; lon: string }) => {
   const {
     weatherCondition, // 캠핑장의 현재 날씨 상태(맑음, 비, 눈, 번개)
@@ -12,7 +20,6 @@ const WeatherInfo = ({ lat, lon }: { lat: string; lon: string }) => {
     isWeatherPending,
     isWeatherError,
     weatherError,
-    weatherImgSrc,
     refetch,
   } = useWeatherInfo({ lat, lon });
 
@@ -36,7 +43,7 @@ const WeatherInfo = ({ lat, lon }: { lat: string; lon: string }) => {
       <div className="flex flex-row items-center">
         {/* 캠핑장 날씨 이미지 */}
         <Image
-          src={weatherImgSrc(weatherCondition)}
+          src={WEATHER_MAPPING[weatherCondition] || WEATHER_MAPPING.clear}
           alt={weatherCondition}
           width={30}
           height={30}
