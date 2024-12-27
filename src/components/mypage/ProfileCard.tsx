@@ -21,10 +21,10 @@ export const ProfileCard = () => {
     queryKey: ['userProfile'],
     queryFn: async () => {
       const data = await getUser();
-      if (data) {
+      if (!data) {
         throw new Error('User is not available');
       }
-      return data![0]; // 서버 액션에서 인증된 유저의 프로필 가져오기
+      return data[0]; // 서버 액션에서 인증된 유저의 프로필 가져오기
     },
   });
 
