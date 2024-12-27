@@ -45,7 +45,6 @@ export const useComments = (placeName: string) => {
       queryClient.setQueryData(
         ['comments', placeName],
         (oldComments: Comment[]) => [
-          ...oldComments,
           {
             id: `temp-${Date.now()}`,
             content,
@@ -55,6 +54,7 @@ export const useComments = (placeName: string) => {
               profile_image: currentUser![0].profile_image,
             },
           },
+          ...oldComments,
         ],
       );
 
