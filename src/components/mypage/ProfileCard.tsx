@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { ProfileModal } from './ProfileModal';
 import { ProfileSkeleton } from '@/components/mypage/ProfileSkeleton'; // 스켈레톤 UI
 import { ErrorFallback } from '@/components/common/ErrorFallback';
-import fetchUserProfile from '@/hooks/mypage/fetchUserProfile';
+import fetchUserProfile from '@/app/api/fetchUserProfile';
 
 export const ProfileCard = () => {
   const [modalOpen, setModalOpen] = useState(false);
