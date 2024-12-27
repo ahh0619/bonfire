@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import Input from '@/components/login/Input';
 import { SignupFormData } from '@/types/SignupFormData';
 import { signupFields } from '@/components/login/formFields';
-import { getUser, signup } from '../login/actions';
+import { getUser, signup } from '@/app/login/actions';
 import { useAuthStore } from '@/store/authStore';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signUpSchema } from '@/validations/signUpSchema';
