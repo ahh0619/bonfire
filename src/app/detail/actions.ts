@@ -25,7 +25,8 @@ export const fetchComments = async (placeName: string): Promise<Comment[]> => {
   const { data, error } = await supabase
     .from('comments')
     .select(`id, content, created_at, user_id, users(nickname, profile_image)`)
-    .eq('place_name', placeName);
+    .eq('place_name', placeName)
+    .order('created_at', { ascending: false });
 
   if (error) {
     throw new Error(`댓글 불러오기에 실패했습니다: ${error!.message}`);
