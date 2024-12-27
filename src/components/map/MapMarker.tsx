@@ -14,7 +14,19 @@ type MapMarkerType = {
     | 'mapX'
     | 'tel'
   >[];
-  setSelectedMarker: Dispatch<any>;
+  setSelectedMarker: Dispatch<
+    Pick<
+      Camping,
+      | 'contentId'
+      | 'firstImageUrl'
+      | 'facltNm'
+      | 'addr1'
+      | 'induty'
+      | 'mapY'
+      | 'mapX'
+      | 'tel'
+    >
+  >;
 };
 
 const MapMarkerComponent = ({
@@ -24,15 +36,15 @@ const MapMarkerComponent = ({
   return radiusCampList!.map((list) => (
     <MapMarker
       key={`${list.facltNm}-${{ lat: list.mapY, lng: list.mapX }}`}
-      position={{ lat: Number(list.mapY), lng: Number(list.mapX) }} // 마커를 표시할 위치
+      position={{ lat: Number(list.mapY), lng: Number(list.mapX) }}
       image={{
         src: '/images/custom_marker.png',
         size: {
           width: 35,
           height: 35,
-        }, // 마커이미지의 크기입니다
+        },
       }}
-      title={list.facltNm} // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+      title={list.facltNm}
       onClick={() => setSelectedMarker(list)}
     />
   ));
