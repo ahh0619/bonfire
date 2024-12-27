@@ -34,7 +34,7 @@ const LikeButton = ({
     addLike,
     removeLike,
   } = useLikes(placeName, userId);
-  const isPending = isLikesPending || isLikedPending  || isAdding || isRemoving;
+  const isPending = isLikesPending || isLikedPending || isAdding || isRemoving;
 
   const handleToggleLike = async () => {
     if (!currentUser) {

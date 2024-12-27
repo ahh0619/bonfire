@@ -1,7 +1,7 @@
 import { PawPrint, Phone } from 'lucide-react';
-import LikeButton from './LikeButton';
+import LikeButton from '@/components/detail/LikeButton';
 import { Camping } from '@/types/Camping';
-import DetailMap from './DetailMap';
+import DetailMap from '@/components/detail/DetailMap';
 
 type PlaceDetailProps = {
   details: Camping;

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { MessageSquare } from 'lucide-react';
-import { CommentInput } from './CommentInput';
+import { CommentInput } from '@/components/detail/CommentInput';
 import { useAuthStore } from '@/store/authStore';
 import { useComments } from '@/hooks/comment/useComment';
 import Swal from 'sweetalert2';

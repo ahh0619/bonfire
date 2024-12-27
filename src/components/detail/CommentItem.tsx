@@ -6,7 +6,7 @@ import { PenLine, Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { CommentInput } from './CommentInput';
+import { CommentInput } from '@/components/detail/CommentInput';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 import { Comment } from '@/types/Comment';
 
@@ -15,10 +15,7 @@ type CommentProps = {
   placeName: string;
 };
 
-const CommentItem = ({
-  comment,
-  placeName,
-}: CommentProps) => {
+const CommentItem = ({ comment, placeName }: CommentProps) => {
   const { user: currentUser } = useAuthStore();
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [editedContent, setEditedContent] = useState(comment.content);
@@ -69,7 +66,7 @@ const CommentItem = ({
     // 낙관적 업데이트
     const previousContent = comment.content;
     setIsEditing(false);
-    setEditedContent(editedContent.trim())
+    setEditedContent(editedContent.trim());
 
     updateComment(
       { commentId: comment.id, content: editedContent },
@@ -80,14 +77,14 @@ const CommentItem = ({
         onError: () => {
           // 롤백
           setEditedContent(previousContent);
-          setIsEditing(true);   // 수정 재시도 할 수 있도록
+          setIsEditing(true); // 수정 재시도 할 수 있도록
           Swal.fire({
             icon: 'error',
             text: '댓글 수정에 실패했습니다. 다시 시도해주세요.',
             confirmButtonColor: '#FD470E',
             iconColor: '#FD470E',
           });
-        }
+        },
       },
     );
   };
@@ -118,7 +115,9 @@ const CommentItem = ({
           disabled={isUpdating}
         />
       ) : (
-        <div className="border rounded-xl px-3 py-4 my-4">{comment.content}</div>
+        <div className="border rounded-xl px-3 py-4 my-4">
+          {comment.content}
+        </div>
       )}
 
       <div className="flex flex-row place-self-end gap-2">

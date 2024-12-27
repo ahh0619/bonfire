@@ -1,23 +1,20 @@
 import React, { Suspense } from 'react';
-import CommentForm from './CommentForm';
-import CommentList from './CommentList';
+import CommentForm from '@/components/detail/CommentForm';
+import CommentList from '@/components/detail/CommentList';
 import { fetchComments } from '@/app/detail/actions';
 import { Comment } from '@/types/Comment';
-import CommentListSkeleton from './CommentListSkeleton';
+import CommentListSkeleton from '@/components/detail/CommentListSkeleton';
 
 type CommentSectionProps = {
   facltNm: string;
 };
 
-const CommentSection = async ({facltNm }: CommentSectionProps) => {
-	const commentList: Comment[] = await fetchComments(facltNm);
+const CommentSection = async ({ facltNm }: CommentSectionProps) => {
+  const commentList: Comment[] = await fetchComments(facltNm);
   return (
     <div className="flex flex-col border rounded-xl border-black p-8">
       {/* 댓글 입력 부분 */}
-      <CommentForm
-        placeName={facltNm}
-        commentNum={commentList.length}
-      />
+      <CommentForm placeName={facltNm} commentNum={commentList.length} />
 
       {/* 댓글 리스트 부분 */}
       <Suspense fallback={<CommentListSkeleton />}>

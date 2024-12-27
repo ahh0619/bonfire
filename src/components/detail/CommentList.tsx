@@ -1,4 +1,4 @@
-import CommentItem from './CommentItem';
+import CommentItem from '@/components/detail/CommentItem';
 import { Comment } from '@/types/Comment';
 
 type CommentsProps = {
@@ -10,11 +10,7 @@ const CommentList = ({ commentList, placeName }: CommentsProps) => {
   return (
     <div>
       {commentList.map((comment) => (
-        <CommentItem
-          key={comment.id}
-          comment={comment}
-          placeName={placeName}
-        />
+        <CommentItem key={comment.id} comment={comment} placeName={placeName} />
       ))}
     </div>
   );
