@@ -4,7 +4,7 @@ import { MapMarker } from 'react-kakao-maps-sdk';
 
 type FacilMarkerType = {
   facilSearchResult: kakao.maps.services.PlacesSearchResult | [];
-  facilCode: string;
+  facilCode: 'HP8' | 'PM9' | 'CS2' | '';
   setSelectedFacilMarker: Dispatch<kakao.maps.services.PlacesSearchResultItem | null>;
 };
 
@@ -13,21 +13,14 @@ const FacilMarker = ({
   facilCode,
   setSelectedFacilMarker,
 }: FacilMarkerType) => {
-  let imgUrl: string;
-  switch (facilCode) {
-    case 'HP8':
-      imgUrl = '/images/hospital_marker.png';
-      break;
-    case 'PM9':
-      imgUrl = '/images/pharmacy_marker.png';
-      break;
-    case 'CS2':
-      imgUrl = '/images/convenience_store_marker.png';
-      break;
-
-    default:
-      break;
-  }
+  let imgUrl;
+  const FACIL_CODE_MAPPING = {
+    HP8: '/images/hospital_marker.png',
+    PM9: '/images/pharmacy_marker.png',
+    CS2: '/images/convenience_store_marker.png',
+    '': 'default',
+  };
+  imgUrl = FACIL_CODE_MAPPING[facilCode];
   return facilSearchResult!.map((result) => (
     <MapMarker
       key={`${result.place_name}-${{ lat: result.y, lng: result.x }}`}
