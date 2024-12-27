@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
-import Button from '@/components/common/Button';
 import Input from '@/components/login/Input';
 import { SignupFormData } from '@/types/SignupFormData';
 import { signupFields } from '@/components/login/formFields';
@@ -55,7 +54,12 @@ const SignUp = () => {
           />
         ))}
 
-        <Button text="회원가입" />
+        <button
+          type="submit"
+          className="bg-[#FD470E] text-white text-base font-semibold w-full py-2 rounded-md hover:bg-[#e0400e] transition-colors mb-4"
+        >
+          회원가입
+        </button>
 
         <p className="text-sm text-gray-600 mt-3 text-center">
           이미 계정이 있으신가요?{' '}

@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
-import Button from '@/components/common/Button';
 import Input from '@/components/login/Input';
 import { LoginFormData } from '@/types/LoginFormData';
 import { loginFields } from '@/components/login/formFields';
@@ -84,7 +83,12 @@ const LoginPage = () => {
             />
           ))}
 
-          <Button text="로그인" />
+          <button
+            type="submit"
+            className="bg-[#FD470E] text-white text-base font-semibold w-full py-2 rounded-md hover:bg-[#e0400e] transition-colors mb-4"
+          >
+            로그인
+          </button>
         </form>
 
         <button
