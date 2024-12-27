@@ -81,7 +81,9 @@ const LoginPage = () => {
         throw new Error(result.error);
       }
 
-      logIn(result.data);
+      const user = await getUser();
+
+      logIn(user);
       router.push('/');
     } catch (error) {
       Swal.fire({
