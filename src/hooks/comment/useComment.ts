@@ -24,8 +24,6 @@ export const useComments = (placeName: string) => {
     },
     onError: (error) => {
       console.error('댓글 등록 실패:', error);
-      // TODO: alert를 바꾸도록
-      alert('댓글 등록에 실패했습니다.');
     },
   });
 
@@ -39,8 +37,6 @@ export const useComments = (placeName: string) => {
     },
     onError: (error) => {
       console.error('댓글 삭제 실패:', error);
-      // TODO: alert를 바꾸도록
-      alert('댓글 삭제에 실패했습니다.');
     },
   });
 
@@ -60,8 +56,6 @@ export const useComments = (placeName: string) => {
     },
     onError: (error) => {
       console.error('댓글 수정 실패:', error);
-      // TODO: alert를 바꾸도록
-      alert('댓글 수정에 실패했습니다.');
     },
   });
 

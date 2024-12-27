@@ -2,8 +2,7 @@
 
 import Script from 'next/script';
 import { useState } from 'react';
-import Image from 'next/image';
-import { Map, StaticMap } from 'react-kakao-maps-sdk';
+import { StaticMap } from 'react-kakao-maps-sdk';
 import useSdkLoad from '@/hooks/map/useSdkLoad';
 
 const KAKAO_SDK_URL = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&autoload=false`;

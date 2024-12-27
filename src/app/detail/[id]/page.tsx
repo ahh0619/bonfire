@@ -3,9 +3,6 @@ import { fetchOneCampSite } from '@/app/api/campingApi';
 import CommentSection from '@/components/detail/CommentSection';
 import { Metadata } from 'next';
 
-// ISR 설정: 페이지가 1시간마다 재생성
-// export const revalidate = 3600; // 1시간
-
 export const generateMetadata = async ({
   params,
 }: PlaceDetailPageProps): Promise<Metadata> => {

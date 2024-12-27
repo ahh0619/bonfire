@@ -3,9 +3,10 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { MessageSquare } from 'lucide-react';
-import { CommentInput } from './CommentInput';
+import { CommentInput } from '@/components/detail/CommentInput';
 import { useAuthStore } from '@/store/authStore';
 import { useComments } from '@/hooks/comment/useComment';
+import Swal from 'sweetalert2';
 
 type CommentFormProps = {
   placeName: string;
@@ -23,7 +24,12 @@ const CommentForm = ({ placeName, commentNum }: CommentFormProps) => {
 
     // 댓글이 비어 있는 경우 추가 X
     if (!comment.trim()) {
-      alert('댓글 입력창이 비어있습니다.');
+      Swal.fire({
+        icon: 'warning',
+        text: '댓글 입력창이 비어있습니다',
+        confirmButtonColor: '#FD470E',
+        iconColor: '#FD470E',
+      });
       return;
     }
 
@@ -43,7 +49,7 @@ const CommentForm = ({ placeName, commentNum }: CommentFormProps) => {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col mb-6">
       <div className="flex flex-row gap-2">
-        <h1>댓글</h1>
+        <h2>댓글</h2>
         <MessageSquare className="fill-black text-black" />
         <p>{`(${commentNum})`}</p>
       </div>
