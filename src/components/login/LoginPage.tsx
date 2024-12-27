@@ -5,17 +5,19 @@ import { useForm } from 'react-hook-form';
 import Input from '@/components/login/Input';
 import { LoginFormData } from '@/types/LoginFormData';
 import { loginFields } from '@/components/login/formFields';
-import { getUser, login } from '@/app/login/actions';
+import { getUser, handleSignIn, login } from '@/app/login/actions';
 import { useAuthStore } from '@/store/authStore';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '@/validations/loginSchema';
 import { createClient } from '@/utils/supabase/client';
 import Image from 'next/image';
 import Swal from 'sweetalert2';
+import { useRouter } from 'next/navigation';
 const googleImage = '/images/google_logo.png';
 
 const LoginPage = () => {
   const { logIn } = useAuthStore();
+  const router = useRouter();
 
   const {
     register,
@@ -51,9 +53,11 @@ const LoginPage = () => {
 
   const onSubmit = async (data: LoginFormData) => {
     try {
-      await login(data);
+      const data2 = await login(data);
+      console.log('dat2 ', data2);
       const userData = await getUser();
       logIn(userData);
+      router.push('/');
     } catch (error) {
       Swal.fire({
         icon: 'error',
