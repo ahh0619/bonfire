@@ -57,6 +57,7 @@ const useCampingList = () => {
   >[] = radiusCampData?.response.body.items.item || [];
   return {
     geoData,
+    setGeoData,
     radiusCampList,
     isCampListPending,
     isCampListError,

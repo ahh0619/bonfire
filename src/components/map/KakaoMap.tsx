@@ -1,7 +1,7 @@
 'use Client';
 
 import Script from 'next/script';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Map } from 'react-kakao-maps-sdk';
 import { MapComponentProps } from './MapComponent';
 import MapMarkerComponent from './MapMarker';
@@ -11,10 +11,19 @@ import useSetMapBounds from '@/hooks/map/useSetMapBounds';
 import useSdkLoad from '@/hooks/map/useSdkLoad';
 import FacilMarker from './FacilMarker';
 import FacilOverlay from './FacilOverlay';
+import { fetchRadiusCampList } from '@/app/api/campingApi';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import CurrentMarker from './CurrentMarker';
 
 const KAKAO_SDK_URL = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&libraries=services&autoload=false`;
 
-const KakaoMap = ({ radiusCampList, geoData }: MapComponentProps) => {
+const KakaoMap = ({
+  radiusCampList,
+  geoData,
+  setGeoData,
+  refetch,
+}: MapComponentProps) => {
+  const queryClient = useQueryClient();
   const [selectedMarker, setSelectedMarker] = useState<Pick<
     Camping,
     | 'contentId'
@@ -33,9 +42,46 @@ const KakaoMap = ({ radiusCampList, geoData }: MapComponentProps) => {
   const [facilSearchResult, setFacilSearchResult] = useState<
     kakao.maps.services.PlacesSearchResult | []
   >([]);
-  const [facilCode, setFacilCode] = useState<string>('');
+  const [facilCode, setFacilCode] = useState<"HP8" | "PM9" | "CS2" | ''>('');
+  const [current, setCurrent] = useState<any>();
   useSetMapBounds(map, radiusCampList);
   useSdkLoad(setIsSdkLoaded);
+
+  const handleCurrentPositionSearch = async () => {
+    if (map) {
+      const center = map.getCenter(); // 지도 중심 좌표 가져오기
+      const latitude = center.getLat();
+      const longitude = center.getLng();
+      setGeoData({ latitude, longitude }); // 상태 업데이트
+      await queryClient.invalidateQueries({ queryKey: ['radiusCampData'] });
+      await refetch();
+    }
+  };
+
+  const handlecurrentPosition = async () => {
+    const getGeoData = async () => {
+      try {
+        const position = await new Promise<GeolocationPosition>(
+          (resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, reject);
+          },
+        );
+        setCurrent(position.coords);
+        return position;
+      } catch (error) {
+        console.error('Error fetching location:', error);
+      }
+    };
+    const position = await getGeoData();
+    if (position && map) {
+      const newCenter = new kakao.maps.LatLng(
+        position.coords.latitude,
+        position.coords.longitude,
+      ); // 서울의 위도, 경도 예시
+      map.setCenter(newCenter); // 지도 중심을 서울로 이동
+    }
+  };
+
   return (
     <>
       <Script src={KAKAO_SDK_URL} strategy="afterInteractive" />
@@ -45,7 +91,7 @@ const KakaoMap = ({ radiusCampList, geoData }: MapComponentProps) => {
             lat: geoData.latitude,
             lng: geoData.longitude,
           }}
-          className="w-full h-full"
+          className="flex w-full h-full z-10"
           level={3}
           onCreate={setMap}
         >
@@ -53,6 +99,7 @@ const KakaoMap = ({ radiusCampList, geoData }: MapComponentProps) => {
             radiusCampList={radiusCampList}
             setSelectedMarker={setSelectedMarker}
           />
+          <CurrentMarker coords={current} />
           <FacilMarker
             facilSearchResult={facilSearchResult}
             facilCode={facilCode}
@@ -78,6 +125,22 @@ const KakaoMap = ({ radiusCampList, geoData }: MapComponentProps) => {
               돌아가기
             </button>
           ) : null}
+          <div className="absolute mt-96 w-full flex justify-center">
+            <button
+              className=" relative top-96 mt-40 bg-[#FD470E] text-white text-base font-semibold w-[200px] m-5 p-2 rounded-md hover:bg-[#e0400e] transition-all z-10"
+              onClick={handleCurrentPositionSearch}
+            >
+              현 위치로 검색
+            </button>
+          </div>
+          <div className="absolute mt-96 mr-16 max-w-[1920px] w-full flex justify-end">
+            <button
+              className="relative top-96 mt-32 bg-[#FD470E] text-white text-base font-semibold h-[80px] w-[80px] m-5 p-2 rounded-full hover:bg-[#e0400e] transition-all z-10"
+              onClick={handlecurrentPosition}
+            >
+              내 위치
+            </button>
+          </div>
         </Map>
       ) : (
         <p>로딩 중입니다.</p>
