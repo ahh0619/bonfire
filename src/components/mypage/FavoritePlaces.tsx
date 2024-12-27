@@ -52,7 +52,10 @@ export const FavoritePlaces = () => {
                     src={place.place_image || '/images/default_icon.webp'}
                     alt={place.place_name}
                     layout="fill"
-                    className="object-cover"
+                    className={
+                      place.place_image ? 'object-cover' : 'object-contain'
+                    }
+                    placeholder="blur"
                   />
                 </div>
                 {/* 텍스트 영역 */}

@@ -118,6 +118,7 @@ const RadiusCampList = () => {
                         width={500}
                         height={250}
                         className="h-[250px] object-cover rounded-lg mx-auto hover:scale-105 transition-transform duration-300"
+                        placeholder="blur"
                       />
                     ) : (
                       // 캠핑장 디폴트 이미지
@@ -142,7 +143,12 @@ const RadiusCampList = () => {
         <p className="font-bold text-lg text-center">근처 캠핑장이 없습니다.</p>
       )}
 
-      <MapComponent radiusCampList={radiusCampList} geoData={geoData} setGeoData={setGeoData} refetch={refetch} />
+      <MapComponent
+        radiusCampList={radiusCampList}
+        geoData={geoData}
+        setGeoData={setGeoData}
+        refetch={refetch}
+      />
     </div>
   );
 };
