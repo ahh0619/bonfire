@@ -5,10 +5,10 @@ import { useCallback } from 'react';
 const useFetchLikedPlaces = () => {
   const fetchLikedPlacesData = useCallback(async () => {
     const userProfile = await getUser();
-    if (!userProfile[0]?.id) {
+    if (userProfile && !userProfile[0]?.id) {
       throw new Error('User ID is not available');
     }
-    const likedPlaces = await fetchLikedPlaces(userProfile[0].id);
+    const likedPlaces = await fetchLikedPlaces(userProfile![0].id);
     return likedPlaces;
   }, []);
 
