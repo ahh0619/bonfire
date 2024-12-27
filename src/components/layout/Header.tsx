@@ -22,11 +22,11 @@ const Header = () => {
     const fetchSession = async () => {
       const userData = await getUser();
       logIn(userData);
+      setIsReady(true);
     };
 
     document.addEventListener('mousedown', handleClickOutside);
     fetchSession();
-    setIsReady(true);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };

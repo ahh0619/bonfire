@@ -10,6 +10,7 @@ import { getUser, signup } from '../login/actions';
 import { useAuthStore } from '@/store/authStore';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signUpSchema } from '@/validations/signUpSchema';
+import Head from 'next/head';
 
 const SignUp = () => {
   const { logIn } = useAuthStore();
@@ -34,40 +35,50 @@ const SignUp = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 mt-[-20px]">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="bg-white p-8 rounded-lg shadow-md w-full max-w-md"
-      >
-        <h1 className="text-3xl font-bold mb-6 text-center text-black">
-          회원가입
-        </h1>
+    <>
+      <Head>
+        <title>BonFire - 회원가입</title>
+        <meta
+          name="description"
+          content="회원가입을 통해 BonFire의 모든 기능을 즐기세요."
+        />
+      </Head>
 
-        {signupFields.map((field) => (
-          <Input
-            key={field.id as string}
-            id={field.id}
-            label={field.label}
-            type={field.type}
-            placeholder={field.placeholder}
-            register={register}
-            error={errors[field.id]?.message as string}
-          />
-        ))}
+      <div className="flex items-center justify-center min-h-screen bg-gray-100 mt-[-20px]">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="bg-white p-8 rounded-lg shadow-md w-full max-w-md"
+        >
+          <h1 className="text-3xl font-bold mb-6 text-center text-black">
+            회원가입
+          </h1>
 
-        <Button text="회원가입" />
+          {signupFields.map((field) => (
+            <Input
+              key={field.id as string}
+              id={field.id}
+              label={field.label}
+              type={field.type}
+              placeholder={field.placeholder}
+              register={register}
+              error={errors[field.id]?.message as string}
+            />
+          ))}
 
-        <p className="text-sm text-gray-600 mt-4 text-center">
-          이미 계정이 있으신가요?{' '}
-          <Link
-            href="/login"
-            className="text-green-500 font-semibold hover:underline"
-          >
-            로그인
-          </Link>
-        </p>
-      </form>
-    </div>
+          <Button text="회원가입" />
+
+          <p className="text-sm text-gray-600 mt-4 text-center">
+            이미 계정이 있으신가요?{' '}
+            <Link
+              href="/login"
+              className="text-green-500 font-semibold hover:underline"
+            >
+              로그인
+            </Link>
+          </p>
+        </form>
+      </div>
+    </>
   );
 };
 
