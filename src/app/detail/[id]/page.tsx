@@ -2,6 +2,9 @@ import PlaceDetail from '@/components/detail/PlaceDetail';
 import { fetchOneCampSite } from '@/app/api/campingApi';
 import CommentSection from '@/components/detail/CommentSection';
 import { Metadata } from 'next';
+import WeatherInfo from '@/components/weather/WeatherInfo';
+import { Suspense } from 'react';
+import WeatherInfoSkeleton from '@/components/weather/WeatherInfoSkeleton';
 
 export const generateMetadata = async ({
   params,
@@ -17,7 +20,7 @@ export const generateMetadata = async ({
       url: `http://localhost:3000/detail/${params.id}`,
     },
   };
-}
+};
 
 type PlaceDetailPageProps = {
   params: {
@@ -32,7 +35,13 @@ const PlaceDetailPage = async ({ params }: PlaceDetailPageProps) => {
 
   return (
     <div className="container min-h-screen xl:w-[1024px] mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">상세 페이지</h1>
+      <div className=" mb-6">
+        <h1 className="text-3xl font-bold mb-3">캠핑장 상세정보</h1>
+        <Suspense fallback={<WeatherInfoSkeleton />}>
+          <WeatherInfo lat={placeDetails.mapY} lon={placeDetails.mapX} />
+        </Suspense>
+      </div>
+
       <PlaceDetail details={placeDetails} />
       <CommentSection facltNm={facltNm} />
     </div>
