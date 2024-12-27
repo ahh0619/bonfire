@@ -1,30 +1,23 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { fetchLikedPlaces } from '@/utils/likes/actions'; // 좋아요 데이터 가져오는 함수
-import { FavoriteSkeleton } from '@/components/mypage/FavoriteSkeleton'; // 스켈레톤 UI
+import { FavoriteSkeleton } from '@/components/mypage/FavoriteSkeleton';
 import { Tables } from '@/types/supabase';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ErrorFallback } from '@/components/common/ErrorFallback';
-import { getUser } from '@/app/login/actions';
+import useFetchLikedPlaces from '@/hooks/mypage/useFetchLikedPlaces ';
 
 type LikesRow = Tables<'likes'>;
 
 export const FavoritePlaces = () => {
+  const fetchLikedPlacesData = useFetchLikedPlaces();
   const { data, isPending, isError, error, refetch } = useQuery<
     LikesRow[],
     Error
   >({
     queryKey: ['likedPlaces'],
-    queryFn: async () => {
-      const userProfile = await getUser();
-      if (!userProfile[0]?.id) {
-        throw new Error('User ID is not available');
-      }
-      const likedPlaces = await fetchLikedPlaces(userProfile[0].id);
-      return likedPlaces;
-    },
+    queryFn: fetchLikedPlacesData,
   });
 
   return (
@@ -51,10 +44,10 @@ export const FavoritePlaces = () => {
             <Link href={`/detail/${place.place_name}`} key={place.id}>
               <div
                 key={place.id}
-                className="bg-white min-h-[200px] shadow rounded-lg p-4 flex hover:scale-105 cursor-pointer flex-col"
+                className="bg-white min-h-[200px] shadow rounded-lg p-4 flex cursor-pointer flex-col"
               >
                 {/* 이미지 컨테이너 */}
-                <div className="relative w-full aspect-[4/3] rounded-md overflow-hidden mb-4">
+                <div className="relative w-full aspect-[4/3] hover:scale-105 transition-transform duration-300 rounded-md overflow-hidden mb-4">
                   <Image
                     src={place.place_image || '/images/default_icon.webp'}
                     alt={place.place_name}
