@@ -22,6 +22,7 @@ const defaultCampImage = '/images/default_icon.png';
 const RadiusCampList = () => {
   const {
     geoData, // 사용자의 현재 위치정보
+    setGeoData,
     radiusCampList, // 주변 캠핑장 리스트 데이터
     isCampListPending,
     isCampListError,
@@ -139,7 +140,7 @@ const RadiusCampList = () => {
         <p className="font-bold text-lg text-center">근처 캠핑장이 없습니다.</p>
       )}
 
-      <MapComponent radiusCampList={radiusCampList} geoData={geoData} />
+      <MapComponent radiusCampList={radiusCampList} geoData={geoData} setGeoData={setGeoData} refetch={refetch} />
     </div>
   );
 };
