@@ -41,7 +41,7 @@ const KakaoMap = ({
   const [facilSearchResult, setFacilSearchResult] = useState<
     kakao.maps.services.PlacesSearchResult | []
   >([]);
-  const [facilCode, setFacilCode] = useState<"HP8" | "PM9" | "CS2" | ''>('');
+  const [facilCode, setFacilCode] = useState<`${kakao.maps.CategoryCode}`>('');
   const [current, setCurrent] = useState<any>();
   useSetMapBounds(map, radiusCampList);
   useSdkLoad(setIsSdkLoaded);

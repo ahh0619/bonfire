@@ -3,7 +3,7 @@ import { MapMarker } from 'react-kakao-maps-sdk';
 
 type FacilMarkerType = {
   facilSearchResult: kakao.maps.services.PlacesSearchResult | [];
-  facilCode: 'HP8' | 'PM9' | 'CS2' | '';
+  facilCode: `${kakao.maps.CategoryCode}`;
   setSelectedFacilMarker: Dispatch<kakao.maps.services.PlacesSearchResultItem | null>;
 };
 
@@ -18,7 +18,7 @@ const FacilMarker = ({
     PM9: '/images/pharmacy_marker.png',
     CS2: '/images/convenience_store_marker.png',
     '': 'default',
-  };
+  } as Record<kakao.maps.CategoryCode, string>;
   imgUrl = FACIL_CODE_MAPPING[facilCode];
   return facilSearchResult!.map((result) => (
     <MapMarker

@@ -29,9 +29,19 @@ type CustomOverlayProps = {
     | 'mapX'
     | 'tel'
   > | null;
-  setSelectedMarker: Dispatch<any>;
-  setFacilSearchResult: Dispatch<any>;
-  setFacilCode: Dispatch<any>;
+  setSelectedMarker: Dispatch<Pick<
+    Camping,
+    | 'contentId'
+    | 'firstImageUrl'
+    | 'facltNm'
+    | 'addr1'
+    | 'induty'
+    | 'mapY'
+    | 'mapX'
+    | 'tel'
+  > | null>;
+  setFacilSearchResult: Dispatch<kakao.maps.services.PlacesSearchResult | []>;
+  setFacilCode: Dispatch<`${kakao.maps.CategoryCode}`>;
 };
 
 const CustomOverlay = ({
@@ -70,18 +80,18 @@ const CustomOverlay = ({
                     <Image
                       src={`${list.firstImageUrl}`}
                       alt="Example Image"
-                      width={300} 
-                      height={300} 
+                      width={300}
+                      height={300}
                       className="object-cover w-[300px] h-[150px] cursor-pointer hover:scale-105 transition-transform duration-300 rounded-lg"
                     />
                   </a>
                 ) : (
                   <a href={`/detail/${list.facltNm}`}>
                     <Image
-                      src="/images/default_icon.webp" 
+                      src="/images/default_icon.webp"
                       alt="Example Image"
                       width={300}
-                      height={300} 
+                      height={300}
                       className="object-cover w-[300px] h-[150px] cursor-pointer hover:scale-105 transition-transform duration-300"
                     />
                   </a>
