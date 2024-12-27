@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { ProfileModal } from './ProfileModal';
 import { ProfileSkeleton } from '@/components/mypage/ProfileSkeleton'; // 스켈레톤 UI
 import { ErrorFallback } from '@/components/common/ErrorFallback';
-import { getUser } from '@/app/login/actions';
+import fetchUserProfile from '@/app/api/fetchUserProfile';
 
 export const ProfileCard = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -19,10 +19,7 @@ export const ProfileCard = () => {
     refetch,
   } = useQuery({
     queryKey: ['userProfile'],
-    queryFn: async () => {
-      const data = await getUser();
-      return data[0]; // 서버 액션에서 인증된 유저의 프로필 가져오기
-    },
+    queryFn: fetchUserProfile,
   });
 
   if (isPending) return <ProfileSkeleton />;

@@ -2,11 +2,10 @@
 
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
-import Button from '@/components/common/Button';
 import Input from '@/components/login/Input';
 import { SignupFormData } from '@/types/SignupFormData';
 import { signupFields } from '@/components/login/formFields';
-import { getUser, signup } from '../login/actions';
+import { getUser, signup } from '@/app/login/actions';
 import { useAuthStore } from '@/store/authStore';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signUpSchema } from '@/validations/signUpSchema';
@@ -26,9 +25,8 @@ const SignUp = () => {
   const onSubmit = async (data: SignupFormData) => {
     try {
       await signup(data);
-      // logIn();
       const session = await getUser();
-      logIn(session); // 상태 갱신
+      logIn(session);
     } catch (error) {
       alert('회원가입에 실패했습니다. 다시 시도해주세요.');
     }
@@ -56,13 +54,18 @@ const SignUp = () => {
           />
         ))}
 
-        <Button text="회원가입" />
+        <button
+          type="submit"
+          className="bg-[#FD470E] text-white text-base font-semibold w-full py-2 rounded-md hover:bg-[#e0400e] transition-colors mb-4"
+        >
+          회원가입
+        </button>
 
-        <p className="text-sm text-gray-600 mt-4 text-center">
+        <p className="text-sm text-gray-600 mt-3 text-center">
           이미 계정이 있으신가요?{' '}
           <Link
             href="/login"
-            className="text-green-500 font-semibold hover:underline"
+            className="text-green-500 font-semibold hover:underline ml-2"
           >
             로그인
           </Link>

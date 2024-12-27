@@ -1,5 +1,3 @@
-import { Camping } from '@/types/Camping';
-import { Dispatch } from 'react';
 import { MapMarker } from 'react-kakao-maps-sdk';
 
 type CurrentMarkerType = {
