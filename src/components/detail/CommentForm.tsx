@@ -6,6 +6,7 @@ import { MessageSquare } from 'lucide-react';
 import { CommentInput } from './CommentInput';
 import { useAuthStore } from '@/store/authStore';
 import { useComments } from '@/hooks/comment/useComment';
+import Swal from 'sweetalert2';
 
 type CommentFormProps = {
   placeName: string;
@@ -23,7 +24,12 @@ const CommentForm = ({ placeName, commentNum }: CommentFormProps) => {
 
     // 댓글이 비어 있는 경우 추가 X
     if (!comment.trim()) {
-      alert('댓글 입력창이 비어있습니다.');
+      Swal.fire({
+        icon: 'warning',
+        text: '댓글 입력창이 비어있습니다',
+        confirmButtonColor: '#FD470E',
+        iconColor: '#FD470E',
+      });
       return;
     }
 

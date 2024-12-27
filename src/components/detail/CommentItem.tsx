@@ -57,33 +57,46 @@ const Comment = ({
   };
 
   const handleUpdate = () => {
-  if (!editedContent.trim()) {
-    Swal.fire({
-      icon: 'warning',
-      text: '수정하는 댓글의 내용이 비어있습니다.',
-      confirmButtonColor: '#FD470E',
-      iconColor: '#FD470E',
-    });
-    setEditedContent(content);
-    return;
-  }
+    if (!editedContent.trim()) {
+      Swal.fire({
+        icon: 'warning',
+        text: '수정하는 댓글의 내용이 비어있습니다.',
+        confirmButtonColor: '#FD470E',
+        iconColor: '#FD470E',
+      });
+      setEditedContent(content);
+      return;
+    }
 
-  if (content === editedContent.trim()) {
+    if (content === editedContent.trim()) {
+      setIsEditing(false);
+      return;
+    }
+
+    // 낙관적 업데이트
+    const previousContent = content;
     setIsEditing(false);
-    return;
-  }
+    setEditedContent(editedContent.trim())
 
-    // TODO: 낙관적 업데이트 필요해보임
-    // 댓글이 미리 업데이트 되고 나서 리프레시도 진행하는 걸로 
-  updateComment(
-    { commentId, content: editedContent },
-    {
-      onSuccess: () => {
-        setIsEditing(false);
-        router.refresh();
+    updateComment(
+      { commentId, content: editedContent },
+      {
+        onSuccess: () => {
+          router.refresh();
+        },
+        onError: () => {
+          // 롤백
+          setEditedContent(previousContent);
+          setIsEditing(true);   // 수정 재시도 할 수 있도록
+          Swal.fire({
+            icon: 'error',
+            text: '댓글 수정에 실패했습니다. 다시 시도해주세요.',
+            confirmButtonColor: '#FD470E',
+            iconColor: '#FD470E',
+          });
+        }
       },
-    },
-  );
+    );
   };
 
   return (
