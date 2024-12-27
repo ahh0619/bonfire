@@ -7,18 +7,23 @@ import { SignupFormData } from '@/types/SignupFormData';
 import { LoginFormData } from '@/types/LoginFormData';
 import { Tables } from '@/types/supabase';
 
-export const login = async (formData: LoginFormData): Promise<void> => {
+export const login = async (formData: LoginFormData): Promise<any> => {
   const supabase = await createClient();
 
   const { email, password } = formData;
 
-  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
   if (error) {
     throw new Error('supabase auth failed');
   }
+  console.log('dataL ', data);
 
-  revalidatePath('/', 'layout');
-  redirect('/');
+  return data;
+  // revalidatePath('/', 'layout');
+  // redirect('/');
 };
 
 export const signup = async (formData: SignupFormData): Promise<void> => {
@@ -80,4 +85,8 @@ export const getUser = async (): Promise<Tables<'users'>[] | null> => {
   }
 
   return user;
+};
+
+export const handleSignIn = async (data: LoginFormData) => {
+  return await login(data);
 };
