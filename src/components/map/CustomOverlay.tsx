@@ -83,6 +83,7 @@ const CustomOverlay = ({
                       width={300}
                       height={300}
                       className="object-cover w-[300px] h-[150px] cursor-pointer hover:scale-105 transition-transform duration-300 rounded-lg"
+                      placeholder="blur"
                     />
                   </a>
                 ) : (
