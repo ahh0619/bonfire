@@ -3,9 +3,10 @@ import { Comment } from '@/types/Comment';
 
 type CommentsProps = {
   commentList: Comment[];
+  placeName: string;
 };
 
-const CommentList = ({ commentList }: CommentsProps) => {
+const CommentList = ({ commentList, placeName }: CommentsProps) => {
   return (
     <div>
       {commentList.map((comment) => (
@@ -15,6 +16,8 @@ const CommentList = ({ commentList }: CommentsProps) => {
           profileImage={comment.user?.profile_image || null}
           content={comment.content}
           userId={comment.user_id}
+          commentId={comment.id}
+          placeName={placeName}
         />
       ))}
     </div>

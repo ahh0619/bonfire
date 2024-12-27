@@ -1,9 +1,26 @@
 import PlaceDetail from '@/components/detail/PlaceDetail';
 import { fetchOneCampSite } from '@/app/api/campingApi';
 import CommentSection from '@/components/detail/CommentSection';
+import { Metadata } from 'next';
 
 // ISR 설정: 페이지가 1시간마다 재생성
-export const revalidate = 3600; // 1시간
+// export const revalidate = 3600; // 1시간
+
+export const generateMetadata = async ({
+  params,
+}: PlaceDetailPageProps): Promise<Metadata> => {
+  const facltNm = decodeURIComponent(params.id);
+
+  return {
+    title: `BonFire - ${facltNm} 상세 정보`,
+    description: `${facltNm}의 캠핑장 상세 정보를 확인하세요.`,
+    openGraph: {
+      title: `BonFire - ${facltNm} 상세 정보`,
+      description: `${facltNm}의 캠핑장 상세 정보를 확인하세요.`,
+      url: `http://localhost:3000/detail/${params.id}`,
+    },
+  };
+}
 
 type PlaceDetailPageProps = {
   params: {
