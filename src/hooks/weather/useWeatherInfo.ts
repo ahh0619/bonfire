@@ -18,28 +18,12 @@ const useWeatherInfo = ({ lat, lon }: { lat: string; lon: string }) => {
   // 맑음, 비, 눈 , 번개 상태 저장
   const weatherCondition = weatherInfo?.weather[0]?.main || 'clear';
 
-  const weatherImgSrc = (condition: string) => {
-    switch (condition) {
-      case 'thunderstorm':
-        return '/images/weather/Thunderstorm.png';
-      case 'clouds':
-        return '/images/weather/Clouds.png';
-      case 'rain':
-        return '/images/weather/Rain.png';
-      case 'snow':
-        return '/images/weather/Snow.png';
-      default:
-        return '/images/weather/Clear.png';
-    }
-  };
-
   return {
     weatherCondition,
     weatherInfo,
     isWeatherPending,
     isWeatherError,
     weatherError,
-    weatherImgSrc,
     refetch,
   };
 };
