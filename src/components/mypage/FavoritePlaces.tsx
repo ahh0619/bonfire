@@ -55,7 +55,7 @@ export const FavoritePlaces = () => {
                     className={
                       place.place_image ? 'object-cover' : 'object-contain'
                     }
-                    placeholder="blur"
+                    // placeholder="blur"
                   />
                 </div>
                 {/* 텍스트 영역 */}
