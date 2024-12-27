@@ -1,11 +1,24 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { addComment, deleteComment, updateComment } from '@/app/detail/actions';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  addComment,
+  deleteComment,
+  fetchComments,
+  updateComment,
+} from '@/app/detail/actions';
 import { useAuthStore } from '@/store/authStore';
 import { Comment } from '@/types/Comment';
 
 export const useComments = (placeName: string) => {
   const queryClient = useQueryClient();
   const { user: currentUser } = useAuthStore();
+
+  const { data: comments, isPending: isCommentsPending } = useQuery({
+    queryKey: ['comments', placeName],
+    queryFn: async () => {
+      return await fetchComments(placeName);
+    },
+    initialData: [],
+  });
 
   // 추가 mutation
   const addCommentMutation = useMutation({
@@ -138,6 +151,8 @@ export const useComments = (placeName: string) => {
   });
 
   return {
+    comments,
+    isCommentsPending,
     addComment: addCommentMutation.mutate,
     isAdding: addCommentMutation.isPending,
     deleteComment: deleteCommentMutation.mutate,
