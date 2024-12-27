@@ -5,17 +5,19 @@ import { useForm } from 'react-hook-form';
 import Input from '@/components/login/Input';
 import { LoginFormData } from '@/types/LoginFormData';
 import { loginFields } from '@/components/login/formFields';
-import { getUser, login } from '@/app/login/actions';
+import { getUser, handleSignIn, login } from '@/app/login/actions';
 import { useAuthStore } from '@/store/authStore';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '@/validations/loginSchema';
 import { createClient } from '@/utils/supabase/client';
 import Image from 'next/image';
 import Swal from 'sweetalert2';
+import { useRouter } from 'next/navigation';
 const googleImage = '/images/google_logo.png';
 
 const LoginPage = () => {
   const { logIn } = useAuthStore();
+  const router = useRouter();
 
   const {
     register,
@@ -49,16 +51,43 @@ const LoginPage = () => {
     }
   };
 
+  // const onSubmit = async (data: LoginFormData) => {
+  //   try {
+  //     const data2 = await login(data); //서버액션
+  //     console.log('dat2 ', data2);
+  //     const userData = await getUser(); //슈퍼베이스 유저
+  //     logIn(userData); //주스탠드에 유저 정보넣기
+  //     router.push('/');
+  //   } catch (error) {
+  //     Swal.fire({
+  //       icon: 'error',
+  //       title: '로그인 실패',
+  //       text: '아이디 또는 비밀번호가 잘못 되었습니다.',
+  //     });
+  //   }
+  // };
+
   const onSubmit = async (data: LoginFormData) => {
     try {
-      await login(data);
-      const userData = await getUser();
-      logIn(userData);
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (!result.success) {
+        throw new Error(result.error);
+      }
+
+      logIn(result.data);
+      router.push('/');
     } catch (error) {
       Swal.fire({
         icon: 'error',
         title: '로그인 실패',
-        text: '아이디 또는 비밀번호가 잘못 되었습니다.',
+        text: '아이디 또는 비밀번호가 잘못되었습니다.',
       });
     }
   };
