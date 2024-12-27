@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
-import Button from '@/components/common/Button';
 import Input from '@/components/login/Input';
 import { LoginFormData } from '@/types/LoginFormData';
 import { loginFields } from '@/components/login/formFields';
@@ -12,7 +11,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '@/validations/loginSchema';
 import { createClient } from '@/utils/supabase/client';
 import Image from 'next/image';
-const goggleImage = '/images/google_logo.png';
+import Swal from 'sweetalert2';
+const googleImage = '/images/google_logo.png';
 
 const LoginPage = () => {
   const { logIn } = useAuthStore();
@@ -32,7 +32,7 @@ const LoginPage = () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: window.origin + '/auth/callback',
+        redirectTo: `${process.env.NEXT_PUBLIC_URL}/auth/callback`,
         queryParams: {
           access_type: 'offline',
           prompt: 'consent',
@@ -41,7 +41,11 @@ const LoginPage = () => {
     });
 
     if (error) {
-      alert('로그인에 실패했습니다. 다시 시도해주세요.');
+      Swal.fire({
+        icon: 'error',
+        title: '로그인 실패',
+        text: '로그인에 실패했습니다. 다시 시도해주세요.',
+      });
     }
   };
 
@@ -51,7 +55,11 @@ const LoginPage = () => {
       const userData = await getUser();
       logIn(userData);
     } catch (error) {
-      alert('로그인에 실패했습니다. 다시 시도해주세요.');
+      Swal.fire({
+        icon: 'error',
+        title: '로그인 실패',
+        text: '아이디 또는 비밀번호가 잘못 되었습니다.',
+      });
     }
   };
 
@@ -75,7 +83,12 @@ const LoginPage = () => {
             />
           ))}
 
-          <Button text="로그인" />
+          <button
+            type="submit"
+            className="bg-[#FD470E] text-white text-base font-semibold w-full py-2 rounded-md hover:bg-[#e0400e] transition-colors mb-4"
+          >
+            로그인
+          </button>
         </form>
 
         <button
@@ -83,7 +96,7 @@ const LoginPage = () => {
           className="text-base font-semibold w-full py-2 rounded-md hover:bg-gray-200 transition-colors mb-4 flex items-center justify-center border border-gray-300"
         >
           <Image
-            src={goggleImage}
+            src={googleImage}
             alt={'google-image'}
             width={25}
             height={25}
@@ -93,11 +106,11 @@ const LoginPage = () => {
           구글로 로그인하기
         </button>
 
-        <p className="text-sm text-gray-600 mt-4 text-center">
+        <p className="text-sm text-gray-600 mt-6 text-center">
           계정이 없으신가요?
           <Link
             href="/signup"
-            className="text-green-500 font-semibold hover:underline"
+            className="text-green-500 font-semibold hover:underline ml-2"
           >
             회원가입
           </Link>
