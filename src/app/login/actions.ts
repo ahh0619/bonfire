@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
 import { SignupFormData } from '@/types/SignupFormData';
 import { LoginFormData } from '@/types/LoginFormData';
+import { Tables } from '@/types/supabase';
 
 export const login = async (formData: LoginFormData): Promise<void> => {
   const supabase = await createClient();
@@ -60,7 +61,7 @@ export const logout = async (): Promise<void> => {
   redirect('/login');
 };
 
-export const getUser = async (): Promise<any> => {
+export const getUser = async (): Promise<Tables<'users'>[] | null> => {
   const supabase = await createClient();
   const { data: userData, error: userDataError } =
     await supabase.auth.getUser();
