@@ -1,7 +1,7 @@
 'use Client';
 
 import Script from 'next/script';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { Map } from 'react-kakao-maps-sdk';
 import { MapComponentProps } from './MapComponent';
 import MapMarkerComponent from './MapMarker';
@@ -11,8 +11,7 @@ import useSetMapBounds from '@/hooks/map/useSetMapBounds';
 import useSdkLoad from '@/hooks/map/useSdkLoad';
 import FacilMarker from './FacilMarker';
 import FacilOverlay from './FacilOverlay';
-import { fetchRadiusCampList } from '@/app/api/campingApi';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import CurrentMarker from './CurrentMarker';
 
 const KAKAO_SDK_URL = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&libraries=services&autoload=false`;
@@ -37,7 +36,7 @@ const KakaoMap = ({
   > | null>(null);
   const [selectedFacilMarker, setSelectedFacilMarker] =
     useState<kakao.maps.services.PlacesSearchResultItem | null>(null);
-  const [map, setMap] = useState<kakao.maps.Map | null>(null); // Map 객체 저장
+  const [map, setMap] = useState<kakao.maps.Map | null>(null); 
   const [isSdkLoaded, setIsSdkLoaded] = useState(false);
   const [facilSearchResult, setFacilSearchResult] = useState<
     kakao.maps.services.PlacesSearchResult | []
@@ -49,10 +48,10 @@ const KakaoMap = ({
 
   const handleCurrentPositionSearch = async () => {
     if (map) {
-      const center = map.getCenter(); // 지도 중심 좌표 가져오기
+      const center = map.getCenter(); 
       const latitude = center.getLat();
       const longitude = center.getLng();
-      setGeoData({ latitude, longitude }); // 상태 업데이트
+      setGeoData({ latitude, longitude }); 
       await queryClient.invalidateQueries({ queryKey: ['radiusCampData'] });
       await refetch();
     }
@@ -77,8 +76,8 @@ const KakaoMap = ({
       const newCenter = new kakao.maps.LatLng(
         position.coords.latitude,
         position.coords.longitude,
-      ); // 서울의 위도, 경도 예시
-      map.setCenter(newCenter); // 지도 중심을 서울로 이동
+      ); 
+      map.setCenter(newCenter); 
     }
   };
 

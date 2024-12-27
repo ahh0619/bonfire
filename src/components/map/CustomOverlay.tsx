@@ -5,7 +5,6 @@ import { Camping } from '@/types/Camping';
 import { Dispatch } from 'react';
 import { facilSearch } from '@/utils/map/facilSearch';
 import FacilSearchBtn from './FacilSearchBtn';
-import { Link } from 'lucide-react';
 
 type CustomOverlayProps = {
   radiusCampList: Pick<
@@ -71,18 +70,18 @@ const CustomOverlay = ({
                     <Image
                       src={`${list.firstImageUrl}`}
                       alt="Example Image"
-                      width={300} // 이미지 너비
-                      height={300} // 이미지 높이
+                      width={300} 
+                      height={300} 
                       className="object-cover w-[300px] h-[150px] cursor-pointer hover:scale-105 transition-transform duration-300"
                     />
                   </a>
                 ) : (
                   <a href={`/detail/${list.facltNm}`}>
                     <Image
-                      src="/images/default_icon.webp" // public 폴더 안의 이미지 경로
+                      src="/images/default_icon.webp" 
                       alt="Example Image"
-                      width={300} // 이미지 너비
-                      height={300} // 이미지 높이
+                      width={300}
+                      height={300} 
                       className="object-cover w-[300px] h-[150px] cursor-pointer hover:scale-105 transition-transform duration-300"
                     />
                   </a>
