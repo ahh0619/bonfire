@@ -74,7 +74,7 @@ const CommentItem = ({ comment, placeName }: CommentProps) => {
             width={40}
             height={40}
             className="rounded-full w-10 aspect-square object-cover"
-            // placeholder="blur"
+            placeholder="blur"
           />
         ) : (
           <div className="bg-gray-300 rounded-full w-10 aspect-square"></div>
