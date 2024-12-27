@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import Input from '@/components/login/Input';
 import { LoginFormData } from '@/types/LoginFormData';
 import { loginFields } from '@/components/login/formFields';
-import { getUser, login } from './actions';
+import { getUser, login } from '@/app/login/actions';
 import { useAuthStore } from '@/store/authStore';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '@/validations/loginSchema';
