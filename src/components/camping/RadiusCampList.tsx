@@ -118,7 +118,7 @@ const RadiusCampList = () => {
                         width={500}
                         height={250}
                         className="h-[250px] object-cover rounded-lg mx-auto hover:scale-105 transition-transform duration-300"
-                        placeholder="blur"
+                        // placeholder="blur"
                       />
                     ) : (
                       // 캠핑장 디폴트 이미지
