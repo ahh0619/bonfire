@@ -44,10 +44,10 @@ export const FavoritePlaces = () => {
             <Link href={`/detail/${place.place_name}`} key={place.id}>
               <div
                 key={place.id}
-                className="bg-white min-h-[200px] shadow rounded-lg p-4 flex hover:scale-105 cursor-pointer flex-col"
+                className="bg-white min-h-[200px] shadow rounded-lg p-4 flex cursor-pointer flex-col"
               >
                 {/* 이미지 컨테이너 */}
-                <div className="relative w-full aspect-[4/3] rounded-md overflow-hidden mb-4">
+                <div className="relative w-full aspect-[4/3] hover:scale-105 transition-transform duration-300 rounded-md overflow-hidden mb-4">
                   <Image
                     src={place.place_image || '/images/default_icon.webp'}
                     alt={place.place_name}
