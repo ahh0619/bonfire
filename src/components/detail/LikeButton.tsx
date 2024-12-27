@@ -1,15 +1,9 @@
 'use client';
 
 import { Heart } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import {
-  addLike,
-  getLikeCount,
-  isUserLikedPlace,
-  removeLike,
-} from '@/utils/likes/actions'; // 서버 액션 import
 import { useAuthStore } from '@/store/authStore';
 import Swal from 'sweetalert2';
+import { useLikes } from '@/hooks/like/useLikes';
 
 type LikeButtonProps = {
   placeImgUrl: string; // 장소 이미지
@@ -29,32 +23,20 @@ const LikeButton = ({
   locationY,
 }: LikeButtonProps) => {
   const { user: currentUser } = useAuthStore();
-  const [likes, setLikes] = useState<number | null>(null);
-  const [liked, setLiked] = useState<boolean | null>(null);
+  const userId = currentUser?.[0]?.id;
+  const {
+    likes,
+    liked,
+    isLikesPending,
+    isLikedPending,
+    isAdding,
+    isRemoving,
+    addLike,
+    removeLike,
+  } = useLikes(placeName, userId);
+  const isPending = isLikesPending || isLikedPending  || isAdding || isRemoving;
 
-  useEffect(() => {
-    if (!currentUser) {
-      return;
-    }
-
-    const fetchData = async () => {
-      try {
-        const [totalLikes, userLiked] = await Promise.all([
-          getLikeCount(placeName),
-          isUserLikedPlace(currentUser[0].id, placeName),
-        ]);
-
-        setLikes(totalLikes);
-        setLiked(userLiked);
-      } catch (error) {
-        console.error('Error fetching like data:', error);
-      }
-    };
-
-    fetchData();
-  }, [placeName, currentUser]);
-
-  const toggleLike = async () => {
+  const handleToggleLike = async () => {
     if (!currentUser) {
       Swal.fire({
         icon: 'warning',
@@ -79,38 +61,30 @@ const LikeButton = ({
     try {
       if (liked) {
         // 좋아요 취소
-        await removeLike(currentUser[0]?.id, placeName);
-        setLikes((prev) => (prev !== null ? prev - 1 : prev));
-        setLiked(false);
+        removeLike();
       } else {
         // 좋아요 추가
-        await addLike({
-          user_id: currentUser[0].id,
-          place_image: placeImgUrl,
-          place_name: placeName,
-          address_name: addressName,
-          phone_number: phoneNumber,
-          location_x: locationX!,
-          location_y: locationY!,
+        addLike({
+          placeImage: placeImgUrl,
+          addressName,
+          phoneNumber,
+          locationX: locationX ?? 0,
+          locationY: locationY ?? 0,
         });
-        setLikes((prev) => (prev !== null ? prev + 1 : prev));
-        setLiked(true);
       }
     } catch (error) {
       console.error('Error toggling like:', error);
-      setLiked(!liked); // 에러 발생 시 상태 복구
-      setLikes(likes); // 에러 발생 시 카운트 복구
     }
   };
 
   return (
-    <button onClick={toggleLike} className="flex flex-col items-center">
+    <button onClick={handleToggleLike} className="flex flex-col items-center">
       <Heart
         className={`transition-colors ${
           liked ? 'fill-red-500 text-red-500' : 'fill-none text-gray-500'
         }`}
       />
-      <p>{likes === null || liked === null ? 0 : likes}</p>
+      {!isPending && <p>{likes ?? 0}</p>}
     </button>
   );
 };
