@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import useWeatherInfo from '@/hooks/weather/useWeatherInfo';
 import { ErrorFallback } from '@/components/common/ErrorFallback';
-import Loading from '@/components/common/Loading';
+import WeatherInfoSkeleton from './WeatherInfoSkeleton';
 
 const WeatherInfo = ({ lat, lon }: { lat: string; lon: string }) => {
   const {
@@ -17,7 +17,7 @@ const WeatherInfo = ({ lat, lon }: { lat: string; lon: string }) => {
   } = useWeatherInfo({ lat, lon });
 
   if (isWeatherPending) {
-    return <Loading />;
+    return <WeatherInfoSkeleton />;
   }
 
   if (isWeatherError) {
