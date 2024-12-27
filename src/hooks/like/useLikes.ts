@@ -55,14 +55,51 @@ export const useLikes = (placeName: string, userId?: string) => {
         location_y: locationY,
       });
     },
-    onSuccess: () => {
+    onMutate: async ({
+      placeImage,
+      addressName,
+      phoneNumber,
+      locationX,
+      locationY,
+    }) => {
+      await queryClient.cancelQueries({ queryKey: ['likes', placeName] });
+      await queryClient.cancelQueries({
+        queryKey: ['userLiked', userId, placeName],
+      });
+
+      const previousLikes = queryClient.getQueryData(['likes', placeName]);
+      const previousLiked = queryClient.getQueryData([
+        'userLiked',
+        userId,
+        placeName,
+      ]);
+
+      queryClient.setQueryData(
+        ['likes', placeName],
+        (oldLikes: number) => (oldLikes ?? 0) + 1,
+      );
+      queryClient.setQueryData(['userLiked', userId, placeName], true);
+
+      return { previousLikes, previousLiked };
+    },
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['likes', placeName] });
       queryClient.invalidateQueries({
         queryKey: ['userLiked', userId, placeName],
       });
     },
-    onError: (error) => {
+    onError: (error, _, context) => {
       console.error('Failed to add like:', error);
+      if (context?.previousLikes !== undefined) {
+        queryClient.setQueryData(['likes', placeName], context.previousLikes);
+      }
+
+      if (context?.previousLiked !== undefined) {
+        queryClient.setQueryData(
+          ['userLiked', userId, placeName],
+          context.previousLiked,
+        );
+      }
     },
   });
 
@@ -72,11 +109,31 @@ export const useLikes = (placeName: string, userId?: string) => {
       if (!userId) throw new Error('User not logged in');
       return await removeLike(userId, placeName);
     },
-    onSuccess: () => {
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['likes', placeName] });
       queryClient.invalidateQueries({
         queryKey: ['userLiked', userId, placeName],
       });
+    },
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: ['likes', placeName] });
+      await queryClient.cancelQueries({
+        queryKey: ['userLiked', userId, placeName],
+      });
+
+      const previousLikes = queryClient.getQueryData(['likes', placeName]);
+      const previousLiked = queryClient.getQueryData([
+        'userLiked',
+        userId,
+        placeName,
+      ]);
+
+      queryClient.setQueryData(['likes', placeName], (oldLikes: number) =>
+        Math.max((oldLikes ?? 0) - 1, 0),
+      );
+      queryClient.setQueryData(['userLiked', userId, placeName], false);
+
+      return { previousLikes, previousLiked };
     },
     onError: (error) => {
       console.error('Failed to remove like:', error);

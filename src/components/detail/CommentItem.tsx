@@ -4,7 +4,6 @@ import { useComments } from '@/hooks/comment/useComment';
 import { useAuthStore } from '@/store/authStore';
 import { PenLine, Trash2 } from 'lucide-react';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { CommentInput } from '@/components/detail/CommentInput';
 import Swal, { SweetAlertResult } from 'sweetalert2';
@@ -22,7 +21,6 @@ const CommentItem = ({ comment, placeName }: CommentProps) => {
   const { deleteComment, isDeleting, updateComment, isUpdating } =
     useComments(placeName);
   const allowedToChange = currentUser?.[0]?.id === comment.user_id;
-  const router = useRouter();
 
   const handleDelete = () => {
     // 삭제 할건지 한 번만 더 확인
@@ -37,11 +35,7 @@ const CommentItem = ({ comment, placeName }: CommentProps) => {
       cancelButtonColor: '#6c757d',
     }).then((result: SweetAlertResult) => {
       if (result.isConfirmed) {
-        deleteComment(comment.id, {
-          onSuccess: () => {
-            router.refresh();
-          },
-        });
+        deleteComment(comment.id);
       }
     });
   };
@@ -63,30 +57,8 @@ const CommentItem = ({ comment, placeName }: CommentProps) => {
       return;
     }
 
-    // 낙관적 업데이트
-    const previousContent = comment.content;
+    updateComment({ commentId: comment.id, content: editedContent });
     setIsEditing(false);
-    setEditedContent(editedContent.trim());
-
-    updateComment(
-      { commentId: comment.id, content: editedContent },
-      {
-        onSuccess: () => {
-          router.refresh();
-        },
-        onError: () => {
-          // 롤백
-          setEditedContent(previousContent);
-          setIsEditing(true); // 수정 재시도 할 수 있도록
-          Swal.fire({
-            icon: 'error',
-            text: '댓글 수정에 실패했습니다. 다시 시도해주세요.',
-            confirmButtonColor: '#FD470E',
-            iconColor: '#FD470E',
-          });
-        },
-      },
-    );
   };
 
   return (
@@ -100,6 +72,7 @@ const CommentItem = ({ comment, placeName }: CommentProps) => {
             width={40}
             height={40}
             className="rounded-full w-10 aspect-square object-cover"
+            placeholder="blur"
           />
         ) : (
           <div className="bg-gray-300 rounded-full w-10 aspect-square"></div>

@@ -1,25 +1,28 @@
-import React, { Suspense } from 'react';
+"use client"
+
+import React from 'react';
 import CommentForm from '@/components/detail/CommentForm';
 import CommentList from '@/components/detail/CommentList';
-import { fetchComments } from '@/app/detail/actions';
-import { Comment } from '@/types/Comment';
-import CommentListSkeleton from '@/components/detail/CommentListSkeleton';
+import { useComments } from '@/hooks/comment/useComment';
 
 type CommentSectionProps = {
   facltNm: string;
 };
 
-const CommentSection = async ({ facltNm }: CommentSectionProps) => {
-  const commentList: Comment[] = await fetchComments(facltNm);
+const CommentSection = ({ facltNm }: CommentSectionProps) => {
+  const { comments: commentList, isCommentsPending } = useComments(facltNm);
+
+  if (isCommentsPending) {
+    return <p>댓글 로딩 중...</p>
+  }
+
   return (
     <div className="flex flex-col border rounded-xl border-black p-8">
       {/* 댓글 입력 부분 */}
       <CommentForm placeName={facltNm} commentNum={commentList.length} />
 
       {/* 댓글 리스트 부분 */}
-      <Suspense fallback={<CommentListSkeleton />}>
-        <CommentList commentList={commentList} placeName={facltNm} />
-      </Suspense>
+      {<CommentList commentList={commentList} placeName={facltNm} />}
     </div>
   );
 };
