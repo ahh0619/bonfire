@@ -6,8 +6,8 @@ import Link from 'next/link';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Scrollbar, Autoplay } from 'swiper/modules';
 
-import MapComponent from '../map/MapComponent';
-import CampingListSkeleton from './CampingListSkeleton';
+import MapComponent from '@/components/map/MapComponent';
+import CampingListSkeleton from '@/components/camping/CampingListSkeleton';
 import useCampingList from '@/hooks/camping/useCampingList';
 
 import 'swiper/css';
@@ -17,7 +17,7 @@ import { ErrorFallback } from '@/components/common/ErrorFallback';
 import Loading from '@/components/common/Loading';
 
 // 캠핑장 이미지가 없는 캠핑장 기본 이미지
-const defaultCampImage = '/images/default_icon.png';
+const defaultCampImage = '/images/default_icon.webp';
 
 const RadiusCampList = () => {
   const {
@@ -38,7 +38,7 @@ const RadiusCampList = () => {
           <p className="font-extrabold text-4xl py-[60px] text-center">
             근처 캠핑장
           </p>
-          <div className="py-[60px]">
+          <div className="py-[60px] pl-2">
             <Loading />
           </div>
         </div>

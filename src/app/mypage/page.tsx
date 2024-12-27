@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 const MyPage = () => {
   return (
     <div className="min-h-screen flex flex-col items-center">
-      <main className="container mx-auto max-w-7xl px-4 py-20">
+      <main className="container mx-auto max-w-7xl p-20">
         <ProfileCard />
         <FavoritePlaces />
       </main>
