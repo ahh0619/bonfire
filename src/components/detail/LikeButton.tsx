@@ -9,6 +9,7 @@ import {
   removeLike,
 } from '@/utils/likes/actions'; // 서버 액션 import
 import { useAuthStore } from '@/store/authStore';
+import Swal from 'sweetalert2';
 
 type LikeButtonProps = {
   placeImgUrl: string; // 장소 이미지
@@ -55,8 +56,21 @@ const LikeButton = ({
 
   const toggleLike = async () => {
     if (!currentUser) {
-      // TODO: sweet로 바꿔라ㅏㅏㅏ
-      alert('로그인이 필요한 기능입니다.');
+      Swal.fire({
+        icon: 'warning',
+        iconColor: '#FD470E',
+        title: '로그인이 필요합니다',
+        text: '좋아요 기능 사용을 위해서는 로그인이 필요합니다',
+        showCancelButton: true,
+        cancelButtonText: '돌아가기',
+        cancelButtonColor: '#AAAAAA',
+        confirmButtonText: '로그인하기',
+        confirmButtonColor: '#FD470E',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = '/login';
+        }
+      });
       return;
     }
     // 데이터 로딩 중 토글 방지

@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { CommentInput } from './CommentInput';
+import Swal, { SweetAlertResult } from 'sweetalert2';
 
 type CommentProps = {
   userId: string;
@@ -34,37 +35,55 @@ const Comment = ({
   const router = useRouter();
 
   const handleDelete = () => {
-    // TODO: sweetalert로 할 수 있다면 변경하기
-    if (confirm('정말로 이 댓글을 삭제하시겠습니까?')) {
-      deleteComment(commentId, {
-        onSuccess: () => {
-          router.refresh();
-        },
-      });
-    }
+    // 삭제 할건지 한 번만 더 확인
+    Swal.fire({
+      icon: 'warning',
+      iconColor: '#FD470E',
+      text: '이 댓글을 삭제하시겠습니까?',
+      showCancelButton: true,
+      confirmButtonText: '삭제',
+      cancelButtonText: '취소',
+      confirmButtonColor: '#FD470E',
+      cancelButtonColor: '#6c757d',
+    }).then((result: SweetAlertResult) => {
+      if (result.isConfirmed) {
+        deleteComment(commentId, {
+          onSuccess: () => {
+            router.refresh();
+          },
+        });
+      }
+    });
   };
 
   const handleUpdate = () => {
-    if (!editedContent.trim()) {
-      // TODO: alert
-      alert('수정하는 댓글의 내용이 비어있습니다.');
-      return;
-    }
+  if (!editedContent.trim()) {
+    Swal.fire({
+      icon: 'warning',
+      text: '수정하는 댓글의 내용이 비어있습니다.',
+      confirmButtonColor: '#FD470E',
+      iconColor: '#FD470E',
+    });
+    setEditedContent(content);
+    return;
+  }
 
-    if (content === editedContent.trim()) {
-      setIsEditing(false);
-      return;
-    }
+  if (content === editedContent.trim()) {
+    setIsEditing(false);
+    return;
+  }
 
-    updateComment(
-      { commentId, content: editedContent },
-      {
-        onSuccess: () => {
-          setIsEditing(false);
-          router.refresh();
-        },
+    // TODO: 낙관적 업데이트 필요해보임
+    // 댓글이 미리 업데이트 되고 나서 리프레시도 진행하는 걸로 
+  updateComment(
+    { commentId, content: editedContent },
+    {
+      onSuccess: () => {
+        setIsEditing(false);
+        router.refresh();
       },
-    );
+    },
+  );
   };
 
   return (
