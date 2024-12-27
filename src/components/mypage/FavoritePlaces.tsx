@@ -59,6 +59,7 @@ export const FavoritePlaces = () => {
                     src={place.place_image || '/images/default_icon.png'}
                     alt={place.place_name}
                     layout="fill"
+                    placeholder="blur"
                     className="object-cover"
                   />
                 </div>
