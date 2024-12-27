@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
 import { SignupFormData } from '@/types/SignupFormData';
 import { LoginFormData } from '@/types/LoginFormData';
+import { Tables } from '@/types/supabase';
 
 export const login = async (formData: LoginFormData): Promise<void> => {
   const supabase = await createClient();
@@ -21,22 +22,9 @@ export const login = async (formData: LoginFormData): Promise<void> => {
 };
 
 export const signup = async (formData: SignupFormData): Promise<void> => {
-  const supabase = await createClient();
-
   const { email, nickname, password } = formData;
 
-  // const profileImageUrl = '/images/leader_github_logo.png';
-  const userId = await createAccount(email, password, nickname);
-
-  // const { error: dbError } = await supabase.from('users').insert({
-  //   id: userId,
-  //   nickname,
-  //   profile_image: profileImageUrl,
-  // });
-
-  // if (dbError) {
-  //   throw new Error('Database insertion failed');
-  // }
+  await createAccount(email, password, nickname);
 
   revalidatePath('/', 'layout');
   redirect('/');
@@ -73,7 +61,7 @@ export const logout = async (): Promise<void> => {
   redirect('/login');
 };
 
-export const getUser = async (): Promise<any> => {
+export const getUser = async (): Promise<Tables<'users'>[] | null> => {
   const supabase = await createClient();
   const { data: userData, error: userDataError } =
     await supabase.auth.getUser();
@@ -81,7 +69,6 @@ export const getUser = async (): Promise<any> => {
   if (userDataError || !userData.user) {
     return null;
   }
-  console.log('server userdata table: ', userData);
 
   const { data: user, error } = await supabase
     .from('users')
@@ -92,6 +79,5 @@ export const getUser = async (): Promise<any> => {
     return null;
   }
 
-  console.log('server user table: ', user);
   return user;
 };
