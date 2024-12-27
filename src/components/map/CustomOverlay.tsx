@@ -1,10 +1,10 @@
 import Image from 'next/image';
 import { CustomOverlayMap } from 'react-kakao-maps-sdk';
-import WeatherInfo from '../weather/WeatherInfo';
+import WeatherInfo from '@/components/weather/WeatherInfo';
 import { Camping } from '@/types/Camping';
 import { Dispatch } from 'react';
 import { facilSearch } from '@/utils/map/facilSearch';
-import FacilSearchBtn from './FacilSearchBtn';
+import FacilSearchBtn from '@/components/map/FacilSearchBtn';
 
 type CustomOverlayProps = {
   radiusCampList: Pick<

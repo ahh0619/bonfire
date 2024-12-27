@@ -20,7 +20,6 @@ export const facilSearch = (
         setFacilSearchResult(result);
       } else {
         if (status === 'ZERO_RESULT') {
-          // alert('검색 결과가 존재하지 않습니다.');
           Swal.fire({
             icon: 'error',
             text: '검색 결과가 존재하지 않습니다.',

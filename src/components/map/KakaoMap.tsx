@@ -3,16 +3,16 @@
 import Script from 'next/script';
 import { useState } from 'react';
 import { Map } from 'react-kakao-maps-sdk';
-import { MapComponentProps } from './MapComponent';
-import MapMarkerComponent from './MapMarker';
-import CustomOverlay from './CustomOverlay';
+import { MapComponentProps } from '@/components/map/MapComponent';
+import MapMarkerComponent from '@/components/map/MapMarker';
+import CustomOverlay from '@/components/map/CustomOverlay';
 import { Camping } from '@/types/Camping';
 import useSetMapBounds from '@/hooks/map/useSetMapBounds';
 import useSdkLoad from '@/hooks/map/useSdkLoad';
-import FacilMarker from './FacilMarker';
-import FacilOverlay from './FacilOverlay';
+import FacilMarker from '@/components/map/FacilMarker';
+import FacilOverlay from '@/components/map/FacilOverlay';
 import { useQueryClient } from '@tanstack/react-query';
-import CurrentMarker from './CurrentMarker';
+import CurrentMarker from '@/components/map/CurrentMarker';
 
 const KAKAO_SDK_URL = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&libraries=services&autoload=false`;
 
