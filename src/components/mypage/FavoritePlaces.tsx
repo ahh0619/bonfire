@@ -29,7 +29,7 @@ export const FavoritePlaces = () => {
 
   return (
     <section className="mt-20 w-full">
-      <h3 className="text-xl font-bold border-b-2 border-gray-300 pb-2">
+      <h3 className="text-2xl font-bold border-b-2 border-gray-300 pb-3">
         좋아요한 곳
       </h3>
       {isError ? (
@@ -59,6 +59,7 @@ export const FavoritePlaces = () => {
                     src={place.place_image || '/images/default_icon.png'}
                     alt={place.place_name}
                     layout="fill"
+                    placeholder="blur"
                     className="object-cover"
                   />
                 </div>

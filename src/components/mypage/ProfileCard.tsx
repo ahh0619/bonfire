@@ -50,7 +50,7 @@ export const ProfileCard = () => {
   }
 
   return (
-    <div className="flex items-center">
+    <div className="flex items-center space-x-6">
       {/* 유저 프로필 이미지 */}
       <Image
         src={userProfile.profile_image || '/images/leader_github_logo.png'}
@@ -58,12 +58,13 @@ export const ProfileCard = () => {
         className="rounded-full mb-4 aspect-square object-cover"
         width={100}
         height={100}
+        placeholder="blur"
       />
-      <div className="ml-6">
+      <div className="h-24">
         {/* 유저 닉네임 */}
-        <h2 className="text-2xl font-semibold">{userProfile.nickname}</h2>
+        <h2 className="text-2xl font-semibold mb-4">{userProfile.nickname}</h2>
         <button
-          className="mt-2 px-4 py-2 text-sm border border-black text-black rounded-3xl hover:bg-black hover:text-white"
+          className="px-4 py-2 text-sm border border-black text-black rounded-3xl hover:bg-black hover:text-white"
           onClick={() => setModalOpen(true)}
         >
           프로필 수정
