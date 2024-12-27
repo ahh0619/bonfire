@@ -56,7 +56,7 @@ export const FavoritePlaces = () => {
                 {/* 이미지 컨테이너 */}
                 <div className="relative w-full aspect-[4/3] rounded-md overflow-hidden mb-4">
                   <Image
-                    src={place.place_image || '/images/default_icon.png'}
+                    src={place.place_image || '/images/default_icon.webp'}
                     alt={place.place_name}
                     layout="fill"
                     placeholder="blur"
