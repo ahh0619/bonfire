@@ -13,6 +13,7 @@ import FacilMarker from './FacilMarker';
 import FacilOverlay from './FacilOverlay';
 import { fetchRadiusCampList } from '@/app/api/campingApi';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import CurrentMarker from './CurrentMarker';
 
 const KAKAO_SDK_URL = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&libraries=services&autoload=false`;
 
@@ -41,9 +42,11 @@ const KakaoMap = ({
   const [facilSearchResult, setFacilSearchResult] = useState<
     kakao.maps.services.PlacesSearchResult | []
   >([]);
-  const [facilCode, setFacilCode] = useState<string>('');
+  const [facilCode, setFacilCode] = useState<"HP8" | "PM9" | "CS2" | ''>('');
+  const [current, setCurrent] = useState<any>();
   useSetMapBounds(map, radiusCampList);
   useSdkLoad(setIsSdkLoaded);
+
   const handleCurrentPositionSearch = async () => {
     if (map) {
       const center = map.getCenter(); // 지도 중심 좌표 가져오기
@@ -54,6 +57,31 @@ const KakaoMap = ({
       await refetch();
     }
   };
+
+  const handlecurrentPosition = async () => {
+    const getGeoData = async () => {
+      try {
+        const position = await new Promise<GeolocationPosition>(
+          (resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, reject);
+          },
+        );
+        setCurrent(position.coords);
+        return position;
+      } catch (error) {
+        console.error('Error fetching location:', error);
+      }
+    };
+    const position = await getGeoData();
+    if (position && map) {
+      const newCenter = new kakao.maps.LatLng(
+        position.coords.latitude,
+        position.coords.longitude,
+      ); // 서울의 위도, 경도 예시
+      map.setCenter(newCenter); // 지도 중심을 서울로 이동
+    }
+  };
+
   return (
     <>
       <Script src={KAKAO_SDK_URL} strategy="afterInteractive" />
@@ -63,7 +91,7 @@ const KakaoMap = ({
             lat: geoData.latitude,
             lng: geoData.longitude,
           }}
-          className="w-full h-full"
+          className="flex w-full h-full z-10"
           level={3}
           onCreate={setMap}
         >
@@ -71,6 +99,7 @@ const KakaoMap = ({
             radiusCampList={radiusCampList}
             setSelectedMarker={setSelectedMarker}
           />
+          <CurrentMarker coords={current} />
           <FacilMarker
             facilSearchResult={facilSearchResult}
             facilCode={facilCode}
@@ -96,20 +125,20 @@ const KakaoMap = ({
               돌아가기
             </button>
           ) : null}
-          <div className="relative bottom-20 w-full flex justify-center z-10">
+          <div className="absolute mt-96 w-full flex justify-center">
             <button
-              className="bg-[#FD470E] text-white text-base font-semibold w-[200px] m-5 p-2 rounded-md hover:bg-[#e0400e] transition-all z-10"
+              className=" relative top-96 mt-40 bg-[#FD470E] text-white text-base font-semibold w-[200px] m-5 p-2 rounded-md hover:bg-[#e0400e] transition-all z-10"
               onClick={handleCurrentPositionSearch}
             >
               현 위치로 검색
             </button>
           </div>
-          <div className="relative bottom-40 w-full flex justify-end z-10">
+          <div className="absolute mt-96 mr-16 max-w-[1920px] w-full flex justify-end">
             <button
-              className="bg-[#FD470E] text-white text-base font-semibold w-[200px] m-5 p-2 rounded-md hover:bg-[#e0400e] transition-all z-10"
-              onClick={handleCurrentPositionSearch}
+              className="relative top-96 mt-32 bg-[#FD470E] text-white text-base font-semibold h-[80px] w-[80px] m-5 p-2 rounded-full hover:bg-[#e0400e] transition-all z-10"
+              onClick={handlecurrentPosition}
             >
-              현 위치 표시
+              내 위치
             </button>
           </div>
         </Map>

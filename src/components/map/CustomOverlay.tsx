@@ -79,7 +79,7 @@ const CustomOverlay = ({
                 ) : (
                   <a href={`/detail/${list.facltNm}`}>
                     <Image
-                      src="/images/default_icon.png" // public 폴더 안의 이미지 경로
+                      src="/images/default_icon.webp" // public 폴더 안의 이미지 경로
                       alt="Example Image"
                       width={300} // 이미지 너비
                       height={300} // 이미지 높이
