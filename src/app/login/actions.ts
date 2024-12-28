@@ -19,7 +19,6 @@ export const login = async (formData: LoginFormData): Promise<any> => {
   if (error) {
     throw new Error('supabase auth failed');
   }
-  console.log('dataL ', data);
 
   return data;
   // revalidatePath('/', 'layout');
