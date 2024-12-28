@@ -98,7 +98,7 @@ const CommentItem = ({ comment, placeName }: CommentProps) => {
           <>
             {isEditing ? (
               <button
-                className={`px-4 py-2 rounded-lg text-white mb-0 font-semibold place-self-end ${
+                className={`px-4 py-2 rounded-lg text-black mb-0 font-semibold place-self-end ${
                   isUpdating ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#FFB200]'
                 }`}
                 disabled={isUpdating}
@@ -111,6 +111,7 @@ const CommentItem = ({ comment, placeName }: CommentProps) => {
                 onClick={() => setIsEditing(true)}
                 disabled={isUpdating}
                 className="py-2"
+                title="edit"
               >
                 <PenLine />
               </button>
@@ -119,6 +120,7 @@ const CommentItem = ({ comment, placeName }: CommentProps) => {
               onClick={handleDelete}
               disabled={isDeleting}
               className="py-2"
+              title="delete"
             >
               <Trash2 />
             </button>

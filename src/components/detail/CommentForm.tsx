@@ -71,7 +71,7 @@ const CommentForm = ({ placeName, commentNum }: CommentFormProps) => {
       {currentUser && (
         <button
           type="submit"
-          className={`px-4 py-2 rounded-lg text-white font-semibold place-self-end ${
+          className={`px-4 py-2 rounded-lg text-black font-semibold place-self-end ${
             isAdding ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#FFB200]'
           }`}
           disabled={isAdding}
