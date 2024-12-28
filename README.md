@@ -7,11 +7,12 @@
 2. [팀원 및 팀소개](#팀원-및-팀소개)
 3. [주요기능](#주요기능)
 4. [적용 기술 및 기술적 의사결정](#적용-기술-및-기술적-의사결정)
-5. [개발기간](#개발기간)
-6. [기술스택](#기술스택)
-7. [와이어프레임](#와이어프레임)
-8. [ERD](#ERD)
-9. [프로젝트 파일 구조](#프로젝트-파일-구조)
+5. [Trouble Shooting](#trouble-shooting)
+6. [개발기간](#개발기간)
+7. [기술스택](#기술스택)
+8. [와이어프레임](#와이어프레임)
+9. [ERD](#ERD)
+10. [프로젝트 파일 구조](#프로젝트-파일-구조)
 
 ## 🔥 프로젝트 소개  
 캠핑에 따뜻한 불빛을 더하다, **BonFire**  
@@ -53,7 +54,7 @@
 
 | 로그인 | 회원가입 |
 |:---:|:---:|
-|![Login](https://github.com/user-attachments/assets/8ae8e6e9-75e8-4849-95ab-ece37d790188)|![Signup](https://github.com/user-attachments/assets/1655db1d-96cf-4aab-ae49-20fabc70c66e)|
+|![Login](https://github.com/user-attachments/assets/8ae8e6e9-75e8-4849-95ab-ece37d790188)%7C![Signup](https://github.com/user-attachments/assets/1655db1d-96cf-4aab-ae49-20fabc70c66e)%7C
 
 ### 좋아요
 - 캠핑 장소에 좋아요 추가/삭제가 가능합니다.
@@ -61,16 +62,21 @@
 
 ![bonfire-like](https://github.com/user-attachments/assets/c17115bf-0c57-4fc5-bfce-164fa7c44f1f)
 
-
 ### 댓글 작성 및 관리
 - 장소에 대한 리뷰 댓글 작성 및 수정/삭제가 가능합니다.
+
+<img width="1891" alt="image" src="https://github.com/user-attachments/assets/a3114c11-aea6-4802-8b43-44edcf545f1c" />
 
 ### 캠핑 장소 추천
 - 지역별 날씨 정보를 기반으로 최적의 캠핑 장소를 제공합니다.
 
+<img width="1900" alt="image" src="https://github.com/user-attachments/assets/e9b27014-d3af-4845-a4b7-eb9c3fa694b6" />
+
 ### 편의시설 추천           
 - 장소 근처 편의시설(마트, 화장실, 주차장 등) 찾아 보여줍니다.
 - 특정 필터 조건으로 시설 검색 가능합니다.
+
+<img width="1112" alt="image" src="https://github.com/user-attachments/assets/a1ec354d-46e2-4990-ba19-c82a3f489d0a" />
 
 ## 🚀적용 기술 및 기술적 의사결정
 
@@ -92,6 +98,28 @@ Zustand를 통해 전역 상태를 간결하게 관리하여 코드의 가독성
 Supabase를 데이터베이스 및 인증 관리로 사용해 프로젝트의 백엔드를 간소화했습니다.
 유저 정보 저장, 북마크 CRUD, 소셜 로그인 등 주요 데이터 관리에 활용됩니다.
 Supabase의 강력한 보안 정책으로 데이터를 안전하게 보호하고 효율적으로 관리합니다.
+
+## Trouble Shooting
+
+### Build시 모든 페이지 Dynamic으로 생성되는 오류
+
+#### ⚙️ 문제 상황 및 원인 분석
+
+(문제 설명)
+
+#### 🚀 해결 과정
+
+(해결 과정)
+
+### 2번의 로그인 요청
+
+#### ⚙️ 문제 상황 및 원인 분석
+
+(문제 설명)
+
+#### 🚀 Supabase의 권한 관리의 중요성
+
+(해결 과정)
 
 ## ⏲️ 개발기간
 
