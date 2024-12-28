@@ -85,6 +85,8 @@
 
 ## 🚀적용 기술 및 기술적 의사결정
 
+![bonfire-tech](https://github.com/user-attachments/assets/575426e4-f91a-47f5-abde-b323fcde21a5)
+
 ### 🔐 소셜 로그인
 Google OAuth를 활용하여 사용자에게 간단하고 안전한 로그인 기능을 제공합니다.
 이메일 기반 회원가입 및 로그인 외에도 Google 계정을 통해 빠르게 인증할 수 있습니다. Supabase의 보안 정책을 적용해 데이터는 안전하게 처리됩니다.
