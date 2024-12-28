@@ -1,4 +1,6 @@
 # 🔥BonFire
+<img width="646" alt="image" src="https://github.com/user-attachments/assets/9cfd4739-7ee1-43d5-8c8b-ac756c0f65fd" />
+
 ![Home](https://github.com/user-attachments/assets/44943fae-8999-4ac5-a37c-9d4e79d3f18f)
 
 ## 📖 목차
@@ -47,36 +49,39 @@
 
 ## 주요기능
 
-### 회원가입/로그인 및 수정
+### 회원가입/로그인 및 프로필 수정
 
 - 이메일 및 비밀번호를 통한 계정 생성할 수 있습니다.
 - 프로필 이미지 업로드가 가능합니다.
 
-| 로그인 | 회원가입 |
-|:---:|:---:|
-|![Login](https://github.com/user-attachments/assets/8ae8e6e9-75e8-4849-95ab-ece37d790188)%7C![Signup](https://github.com/user-attachments/assets/1655db1d-96cf-4aab-ae49-20fabc70c66e)%7C
+**로그인**
+![bonfire-login](https://github.com/user-attachments/assets/a1dc0099-f92d-4907-a2f7-380d7bc6102e)
+
+**마이페이지**
+![bonfire-mypage](https://github.com/user-attachments/assets/48f0a8f2-f170-4941-8cb8-372bc05ad685)
 
 ### 좋아요
 - 캠핑 장소에 좋아요 추가/삭제가 가능합니다.
 - 내가 좋아요를 누른 장소 목록 확인할 수 있습니다.
 
-![bonfire-like](https://github.com/user-attachments/assets/c17115bf-0c57-4fc5-bfce-164fa7c44f1f)
+![bonfire-likes](https://github.com/user-attachments/assets/337f319c-abcc-45dd-a5b2-b3d7f923086f)
 
 ### 댓글 작성 및 관리
 - 장소에 대한 리뷰 댓글 작성 및 수정/삭제가 가능합니다.
 
-<img width="1891" alt="image" src="https://github.com/user-attachments/assets/a3114c11-aea6-4802-8b43-44edcf545f1c" />
+![bonfire-comments](https://github.com/user-attachments/assets/68b054b3-5d26-42bc-9031-508a4f66c95a)
 
 ### 캠핑 장소 추천
 - 지역별 날씨 정보를 기반으로 최적의 캠핑 장소를 제공합니다.
+- 캠핑 장소마다의 날씨를 실시간으로 제공합니다. 
 
-<img width="1900" alt="image" src="https://github.com/user-attachments/assets/e9b27014-d3af-4845-a4b7-eb9c3fa694b6" />
+![bonfire-recommendations](https://github.com/user-attachments/assets/39b23aed-8de7-4922-8e64-bfcb33d5d594)
 
 ### 편의시설 추천           
 - 장소 근처 편의시설(마트, 화장실, 주차장 등) 찾아 보여줍니다.
 - 특정 필터 조건으로 시설 검색 가능합니다.
 
-<img width="1112" alt="image" src="https://github.com/user-attachments/assets/a1ec354d-46e2-4990-ba19-c82a3f489d0a" />
+![bonfire-near-facilities](https://github.com/user-attachments/assets/5384364d-da0a-47c8-a608-cd7670c26cc5)
 
 ## 🚀적용 기술 및 기술적 의사결정
 
@@ -99,9 +104,28 @@ Supabase를 데이터베이스 및 인증 관리로 사용해 프로젝트의 �
 유저 정보 저장, 북마크 CRUD, 소셜 로그인 등 주요 데이터 관리에 활용됩니다.
 Supabase의 강력한 보안 정책으로 데이터를 안전하게 보호하고 효율적으로 관리합니다.
 
-## Trouble Shooting
+## Trouble Shooting  
 
-### Build시 모든 페이지 Dynamic으로 생성되는 오류
+### Build 시 모든 페이지가 Dynamic으로 생성되는 오류  
+
+#### ⚙️ 문제 상황 및 원인 분석  
+- **문제 상황**:  
+  빌드 시 모든 페이지가 동적으로 생성되며, 정적인 HTML 페이지가 생성되지 않는 문제가 발생하였습니다.
+  `yarn build` 결과에서 모든 페이지가 `Dynamic`으로 표시되었습니다.  
+
+- **원인 분석**:  
+  `fetchSession` 함수가 서버에서 세션 데이터를 가져오는 **비동기 작업**으로 인해 발생한 문제였습니다.
+  해당 함수가 실행되는 시점은 **서버 측**이며, Next.js는 데이터를 가져오기 위해 해당 페이지를 **SSR(동적 렌더링)** 방식으로 처리해야 했습니다.
+  이로 인해 정적 페이지 생성이 불가능해지고 모든 페이지가 동적으로 렌더링되었습니다.  
+
+#### 🚀 해결 과정
+**Header 컴포넌트를 클라이언트 컴포넌트로 선언하였습니다.**
+
+- "use client"를 선언한 컴포넌트는 서버 컴포넌트에서 실행되지 않고, 클라이언트에서만 동작합니다.
+클라이언트 컴포넌트 내부에서 useState, useEffect와 같은 클라이언트 전용 상태 관리 로직을 사용해도 서버 렌더링에 영향을 주지 않습니다.
+이를 통해 클라이언트에서 특정 데이터를 로드하거나 동적인 UI를 생성하더라도 서버 빌드 프로세스에서 무시되도록 처리하였습니다.
+
+<!-- ### 2번의 로그인 요청
 
 #### ⚙️ 문제 상황 및 원인 분석
 
@@ -109,17 +133,7 @@ Supabase의 강력한 보안 정책으로 데이터를 안전하게 보호하고
 
 #### 🚀 해결 과정
 
-(해결 과정)
-
-### 2번의 로그인 요청
-
-#### ⚙️ 문제 상황 및 원인 분석
-
-(문제 설명)
-
-#### 🚀 Supabase의 권한 관리의 중요성
-
-(해결 과정)
+(해결 과정) -->
 
 ## ⏲️ 개발기간
 
@@ -142,6 +156,10 @@ Supabase의 강력한 보안 정책으로 데이터를 안전하게 보호하고
 
 ### ✔️ Framework / Library
 ![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)
+
+<details>
+<summary><b>사용한 라이브러리 목록</b></h4></summary>
+<div markdown="1">
 
 - `@hookform/resolvers: ^3.9.1`  
 - `@radix-ui/react-dropdown-menu: ^2.1.4`  
@@ -168,6 +186,10 @@ Supabase의 강력한 보안 정책으로 데이터를 안전하게 보호하고
 - `zod: ^3.24.1`  
 - `zustand: ^5.0.2`
 
+<br>
+</div>
+</details>
+
 ### ✔️ Deploy
 
 ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
@@ -180,17 +202,50 @@ Supabase의 강력한 보안 정책으로 데이터를 안전하게 보호하고
 ![Supabase](https://img.shields.io/badge/Supabase-181818?style=for-the-badge&logo=supabase&logoColor=49EB7C)
 
 ## 🖍️ 와이어프레임
-### 홈페이지
+<img width="565" alt="image" src="https://github.com/user-attachments/assets/e97c3152-69cf-4218-ae64-5bcfb8c01b20" />
+
+### 페이지별 와이어프레임
+
+<details>
+<summary><b>홈페이지</b></h4></summary>
+<div markdown="1">
+
 ![Home](https://github.com/user-attachments/assets/ae72cf84-e005-453c-85fe-34aef0cff36a)
 
-### 로그인/회원가입
+<br>
+</div>
+</details>
+
+<details>
+<summary><b>로그인/회원가입</b></h4></summary>
+<div markdown="1">
+
 ![Auth](https://github.com/user-attachments/assets/41110f7a-40b2-4e9d-af90-9d9de3d7fb2f)
 
-### 상세페이지
+<br>
+</div>
+</details>
+
+<details>
+<summary><b>상세페이지</b></h4></summary>
+<div markdown="1">
+
 ![DetailPage](https://github.com/user-attachments/assets/b861664f-31d1-403b-ad05-bf40a2c73022)
 
-### 마이페이지
+<br>
+</div>
+</details>
+
+<details>
+<summary><b>마이페이지</b></h4></summary>
+<div markdown="1">
+
 ![MyPage](https://github.com/user-attachments/assets/85421d5c-4cdd-41d0-98ec-e816b507a32c)
+
+<br>
+</div>
+</details>
+
 
 ## 📊 ERD
 ![ERD](https://github.com/user-attachments/assets/5b3b65f1-4d77-4f3c-9d94-f1a2ea752800)
@@ -271,9 +326,11 @@ BONFIRE/
 │   └── validations/
 │       └── middleware.ts
 └── README.md
-```
-### 프로젝트 디렉토리 구조 설명
- 
+``` 
+<details>
+<summary><b>프로젝트 디렉토리 구조 세부 설명</b></h4></summary>
+<div markdown="1">
+
 - `public/` : 정적 파일을 저장하는 폴더 (이미지, favicon 등).  
 - `src/` : 소스 코드와 관련된 모든 파일을 포함하는 폴더.  
   - `app/` : 애플리케이션의 주요 페이지와 라우트를 관리합니다.  
@@ -308,3 +365,9 @@ BONFIRE/
   - `styles/`: 프로젝트의 스타일 관련 파일(CSS, SCSS 등).  
   - `types/`: TypeScript 타입 정의 파일.  
   - `validations/`: 데이터 검증과 관련된 파일 (e.g., `middleware.ts`).  
+
+<br>
+</div>
+</details>
+
+
