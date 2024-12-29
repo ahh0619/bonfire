@@ -42,11 +42,12 @@ const PlaceDetail = ({ details }: PlaceDetailProps) => {
       {/* 지도 부분 */}
       <div className="justify-items-center align-items-center mobile:max-w-[200px] sm:aspect-square sm:max-w-[270px] overflow-hidden rounded-lg">
         <DetailMap
-          latitude={parseFloat(details.mapY)}
-          longitude={parseFloat(details.mapX)}
-          level={3}
+          // latitude={parseFloat(details.mapY)}
+          // longitude={parseFloat(details.mapX)}
+          // level={3}
           width="280px"
           height="280px"
+          details={details}
         />
       </div>
     </div>
