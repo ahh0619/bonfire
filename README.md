@@ -1,5 +1,7 @@
 # 🔥BonFire
-<img width="646" alt="image" src="https://github.com/user-attachments/assets/9cfd4739-7ee1-43d5-8c8b-ac756c0f65fd" />
+<div align="center">
+  <img width="646" alt="image" src="https://github.com/user-attachments/assets/9cfd4739-7ee1-43d5-8c8b-ac756c0f65fd" />
+</div>
 
 ![Home](https://github.com/user-attachments/assets/44943fae-8999-4ac5-a37c-9d4e79d3f18f)
 
