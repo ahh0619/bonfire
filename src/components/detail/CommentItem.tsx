@@ -111,6 +111,7 @@ const CommentItem = ({ comment, placeName }: CommentProps) => {
                 onClick={() => setIsEditing(true)}
                 disabled={isUpdating}
                 className="py-2"
+                title="edit"
               >
                 <PenLine />
               </button>
@@ -119,6 +120,7 @@ const CommentItem = ({ comment, placeName }: CommentProps) => {
               onClick={handleDelete}
               disabled={isDeleting}
               className="py-2"
+              title="delete"
             >
               <Trash2 />
             </button>
