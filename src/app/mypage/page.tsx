@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'BonFire - 마이페이지',
     description: '내 프로필 정보와 즐겨찾는 장소를 확인하세요.',
-    url: 'http://localhost:3000/mypage',
+    url: 'https://bonfire-eight.vercel.app/mypage',
   },
 };
 

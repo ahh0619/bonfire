@@ -17,7 +17,7 @@ export const generateMetadata = async ({
     openGraph: {
       title: `BonFire - ${facltNm} 상세 정보`,
       description: `${facltNm}의 캠핑장 상세 정보를 확인하세요.`,
-      url: `http://localhost:3000/detail/${params.id}`,
+      url: `https://bonfire-eight.vercel.app/${params.id}`,
     },
   };
 };
