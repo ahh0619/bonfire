@@ -55,13 +55,7 @@ export const useLikes = (placeName: string, userId?: string) => {
         location_y: locationY,
       });
     },
-    onMutate: async ({
-      placeImage,
-      addressName,
-      phoneNumber,
-      locationX,
-      locationY,
-    }) => {
+    onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ['likes', placeName] });
       await queryClient.cancelQueries({
         queryKey: ['userLiked', userId, placeName],
