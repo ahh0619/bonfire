@@ -53,28 +53,44 @@ const LoginPage = () => {
 
   const onSubmit = async (data: LoginFormData) => {
     try {
-      const response = await fetch('/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-
-      const result = await response.json();
-
-      if (!result.success) {
-        throw new Error(result.error);
-      }
-
-      logIn(result.user);
+      const data2 = await login(data); //서버액션
+      console.log('dat2 ', data2);
+      const userData = await getUser(); //슈퍼베이스 유저
+      logIn(userData); //주스탠드에 유저 정보넣기
       router.push('/');
     } catch (error) {
       Swal.fire({
         icon: 'error',
         title: '로그인 실패',
-        text: '아이디 또는 비밀번호가 잘못되었습니다.',
+        text: '아이디 또는 비밀번호가 잘못 되었습니다.',
       });
     }
   };
+
+  // const onSubmit = async (data: LoginFormData) => {
+  //   try {
+  //     const response = await fetch('/api/login', {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify(data),
+  //     });
+
+  //     const result = await response.json();
+
+  //     if (!result.success) {
+  //       throw new Error(result.error);
+  //     }
+
+  //     logIn(result.user);
+  //     router.push('/');
+  //   } catch (error) {
+  //     Swal.fire({
+  //       icon: 'error',
+  //       title: '로그인 실패',
+  //       text: '아이디 또는 비밀번호가 잘못되었습니다.',
+  //     });
+  //   }
+  // };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 mt-[-20px]">

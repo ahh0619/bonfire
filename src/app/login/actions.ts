@@ -20,7 +20,7 @@ export const login = async (formData: LoginFormData): Promise<any> => {
     throw new Error('supabase auth failed');
   }
 
-  revalidatePath('/', 'layout');
+  // revalidatePath('/', 'layout');
   return data;
   // redirect('/');
 };
