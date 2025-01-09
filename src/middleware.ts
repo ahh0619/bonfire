@@ -3,6 +3,7 @@ import { updateSession } from '@/utils/supabase/middleware';
 
 export const middleware = async (request: NextRequest) => {
   return await updateSession(request);
+  //김현지
 };
 
 export const config = {
